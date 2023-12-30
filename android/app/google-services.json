@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "493144528853",
+    "project_id": "hostelway-fad58",
+    "storage_bucket": "hostelway-fad58.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493144528853:android:8141e156f30405c7008f5c",
+        "android_client_info": {
+          "package_name": "com.example.hostelway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493144528853-4et8oplovuj5s1b41osdstcn4801g73h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgfNQFkVFAv_0xbKdUpduUNjkgnA6-BJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493144528853-4et8oplovuj5s1b41osdstcn4801g73h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
