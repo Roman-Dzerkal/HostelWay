@@ -3,11 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 
 class TextStyling {
-  static TextStyle blackText(
-    double fontSize,
-    FontWeight fontWeight, {
-    bool? underline,
-  }) {
+  static TextStyle blackText(double fontSize, FontWeight fontWeight,
+      {bool? underline}) {
     return TextStyle(
       color: CustomColors.black,
       fontSize: fontSize.sp,
@@ -18,11 +15,8 @@ class TextStyling {
     );
   }
 
-  static TextStyle whiteText(
-    double fontSize,
-    FontWeight fontWeight,
-    bool? underline,
-  ) {
+  static TextStyle whiteText(double fontSize, FontWeight fontWeight,
+      {bool? underline}) {
     return TextStyle(
       color: CustomColors.white,
       fontSize: fontSize.sp,
@@ -33,11 +27,8 @@ class TextStyling {
     );
   }
 
-  static TextStyle primaryText(
-    double fontSize,
-    FontWeight fontWeight,
-    bool? underline,
-  ) {
+  static TextStyle primaryText(double fontSize, FontWeight fontWeight,
+      {bool? underline}) {
     return TextStyle(
       color: CustomColors.primary,
       fontSize: fontSize.sp,
@@ -48,11 +39,8 @@ class TextStyling {
     );
   }
 
-  static TextStyle secondaryText(
-    double fontSize,
-    FontWeight fontWeight,
-    bool? underline,
-  ) {
+  static TextStyle secondaryText(double fontSize, FontWeight fontWeight,
+      {bool? underline}) {
     return TextStyle(
       color: CustomColors.secondary,
       fontSize: fontSize.sp,
@@ -78,16 +66,30 @@ class TextStyling {
     );
   }
 
-  static TextStyle greyText(
-    double fontSize,
-    FontWeight fontWeight,
-    bool? underline,
-  ) {
+  static TextStyle greyText(double fontSize, FontWeight fontWeight,
+      {bool? underline}) {
     return TextStyle(
       color: CustomColors.grey,
       fontSize: fontSize.sp,
       fontWeight: fontWeight,
       fontFamily: 'Inter',
+      decoration:
+          (underline ?? false) ? TextDecoration.underline : TextDecoration.none,
+    );
+  }
+
+  static TextStyle customText(
+    Color? color,
+    double fontSize,
+    FontWeight fontWeight, {
+    bool? underline,
+  }) {
+    return TextStyle(
+      color: color,
+      fontSize: fontSize.sp,
+      fontWeight: fontWeight,
+      fontFamily: 'Archivo',
+      locale: const Locale('ru', 'Ru'),
       decoration:
           (underline ?? false) ? TextDecoration.underline : TextDecoration.none,
     );
