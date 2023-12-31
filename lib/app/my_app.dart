@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     ..add(AuthenticationInitialEvent())),
         ],
         child: ScreenUtilInit(
-          designSize: const Size(375, 812),
+          designSize: const Size(390, 844), // iPhone 13 screen size
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (_, child) {
