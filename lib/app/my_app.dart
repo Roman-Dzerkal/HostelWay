@@ -4,12 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/enums/role_enums.dart';
-import 'package:hostelway/features/welcome/welcome_view/welcome_view.dart';
+import 'package:hostelway/repositories/users_repository.dart';
 import 'package:hostelway/views/home/home_guest_view.dart';
 import 'package:hostelway/views/home/home_manager_view.dart';
 import 'package:hostelway/views/home/navigation/home_guest_navigator.dart';
 import 'package:hostelway/views/home/navigation/home_manager_navigator.dart';
-import 'package:hostelway/views/splash/splash_view.dart';
+import 'package:hostelway/views/welcome/welcome_view.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key, this.navigatorKey});
@@ -27,47 +27,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // setStatus('Online');
   }
 
-  /* @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      setStatus('Online');
-    } else {
-      setStatus('Offline');
-    }
-  } */
-
-  /* void setStatus(String status) async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({'status': status});
-    }
-  } */
-
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: const [] /* [
-        RepositoryProvider(
-            create: (context) => PostsRepository(
-                postsService: PostsService(), socialService: SocialService())),
-        RepositoryProvider(
-            create: (context) => UsersRepository(
-                searchService: UserSearchService(),
-                userService: UserService(),
-                paymentService: PaymentService())),
-        RepositoryProvider(
-            create: (context) => OrdersRepository(
-                ordersService: OrdersService(),
-                chatService: ChatService(),
-                paymentService: PaymentService(),
-                notificationServices: NotificationService())),
-        RepositoryProvider(
-            create: (context) =>
-                RewiewsRepository(reviewsService: RewiewsService()))
-      ] */
-      ,
+      providers: [
+        RepositoryProvider(create: (context) => UsersRepository()),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -96,11 +61,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                       return HomeManagerView(
                           navigator: HomeManagerNavigator(context));
                     }
-                  } else if (state is AuthenticationIsUnthenticated) {
-                    return const WelcomeView();
-                  } else {
-                    return const SplashView();
                   }
+                  return const WelcomeView();
                 },
               ),
             );
