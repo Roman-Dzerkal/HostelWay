@@ -16,3 +16,10 @@ final class WelcomePageChangedEvent extends WelcomeEvent {
 class WelcomePageNextButtonTapEvent extends WelcomeEvent {
   const WelcomePageNextButtonTapEvent();
 }
+
+
+class WelcomePageGetStartedButtonTapEvent extends WelcomeEvent {
+  const WelcomePageGetStartedButtonTapEvent();
+}
+
+
