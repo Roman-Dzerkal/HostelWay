@@ -5,6 +5,7 @@ import 'package:hostelway/resources/assets.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/views/welcome/bloc/welcome_bloc.dart';
+import 'package:hostelway/views/welcome/navigation/welcome_navigator.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 
 class WelcomeView extends StatelessWidget {
@@ -13,7 +14,7 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WelcomeBloc(),
+      create: (context) => WelcomeBloc(WelcomeNavigator(context)),
       child: const WelcomeLayout(),
     );
   }
@@ -24,7 +25,7 @@ class WelcomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var bloc = context.read<WelcomeBloc>();
+    var bloc = context.read<WelcomeBloc>();
     return BlocBuilder<WelcomeBloc, WelcomeState>(
       builder: (context, state) {
         return Scaffold(
@@ -38,7 +39,7 @@ class WelcomeLayout extends StatelessWidget {
             children: [
               _buildFirstPage(state),
               _buildSecondPage(state),
-              _buildThirdPage(state),
+              _buildThirdPage(bloc, state),
             ],
           ),
         );
@@ -47,7 +48,7 @@ class WelcomeLayout extends StatelessWidget {
   }
 }
 
-Widget _buildThirdPage(WelcomeState state) {
+Widget _buildThirdPage(WelcomeBloc bloc,WelcomeState state) {
   return SafeArea(
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -84,6 +85,7 @@ Widget _buildThirdPage(WelcomeState state) {
                 textColor: CustomColors.white,
                 backgroundColor: CustomColors.primary,
                 onTap: () {
+                 bloc.add(WelcomePageGetStartedButtonTapEvent());
 
                 }),
           ]),
