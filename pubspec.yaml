@@ -25,6 +25,7 @@ dependencies:
   json_annotation: ^4.8.1
   talker: ^3.2.0
   uuid: ^4.2.2
+  toggle_switch: ^2.1.0
 
 dev_dependencies:
   flutter_test:
