@@ -13,14 +13,21 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  SvgGenImage get launchImage => const SvgGenImage('assets/launch_image.svg');
+  SvgGenImage get launchImage =>
+      const SvgGenImage('assets/icons/launch_image.svg');
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  AssetGenImage get welcomeBackground =>
-      const AssetGenImage('assets/welcome_background_image.png');
+  AssetGenImage get launchImage =>
+      const AssetGenImage('assets/images/launch_image.png');
+  AssetGenImage get splashImage1 =>
+      const AssetGenImage('assets/images/splash_image_1.jpg');
+  AssetGenImage get splashImage2 =>
+      const AssetGenImage('assets/images/splash_image_2.jpg');
+  AssetGenImage get splashImage3 =>
+      const AssetGenImage('assets/images/splash_image_3.jpg');
 }
 
 class $AssetsLottieGen {
