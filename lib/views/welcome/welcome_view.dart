@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +24,7 @@ class WelcomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = context.read<WelcomeBloc>();
+    // var bloc = context.read<WelcomeBloc>();
     return BlocBuilder<WelcomeBloc, WelcomeState>(
       builder: (context, state) {
         return Scaffold(
