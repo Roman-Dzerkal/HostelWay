@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
                 builder: (context, state) {
                   if (state is AuthenticationIsAuthenticated) {
-                    if (state.authModel?.role == Role.guest) {
+                    if (state.authModel?.role == 'guest') {
                       return HomeGuestView(
                           navigator: HomeGuestNavigator(context));
                     } else {

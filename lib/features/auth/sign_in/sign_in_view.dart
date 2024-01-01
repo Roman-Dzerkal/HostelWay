@@ -49,11 +49,14 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15, top: 15),
                     child: CustomTextField(
+                      helperText: 'Email',
+                      helperTextStyle:
+                          TextStyling.blackText(14, FontWeight.w600),
                       onChanged: (value) {
                         bloc.add(SignInEmailChanged(value));
                       },
                       borderRad: 10.r,
-                      hintText: 'Email',
+                      hintText: 'Enter your email',
                       keyboardType: TextInputType.emailAddress,
                       hintTextStyle:
                           TextStyling.greyText(14, FontWeight.normal),
@@ -65,9 +68,12 @@ class SignInLayout extends StatelessWidget {
                       onChanged: (value) {
                         bloc.add(SignInPasswordChanged(value));
                       },
+                      helperText: 'Password',
+                      helperTextStyle:
+                          TextStyling.blackText(14, FontWeight.w600),
                       outlineInputBorderColor: CustomColors.grey,
                       borderRad: 10.r,
-                      hintText: 'Password',
+                      hintText: 'Enter your password',
                       keyboardType: TextInputType.text,
                       isObscure: state.isPasswordInvisible,
                       maxLines: 1,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
-import 'package:hostelway/enums/role_enums.dart';
 
 class RoleNavigator {
   final NavigatorState _navigator;
@@ -14,6 +13,6 @@ class RoleNavigator {
         _authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
   bool isGuest() {
-    return _authBloc.state.userModel?.role == Role.guest;
+    return _authBloc.state.userModel?.role == 'guest';
   }
 }
