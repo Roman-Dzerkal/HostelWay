@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hostelway/views/home/home_guest/bloc/home_guest_bloc.dart';
 import 'package:hostelway/views/home/navigation/home_guest_navigator.dart';
 
 class HomeGuestView extends StatelessWidget {
@@ -6,7 +8,10 @@ class HomeGuestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocProvider(
+      create: (context) => HomeGuestBloc(),
+      child: HomeGuestLayout(),
+    );
   }
 }
 
@@ -15,6 +20,17 @@ class HomeGuestLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocBuilder<HomeGuestBloc, HomeGuestState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('HomeGuest'),
+          ),
+          body: const Center(
+            child: Text('HomeGuest'),
+          ),
+        );
+      },
+    );
   }
 }

@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final void Function(String)? onChanged;
   final Color? outlineInputBorderColor;
-  final TextStyle? hintTextStyle;
+  final TextStyle? hintTextStyle, helperTextStyle;
   final String? value, suffixText;
   final TextInputType? keyboardType;
   final int? maxLines;
@@ -34,6 +34,7 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.controller,
     this.hintText,
+    this.helperTextStyle,
     this.onChanged,
     this.readOnly = false,
     this.onTap,
@@ -55,17 +56,17 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (helperText != null)
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(bottom: 13.h),
-                child: Text(
-                  helperText!,
-                  style: TextStyling.greyText(16, FontWeight.w500),
-                ),
+                padding: EdgeInsets.only(bottom: 5.h),
+                child: Text(helperText!,
+                    style: helperTextStyle ??
+                        TextStyling.greyText(14, FontWeight.normal)),
               ),
             ],
           ),
@@ -135,8 +136,8 @@ class CustomTextField extends StatelessWidget {
               filled: true,
               fillColor: CustomColors.white,
               hintText: hintText ?? (isPassword ? '***************' : hintText),
-              hintStyle: hintTextStyle ??
-                  TextStyling.blackText(16, FontWeight.w400),
+              hintStyle:
+                  hintTextStyle ?? TextStyling.blackText(16, FontWeight.w400),
               border: OutlineInputBorder(
                 borderSide: const BorderSide(
                   width: 1,
