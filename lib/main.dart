@@ -57,8 +57,5 @@ Size get size => MediaQuery.of(navigatorKey.currentContext!).size;
 GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
 GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
 GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
-GlobalKey<FormState> createClientProfileFormKey = GlobalKey<FormState>();
-GlobalKey<FormState> createWorkerProfile1FormKey = GlobalKey<FormState>();
-GlobalKey<FormState> createWorkerProfile2FormKey = GlobalKey<FormState>();
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
