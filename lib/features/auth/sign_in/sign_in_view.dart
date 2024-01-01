@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/bloc/sign_in_bloc.dart';
+import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
@@ -13,7 +16,10 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInBloc(),
+      create: (context) => SignInBloc(
+        navigator: SignInNavigator(context),
+        authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+      ),
       child: const SignInLayout(),
     );
   }
@@ -24,6 +30,7 @@ class SignInLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<SignInBloc>();
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
         return Scaffold(
@@ -42,27 +49,42 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15, top: 15),
                     child: CustomTextField(
+                      onChanged: (value) {
+                        bloc.add(SignInEmailChanged(value));
+                      },
                       borderRad: 10.r,
                       hintText: 'Email',
                       keyboardType: TextInputType.emailAddress,
-                      hintTextStyle: TextStyling.greyText(14, FontWeight.normal),
+                      hintTextStyle:
+                          TextStyling.greyText(14, FontWeight.normal),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
-                    child: CustomTextField(outlineInputBorderColor: CustomColors.grey,
+                    child: CustomTextField(
+                      onChanged: (value) {
+                        bloc.add(SignInPasswordChanged(value));
+                      },
+                      outlineInputBorderColor: CustomColors.grey,
                       borderRad: 10.r,
                       hintText: 'Password',
                       keyboardType: TextInputType.text,
-                      isObscure: true,
+                      isObscure: state.isPasswordInvisible,
                       maxLines: 1,
                       isPassword: true,
-                      hintTextStyle: TextStyling.greyText(14, FontWeight.normal),
+                      onEyeTap: () {
+                        bloc.add(SignInPasswordVisibleChanged());
+                      },
+                      hintTextStyle:
+                          TextStyling.greyText(14, FontWeight.normal),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: BestButton(
+                      onTap: () {
+                        bloc.add(SignInSubmitted());
+                      },
                       height: 60.h,
                       text: "Sign in",
                       backgroundColor: CustomColors.primary,
@@ -86,6 +108,10 @@ class SignInLayout extends StatelessWidget {
                           text: 'Don`t have an account? ',
                           style: TextStyling.blackText(14, FontWeight.normal)),
                       TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              bloc.add(SignUpTextTapEvent());
+                            },
                           text: 'Sign up',
                           style: TextStyling.primaryText(14, FontWeight.bold)),
                     ])),

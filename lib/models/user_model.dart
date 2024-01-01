@@ -1,15 +1,15 @@
-import 'package:hostelway/enums/role_enums.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
   final String firstName;
-  final Role role;
+  final String role;
 
   UserModel copyWith({
     String? firstName,
-    Role? role,
+    String? role,
   }) {
     return UserModel(
       firstName: firstName ?? this.firstName,
