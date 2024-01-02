@@ -12,7 +12,7 @@ class HomeGuestView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeGuestBloc(),
-      child: HomeGuestLayout(),
+      child: const HomeGuestLayout(),
     );
   }
 }

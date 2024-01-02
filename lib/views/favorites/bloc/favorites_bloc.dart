@@ -7,7 +7,6 @@ part 'favorites_state.dart';
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   FavoritesBloc() : super(FavoritesInitial()) {
     on<FavoritesEvent>((event, emit) {
-      // TODO: implement event handler
     });
   }
 }

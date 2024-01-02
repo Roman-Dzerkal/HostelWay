@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hostelway/enums/role_enums.dart';
-import 'package:hostelway/utils/role_navigator.dart';
 import 'package:hostelway/views/profile/bloc/profile_bloc.dart';
-import 'package:hostelway/widget_helpers/custom_navbar/guest_navbar.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -12,7 +9,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileBloc(),
-      child: ProfileLayout(),
+      child: const ProfileLayout(),
     );
   }
 }
@@ -27,12 +24,12 @@ class ProfileLayout extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.keyboard_arrow_left),
+              icon: const Icon(Icons.keyboard_arrow_left),
               onPressed: () => Navigator.pop(context),
             ),
-            title: Text('Profile'),
+            title: const Text('Profile'),
           ),
-          body: Center(
+          body: const Center(
             child: Text('Profile'),
           ),
         );
