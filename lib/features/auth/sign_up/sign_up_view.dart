@@ -170,7 +170,7 @@ class SignUpLayout extends StatelessWidget {
                       inactiveFgColor: Colors.white,
                       totalSwitches: 2,
                       labels: state.roles,
-                      activeBgColors: [
+                      activeBgColors: const [
                         [CustomColors.primary],
                         [CustomColors.primary]
                       ],

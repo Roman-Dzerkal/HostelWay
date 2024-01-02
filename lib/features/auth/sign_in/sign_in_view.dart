@@ -89,7 +89,7 @@ class SignInLayout extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15),
                     child: BestButton(
                       onTap: () {
-                        bloc.add(SignInSubmitted());
+                        bloc.add(const SignInSubmitted());
                       },
                       height: 60.h,
                       text: "Sign in",

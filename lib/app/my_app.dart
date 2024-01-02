@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
-import 'package:hostelway/enums/role_enums.dart';
 import 'package:hostelway/repositories/users_repository.dart';
 import 'package:hostelway/views/home/home_guest_view.dart';
 import 'package:hostelway/views/home/home_manager_view.dart';

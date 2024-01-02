@@ -48,7 +48,7 @@ class WelcomeLayout extends StatelessWidget {
   }
 }
 
-Widget _buildThirdPage(WelcomeBloc bloc,WelcomeState state) {
+Widget _buildThirdPage(WelcomeBloc bloc, WelcomeState state) {
   return SafeArea(
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -85,8 +85,7 @@ Widget _buildThirdPage(WelcomeBloc bloc,WelcomeState state) {
                 textColor: CustomColors.white,
                 backgroundColor: CustomColors.primary,
                 onTap: () {
-                 bloc.add(WelcomePageGetStartedButtonTapEvent());
-
+                  bloc.add(const WelcomePageGetStartedButtonTapEvent());
                 }),
           ]),
     ),
