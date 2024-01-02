@@ -15,7 +15,8 @@ class HomeGuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeGuestBloc(context.read<HotelsRepository>())..add(HomeGuestBlocInitialEvent()),
+      create: (context) => HomeGuestBloc(context.read<HotelsRepository>())
+        ..add(HomeGuestBlocInitialEvent()),
       child: const HomeGuestLayout(),
     );
   }
@@ -34,12 +35,11 @@ class HomeGuestLayout extends StatelessWidget {
             appBar: AppBar(
               title: const Text('HomeGuest'),
             ),
-            body: ListView.builder(
-                padding: EdgeInsets.all(15),
-                itemCount: state.hotels.length,
-                itemBuilder: (BuildContext context, int index) {
-                  CustomHotelItem(state.hotels[index], 200.h);
-                }));
+            body: ListView(
+              children: state.hotels
+                  .map((HotelModel hotel) => CustomHotelItem(hotel, 200.h))
+                  .toList(),
+            ));
       },
     );
   }
