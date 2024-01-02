@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hostelway/models/hotel_model.dart';
+import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/views/home/home_guest/bloc/home_guest_bloc.dart';
 import 'package:hostelway/views/home/navigation/home_guest_navigator.dart';
+import 'package:hostelway/widget_helpers/custom_hotel_item.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/guest_navbar.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/navigation/guest_navigator.dart';
 
@@ -11,7 +15,7 @@ class HomeGuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeGuestBloc(),
+      create: (context) => HomeGuestBloc(context.read<HotelsRepository>())..add(HomeGuestBlocInitialEvent()),
       child: const HomeGuestLayout(),
     );
   }
@@ -25,15 +29,17 @@ class HomeGuestLayout extends StatelessWidget {
     return BlocBuilder<HomeGuestBloc, HomeGuestState>(
       builder: (context, state) {
         return Scaffold(
-          bottomNavigationBar: GuestNavigationBar(
-              currentIndex: 0, navigator: GuestBottomNavigator(context)),
-          appBar: AppBar(
-            title: const Text('HomeGuest'),
-          ),
-          body: const Center(
-            child: Text('HomeGuest'),
-          ),
-        );
+            bottomNavigationBar: GuestNavigationBar(
+                currentIndex: 0, navigator: GuestBottomNavigator(context)),
+            appBar: AppBar(
+              title: const Text('HomeGuest'),
+            ),
+            body: ListView.builder(
+                padding: EdgeInsets.all(15),
+                itemCount: state.hotels.length,
+                itemBuilder: (BuildContext context, int index) {
+                  CustomHotelItem(state.hotels[index], 200.h);
+                }));
       },
     );
   }

@@ -5,19 +5,17 @@ part 'hotel_model.g.dart';
 @JsonSerializable()
 class HotelModel {
   final String name, description, city;
-  final int price;
-  final Map<String, dynamic> rating;
-  final double longitude, latitude;
+  final String managerId;
+  final List<String> photos;
+  final List<String> facilities;
 
-  HotelModel({
-    required this.name,
-    required this.description,
-    required this.city,
-    required this.price,
-    required this.rating,
-    required this.longitude,
-    required this.latitude,
-  });
+  HotelModel(
+      {required this.name,
+      required this.description,
+      required this.city,
+      required this.facilities,
+      required this.managerId,
+      required this.photos});
 
   factory HotelModel.fromJson(Map<String, dynamic> json) =>
       _$HotelModelFromJson(json);
