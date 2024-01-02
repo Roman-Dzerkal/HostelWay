@@ -7,9 +7,6 @@ sealed class HomeGuestEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
-class HomeGuestBlocInitialEvent extends HomeGuestEvent{
-HomeGuestBlocInitialEvent();
-
-
+class HomeGuestBlocInitialEvent extends HomeGuestEvent {
+  const HomeGuestBlocInitialEvent();
 }

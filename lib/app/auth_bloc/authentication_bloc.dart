@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
-import 'package:hostelway/features/auth/sign_in/navigation/sign_in_route.dart';
 import 'package:hostelway/models/auth_model.dart';
 import 'package:hostelway/models/user_model.dart';
 

@@ -16,7 +16,7 @@ class HomeGuestView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeGuestBloc(context.read<HotelsRepository>())
-        ..add(HomeGuestBlocInitialEvent()),
+        ..add(const HomeGuestBlocInitialEvent()),
       child: const HomeGuestLayout(),
     );
   }

@@ -8,13 +8,11 @@ part 'home_guest_state.dart';
 
 class HomeGuestBloc extends Bloc<HomeGuestEvent, HomeGuestState> {
   final HotelsRepository rep;
-  HomeGuestBloc(this.rep) : super(HomeGuestInitial()) {
-    on<HomeGuestEvent>((event, emit) {
-
-    });
+  HomeGuestBloc(this.rep) : super(const HomeGuestInitial()) {
+    on<HomeGuestEvent>((event, emit) {});
     on<HomeGuestBlocInitialEvent>((event, emit) async {
-       List<HotelModel> hotels = await rep.getHotels() ;
-       emit(state.copyWith(hotels: hotels));
+      List<HotelModel> hotels = await rep.getHotels();
+      emit(state.copyWith(hotels: hotels));
     });
   }
 }
