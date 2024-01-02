@@ -17,7 +17,7 @@ sealed class SignUpState extends Equatable {
       this.lastName = '',
       this.isPasswordInvisible = true,
       this.isConfirmPasswordInvisible = true,
-      this.initialLabelIndex = 0});
+      this.initialLabelIndex = 1});
 
   SignUpState copyWith(
       {String? email,
