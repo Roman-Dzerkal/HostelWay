@@ -31,6 +31,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => UsersRepository()),
+        RepositoryProvider(create: (context) => AuthorizationRepository()),
       ],
       child: MultiBlocProvider(
         providers: [

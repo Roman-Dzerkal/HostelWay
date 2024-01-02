@@ -27,6 +27,9 @@ class GuestNavigationBar extends StatelessWidget {
             navigator.goToFavorite();
             break;
           case 2:
+            navigator.goToBookings();
+            break;
+          case 3:
             navigator.goToProfile();
             break;
           default:
@@ -37,6 +40,7 @@ class GuestNavigationBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
         BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border), label: 'Favorites'),
+        BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Bookings'),
         BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined), label: 'Profile'),
       ],

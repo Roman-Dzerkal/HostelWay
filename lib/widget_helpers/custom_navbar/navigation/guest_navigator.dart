@@ -17,4 +17,8 @@ class GuestBottomNavigator extends RoleNavigator {
   void goToProfile() {
     navigator.push(ProfileRoute());
   }
+
+  void goToBookings() {
+    // navigator.push(BookingsRoute());
+  }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
+import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/views/profile/bloc/profile_bloc.dart';
+import 'package:hostelway/views/profile/navigation/favotites_navigator.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
 
@@ -13,7 +16,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(),
+      create: (context) => ProfileBloc(navigator: ProfileNavigator(context), authRepository: context.read<AuthorizationRepository>()),
       child: const ProfileLayout(),
     );
   }
@@ -24,6 +27,7 @@ class ProfileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<ProfileBloc>();
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return Scaffold(
@@ -37,8 +41,13 @@ class ProfileLayout extends StatelessWidget {
                 ),
                 actions: [
                   IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                      onPressed: () {
+                        context
+                            .read<AuthenticationBloc>()
+                            .add(AuthenticationLogoutEvent());
+                        bloc.add(const ProfileLogoutEvent());
+                      },
+                      icon: const Icon(
                         Icons.exit_to_app,
                         color: CustomColors.white,
                       ))
@@ -57,19 +66,37 @@ class ProfileLayout extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 15, top: 15),
                         child:
                             Stack(alignment: Alignment.bottomRight, children: [
-                              Container(
-                                width:100,
-                                height: 100,
-                                child: CircleAvatar(
-                                  radius: 50.r,
-                                  backgroundImage:
-                                      NetworkImage('https://via.placeholder.com/150'),
+                          Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://via.placeholder.com/100'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            width: 100.w,
+                            height: 100.h,
+                            alignment: Alignment.bottomRight,
+                            child: InkWell(
+                              onTap: () {
+                                debugPrint('Change Profile Picture');
+                              },
+                              child: Container(
+                                width: 30.w,
+                                height: 30.h,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: CustomColors.primary,
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: CustomColors.white,
+                                  size: 20.sp,
                                 ),
                               ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon:
-                                      Icon(size: 50, Icons.add, color: CustomColors.primary))
+                            ),
+                          ),
                         ]),
                       ),
                       Divider(color: CustomColors.lightGrey),
@@ -117,7 +144,7 @@ class ProfileLayout extends StatelessWidget {
                         child: CustomTextField(
                           helperText: 'Email',
                           outlineInputBorderColor:
-                              Color.fromARGB(0, 255, 255, 255),
+                              const Color.fromARGB(0, 255, 255, 255),
                           helperTextStyle:
                               TextStyling.blackText(14, FontWeight.w600),
                           onChanged: (value) {},
