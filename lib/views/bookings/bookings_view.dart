@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostelway/views/bookings/bloc/bookings_bloc.dart';
-import 'package:hostelway/views/favorites/bloc/favorites_bloc.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/guest_navbar.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/navigation/guest_navigator.dart';
 

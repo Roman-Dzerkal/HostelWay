@@ -7,7 +7,6 @@ part 'bookings_state.dart';
 class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
   BookingsBloc() : super(BookingsInitial()) {
     on<BookingsEvent>((event, emit) {
-      // TODO: implement event handler
     });
   }
 }

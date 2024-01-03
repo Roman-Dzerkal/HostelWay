@@ -6,8 +6,6 @@ part 'hotel_page_state.dart';
 
 class HotelPageBloc extends Bloc<HotelPageEvent, HotelPageState> {
   HotelPageBloc() : super(HotelPageInitial()) {
-    on<HotelPageEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<HotelPageEvent>((event, emit) {});
   }
 }

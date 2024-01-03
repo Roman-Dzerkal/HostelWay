@@ -12,6 +12,10 @@ class GuestNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedFontSize: 14,
+      unselectedFontSize: 14,
+      iconSize: 20,
       currentIndex: currentIndex,
       backgroundColor: CustomColors.white,
       selectedItemColor: CustomColors.primary,

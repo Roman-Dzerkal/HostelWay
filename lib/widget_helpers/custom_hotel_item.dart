@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/models/hotel_model.dart';
@@ -7,31 +8,31 @@ import 'package:hostelway/resources/text_styling.dart';
 class CustomHotelItem extends StatelessWidget {
   HotelModel model;
   final double height;
-  
+
   CustomHotelItem(this.model, this.height, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    double imageSize = height * 1;
+
     return InkWell(
-      onTap: (){},
+      onTap: () {},
       child: Container(
           padding: const EdgeInsets.all(8),
-          margin: const EdgeInsets.only(bottom: 15),
           height: height,
-          width: 300.w,
+          width: 200.w,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: height * 0.8,
-                height: height * 0.8,
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(60),
-                    image:
-                        DecorationImage( image: NetworkImage(model.photos.first))),
+              CachedNetworkImage(
+                imageUrl: model.photos.first,
+                height: imageSize,
+                width: imageSize,
+                fit: BoxFit.cover,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(model.name,
                       style: TextStyling.blackText(14, FontWeight.bold)),

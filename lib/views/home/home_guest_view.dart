@@ -37,7 +37,7 @@ class HomeGuestLayout extends StatelessWidget {
             ),
             body: ListView(
               children: state.hotels
-                  .map((HotelModel hotel) => CustomHotelItem(hotel, 200.h))
+                  .map((HotelModel hotel) => CustomHotelItem(hotel, 100.h))
                   .toList(),
             ));
       },
