@@ -8,15 +8,15 @@ import 'package:hostelway/resources/text_styling.dart';
 class CustomHotelItem extends StatelessWidget {
   HotelModel model;
   final double height;
-
-  CustomHotelItem(this.model, this.height, {super.key});
+  //final Function()? onTap;
+  CustomHotelItem(this.model, this.height, /*this.onTap,*/{super.key});
 
   @override
   Widget build(BuildContext context) {
     double imageSize = height * 1;
 
     return InkWell(
-      onTap: () {},
+      //onTap: onTap,
       child: Container(
           padding: const EdgeInsets.all(8),
           height: height,

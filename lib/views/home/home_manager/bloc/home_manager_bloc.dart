@@ -15,5 +15,6 @@ class HomeManagerBloc extends Bloc<HomeManagerEvent, HomeManagerState> {
     on<AddHotelButtonTapEvent>((event, emit) {
       debugPrint('AddHotelButtonTapEvent');
     });
+    
   }
 }

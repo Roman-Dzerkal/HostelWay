@@ -14,5 +14,8 @@ class HomeGuestBloc extends Bloc<HomeGuestEvent, HomeGuestState> {
       List<HotelModel> hotels = await rep.getHotels();
       emit(state.copyWith(hotels: hotels));
     });
+    on<OnTapHotelItemEvent>((event, emit) async {
+      event.model;
+    });
   }
 }
