@@ -6,3 +6,5 @@ sealed class CreateHotelEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class OnTapAddPhotoEvent extends CreateHotelEvent {}

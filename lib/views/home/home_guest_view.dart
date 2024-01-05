@@ -27,7 +27,7 @@ class HomeGuestLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // HomeGuestBloc bloc = context.read<HomeGuestBloc>();
+    HomeGuestBloc bloc = context.read<HomeGuestBloc>();
     return BlocBuilder<HomeGuestBloc, HomeGuestState>(
       builder: (context, state) {
         return Scaffold(
