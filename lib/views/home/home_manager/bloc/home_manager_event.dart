@@ -9,4 +9,5 @@ sealed class HomeManagerEvent extends Equatable {
 
 class AddHotelButtonTapEvent extends HomeManagerEvent {
   const AddHotelButtonTapEvent();
+  
 }

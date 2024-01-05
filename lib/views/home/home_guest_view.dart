@@ -15,7 +15,7 @@ class HomeGuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeGuestBloc(context.read<HotelsRepository>())
+      create: (context) => HomeGuestBloc(context.read<HotelsRepository>(), navigator)
         ..add(const HomeGuestBlocInitialEvent()),
       child:  HomeGuestLayout(navigator: navigator),
     );
@@ -49,8 +49,7 @@ class HomeGuestLayout extends StatelessWidget {
                       state.hotels[index],
                       100.h,
                       ),
-                      onTap: () =>navigator.goToHotelPage(
-                                state.hotels[index]), /*bloc.add(OnTapHotelItemEvent(state.hotels[index]))*/
+                      onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index]))
                                 
                 ),
                     ));

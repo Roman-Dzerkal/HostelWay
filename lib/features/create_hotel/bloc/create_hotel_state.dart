@@ -1,0 +1,10 @@
+part of 'create_hotel_bloc.dart';
+
+sealed class CreateHotelState extends Equatable {
+  const CreateHotelState();
+  
+  @override
+  List<Object> get props => [];
+}
+
+final class CreateHotelInitial extends CreateHotelState {}

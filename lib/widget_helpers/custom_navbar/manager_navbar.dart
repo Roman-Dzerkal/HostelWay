@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hostelway/resources/custom_colors.dart';
+import 'package:hostelway/widget_helpers/custom_navbar/navigation/manager_navigator.dart';
 
 class ManagerNavigationBar extends StatelessWidget {
   final int currentIndex;
-
-  const ManagerNavigationBar({super.key, required this.currentIndex});
+  final ManagerBottomNavigator navigator;
+  const ManagerNavigationBar({super.key, required this.currentIndex, required this.navigator});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,12 @@ class ManagerNavigationBar extends StatelessWidget {
       unselectedItemColor: CustomColors.grey,
       onTap: (value) {
         switch (value) {
-          case 1:
+          case 0:
+            navigator.goToMyHotels();
             break;
-          default:
+          case 1:
+            navigator.goToProfile();
+            break;
         }
       },
       items: const [

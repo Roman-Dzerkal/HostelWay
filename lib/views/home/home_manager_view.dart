@@ -4,6 +4,7 @@ import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/views/home/home_manager/bloc/home_manager_bloc.dart';
 import 'package:hostelway/views/home/navigation/home_manager_navigator.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/manager_navbar.dart';
+import 'package:hostelway/widget_helpers/custom_navbar/navigation/manager_navigator.dart';
 
 class HomeManagerView extends StatelessWidget {
   const HomeManagerView({super.key, required HomeManagerNavigator navigator});
@@ -37,7 +38,7 @@ class HomeManagerLayout extends StatelessWidget {
               },
               backgroundColor: CustomColors.primary,
               child: const Icon(Icons.add, color: CustomColors.white)),
-          bottomNavigationBar: const ManagerNavigationBar(currentIndex: 0),
+          bottomNavigationBar:  ManagerNavigationBar(currentIndex: 0, navigator: ManagerBottomNavigator(context)),
           appBar: AppBar(
             title: const Text('HomeManager'),
           ),
