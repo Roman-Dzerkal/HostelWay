@@ -10,7 +10,7 @@ part 'create_hotel_state.dart';
 class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
   final  CreateHotelNavigator navigator;
   final HotelsRepository hotelsRepository;
-  CreateHotelBloc({required this.navigator, required this.hotelsRepository}) : super(CreateHotelInitial()) {
+  CreateHotelBloc({required this.navigator, required this.hotelsRepository}) : super(const CreateHotelInitial()) {
     on<CreateHotelEvent>((event, emit) {
       // TODO: implement event handler
     });

@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hostelway/features/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:hostelway/features/create_hotel/bloc/create_hotel_bloc.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
-import 'package:hostelway/services/search_places_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
-import 'package:hostelway/widget_helpers/search_places_widget.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class CreateHotelView extends StatelessWidget {
   const CreateHotelView({super.key});
@@ -49,7 +45,8 @@ class CreateHotelLayout extends StatelessWidget {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 15, left: 15, right: 15),
                 child: Center(
                   child: Column(
                     children: [
@@ -85,10 +82,9 @@ class CreateHotelLayout extends StatelessWidget {
                               TextStyling.greyText(14, FontWeight.normal),
                         ),
                       ),
-                       
                       BestButton(
                         onTap: () {
-                          bloc.add(CreateHotelButtonTapEvent(
+                          bloc.add(const CreateHotelButtonTapEvent(
                               name: "1223",
                               description: "fgfgfg",
                               city: "ghgh",
