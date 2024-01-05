@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
@@ -39,27 +38,38 @@ class HotelPageViewLayout extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
-               leading: IconButton(
-                  icon: const Icon(Icons.keyboard_arrow_left,
-                      color: CustomColors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
+              leading: IconButton(
+                icon: const Icon(Icons.keyboard_arrow_left,
+                    color: CustomColors.white),
+                onPressed: () => Navigator.pop(context),
+              ),
               backgroundColor: CustomColors.primary,
               centerTitle: true,
-              title: Text(hotel.name, style: TextStyling.whiteText(18, FontWeight.bold)),
+              title: Text(hotel.name,
+                  style: TextStyling.whiteText(18, FontWeight.bold)),
             ),
             body: Column(
-              crossAxisAlignment:  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CachedNetworkImage(
                   imageUrl: hotel.photos.first,
                   width: screenSize.width,
                   height: screenSize.height / 3,
-
                   fit: BoxFit.cover,
                 ),
-                Padding(padding: EdgeInsets.all(15), child: Text('ABOUT',style: TextStyling.blackText(18, FontWeight.bold) )),
-                Padding(padding: EdgeInsets.only(left:15, bottom: 15, right:15), child: Text(hotel.description , textAlign:TextAlign.justify , style: TextStyling.blackText(14, FontWeight.normal, ) ))
+                Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text('ABOUT',
+                        style: TextStyling.blackText(18, FontWeight.bold))),
+                Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 15, right: 15),
+                    child: Text(hotel.description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyling.blackText(
+                          14,
+                          FontWeight.normal,
+                        )))
               ],
             ));
       },

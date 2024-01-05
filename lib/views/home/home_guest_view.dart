@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/views/home/home_guest/bloc/home_guest_bloc.dart';
 import 'package:hostelway/views/home/navigation/home_guest_navigator.dart';
@@ -28,7 +27,7 @@ class HomeGuestLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeGuestBloc bloc = context.read<HomeGuestBloc>();
+    // HomeGuestBloc bloc = context.read<HomeGuestBloc>();
     return BlocBuilder<HomeGuestBloc, HomeGuestState>(
       builder: (context, state) {
         return Scaffold(
