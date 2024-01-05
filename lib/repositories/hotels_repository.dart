@@ -5,11 +5,18 @@ class HotelsRepository {
   final HotelService service;
   HotelsRepository(this.service);
   
-Future<List<HotelModel>> getHotels(){
+  Future<List<HotelModel>> getHotels(){
 
-return service.getAllHotels() ;
-}
+  return service.getAllHotels() ;
+  }
   
-
+Future<bool> createHotel(HotelModel model) async {
+    try {
+      await service.createHotel(model);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
 }
