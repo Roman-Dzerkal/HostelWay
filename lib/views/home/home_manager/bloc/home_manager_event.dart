@@ -6,3 +6,8 @@ sealed class HomeManagerEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class AddHotelButtonTapEvent extends HomeManagerEvent {
+  const AddHotelButtonTapEvent();
+  
+}

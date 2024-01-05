@@ -10,23 +10,25 @@ import 'package:hostelway/widget_helpers/custom_navbar/guest_navbar.dart';
 import 'package:hostelway/widget_helpers/custom_navbar/navigation/guest_navigator.dart';
 
 class HomeGuestView extends StatelessWidget {
-  const HomeGuestView({super.key, required HomeGuestNavigator navigator});
-
+  const HomeGuestView({super.key, required this.navigator});
+  final HomeGuestNavigator navigator;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeGuestBloc(context.read<HotelsRepository>())
+      create: (context) => HomeGuestBloc(context.read<HotelsRepository>(), navigator)
         ..add(const HomeGuestBlocInitialEvent()),
-      child: const HomeGuestLayout(),
+      child:  HomeGuestLayout(navigator: navigator),
     );
   }
 }
 
 class HomeGuestLayout extends StatelessWidget {
-  const HomeGuestLayout({super.key});
+  const HomeGuestLayout({super.key, required this.navigator});
+  final HomeGuestNavigator navigator;
 
   @override
   Widget build(BuildContext context) {
+    HomeGuestBloc bloc = context.read<HomeGuestBloc>();
     return BlocBuilder<HomeGuestBloc, HomeGuestState>(
       builder: (context, state) {
         return Scaffold(
@@ -35,11 +37,23 @@ class HomeGuestLayout extends StatelessWidget {
             appBar: AppBar(
               title: const Text('HomeGuest'),
             ),
-            body: ListView(
+            /*body: ListView(
               children: state.hotels
-                  .map((HotelModel hotel) => CustomHotelItem(hotel, 200.h))
+                  .map((HotelModel hotel) => CustomHotelItem(hotel, 100.h, ()=> bloc.add(OnTapHotelItemEvent(state.hotels.first))))
                   .toList(),
-            ));
+            )*/
+            body: ListView.builder(
+                itemCount: state.hotels.length,
+                itemBuilder: (context, index) => InkWell(
+                  child: CustomHotelItem(
+                      state.hotels[index],
+                      100.h,
+                      ),
+                      onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index]))
+                                
+                ),
+                    ));
+                
       },
     );
   }
