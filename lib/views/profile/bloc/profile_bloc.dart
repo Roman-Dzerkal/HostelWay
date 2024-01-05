@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
-import 'package:hostelway/views/profile/navigation/favotites_navigator.dart';
+import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

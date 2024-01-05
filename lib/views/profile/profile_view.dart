@@ -6,7 +6,7 @@ import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/views/profile/bloc/profile_bloc.dart';
-import 'package:hostelway/views/profile/navigation/favotites_navigator.dart';
+import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
 
