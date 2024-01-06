@@ -16,7 +16,9 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc(navigator: ProfileNavigator(context), authRepository: context.read<AuthorizationRepository>()),
+      create: (context) => ProfileBloc(
+          navigator: ProfileNavigator(context),
+          authRepository: context.read<AuthorizationRepository>()),
       child: const ProfileLayout(),
     );
   }
@@ -99,7 +101,7 @@ class ProfileLayout extends StatelessWidget {
                           ),
                         ]),
                       ),
-                      Divider(color: CustomColors.lightGrey),
+                      const Divider(color: CustomColors.lightGrey),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 15, top: 15),
                         child: Row(
@@ -138,10 +140,11 @@ class ProfileLayout extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Divider(color: CustomColors.lightGrey),
+                      const Divider(color: CustomColors.lightGrey),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 15, top: 15),
                         child: CustomTextField(
+                          height: 80.h,
                           helperText: 'Email',
                           outlineInputBorderColor:
                               const Color.fromARGB(0, 255, 255, 255),
@@ -163,6 +166,7 @@ class ProfileLayout extends StatelessWidget {
                           children: [
                             CustomTextField(
                               width: 170.w,
+                              height: 80.h,
                               onChanged: (value) {},
                               borderRad: 10.r,
                               helperText: 'First Name',
@@ -175,6 +179,7 @@ class ProfileLayout extends StatelessWidget {
                             ),
                             CustomTextField(
                               width: 170.w,
+                              height: 80.h,
                               onChanged: (value) {},
                               borderRad: 10.r,
                               helperText: 'Last Name',

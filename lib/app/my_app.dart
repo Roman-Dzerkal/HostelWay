@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
@@ -34,7 +35,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       providers: [
         RepositoryProvider(create: (context) => UsersRepository()),
         RepositoryProvider(create: (context) => AuthorizationRepository()),
-        RepositoryProvider(create: (context) => HotelsRepository(HotelService())),
+        RepositoryProvider(
+            create: (context) => HotelsRepository(HotelService())),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -50,7 +52,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           splitScreenMode: true,
           builder: (_, child) {
             return MaterialApp(
-              // builder: FToastBuilder(),
+              builder: FToastBuilder(),
               debugShowCheckedModeBanner: false,
               title: 'Hostelway',
               navigatorKey: widget.navigatorKey,

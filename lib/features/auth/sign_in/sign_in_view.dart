@@ -49,6 +49,7 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15, top: 15),
                     child: CustomTextField(
+                      height: 80.h,
                       helperText: 'Email',
                       helperTextStyle:
                           TextStyling.blackText(14, FontWeight.w600),
@@ -65,6 +66,7 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: CustomTextField(
+                      height: 80.h,
                       onChanged: (value) {
                         bloc.add(SignInPasswordChanged(value));
                       },

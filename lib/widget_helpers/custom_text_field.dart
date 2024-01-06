@@ -17,14 +17,17 @@ class CustomTextField extends StatelessWidget {
   final String? value, suffixText;
   final TextInputType? keyboardType;
   final int? maxLines;
-  final double? height, width, borderRad;
+  final double height;
+  final double? width, borderRad;
   final void Function(String)? onSubmitted;
   final Widget? suffix;
   final Iterable<String> autofillHints;
   final int? lengthLimitingText;
+  final String? errorText;
 
   const CustomTextField({
     super.key,
+    this.errorText,
     this.autofillHints = const [],
     this.keyboardType,
     this.helperText,
@@ -45,7 +48,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixText,
     this.isNumber = false,
     this.maxLines,
-    this.height,
+    required this.height,
     this.width,
     this.borderRad,
     this.suffix,
@@ -72,7 +75,7 @@ class CustomTextField extends StatelessWidget {
           ),
         SizedBox(
           width: width,
-          height: height ?? 50.h,
+          height: height,
           child: TextFormField(
             inputFormatters: [
               LengthLimitingTextInputFormatter(lengthLimitingText),
@@ -91,6 +94,7 @@ class CustomTextField extends StatelessWidget {
             obscureText: isObscure,
             style: TextStyling.blackText(16, FontWeight.w400),
             decoration: InputDecoration(
+              errorText: errorText,
               contentPadding: EdgeInsets.only(left: 22.w, top: 16.h),
               enabledBorder: OutlineInputBorder(
                 borderRadius:

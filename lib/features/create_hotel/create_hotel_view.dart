@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,10 +51,12 @@ class CreateHotelLayout extends StatelessWidget {
                     top: 15, bottom: 15, left: 15, right: 15),
                 child: Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: CustomTextField(
+                          height: 80.h,
                           helperText: 'Hotel Name',
                           outlineInputBorderColor:
                               const Color.fromARGB(0, 255, 255, 255),
@@ -66,31 +70,97 @@ class CreateHotelLayout extends StatelessWidget {
                               TextStyling.greyText(14, FontWeight.normal),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: CustomTextField(
-                          helperText: 'Description',
-                          outlineInputBorderColor:
-                              const Color.fromARGB(0, 255, 255, 255),
-                          helperTextStyle:
-                              TextStyling.blackText(14, FontWeight.w600),
-                          onChanged: (value) {},
-                          borderRad: 10.r,
-                          hintText: 'Description',
-                          keyboardType: TextInputType.text,
-                          hintTextStyle:
-                              TextStyling.greyText(14, FontWeight.normal),
-                        ),
+                      CustomTextField(
+                        height: 80.h,
+                        helperText: 'Description',
+                        outlineInputBorderColor:
+                            const Color.fromARGB(0, 255, 255, 255),
+                        errorText: state.errorState.isDescriptionError
+                            ? state.errorDescriptionMessage
+                            : null,
+                        helperTextStyle:
+                            TextStyling.blackText(14, FontWeight.w600),
+                        onChanged: (value) {
+                          bloc.add(DescriptionChangedEvent(value));
+                        },
+                        onSubmitted: (p0) {
+                          bloc.add(DescriptionSubmittedEvent(p0));
+                        },
+                        borderRad: 10.r,
+                        hintText: 'Description',
+                        keyboardType: TextInputType.text,
+                        hintTextStyle:
+                            TextStyling.greyText(14, FontWeight.normal),
                       ),
+                      if (state.localPhotos.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10.w),
+                          child: GridView.count(
+                            padding: EdgeInsets.only(left: 20.w),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 8.w,
+                            children: [
+                              ...state.localPhotos
+                                  .map((e) => Container(
+                                        width: 78.w,
+                                        margin: EdgeInsets.only(right: 8.w),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.r))),
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          children: [
+                                            Image.file(
+                                              File(e.path),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            Positioned(
+                                                right: 8.w,
+                                                top: 8.w,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    bloc.add(RemoveImageEvent(
+                                                        state.localPhotos
+                                                            .indexOf(e)));
+                                                  },
+                                                  child: Container(
+                                                      width: 20.w,
+                                                      height: 20.w,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.black
+                                                              .withOpacity(0.5),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      100.r))),
+                                                      child: const Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 15,
+                                                      )),
+                                                ))
+                                          ],
+                                        ),
+                                      ))
+                                  .toList(),
+                              NewWidget(onTap: () {
+                                bloc.add(UploadOnePhotoButtonTapEvent());
+                              })
+                            ],
+                          ),
+                        ),
+                      if (state.localPhotos.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: NewWidget(onTap: () {
+                            bloc.add(UploadPhotoButtonTapEvent());
+                          }),
+                        ),
                       BestButton(
                         onTap: () {
-                          bloc.add(const CreateHotelButtonTapEvent(
-                              name: "1223",
-                              description: "fgfgfg",
-                              city: "ghgh",
-                              facilities: ['kk', 'hj'],
-                              managerId: "ggg",
-                              photos: ['hjhjhj']));
+                          bloc.add(CreateHotelButtonTapEvent());
                         },
                         height: 60.h,
                         text: "Create",
@@ -103,6 +173,37 @@ class CreateHotelLayout extends StatelessWidget {
               ),
             ));
       },
+    );
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    super.key,
+    required this.onTap,
+  });
+
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+          width: 78.w,
+          height: 78.w,
+          margin: EdgeInsets.only(right: 8.w),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  style: BorderStyle.solid,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                  color: CustomColors.black),
+              borderRadius: BorderRadius.all(Radius.circular(8.r))),
+          alignment: Alignment.center,
+          child: Text(
+            '+',
+            style: TextStyling.blackText(24, FontWeight.bold),
+          )),
     );
   }
 }

@@ -53,6 +53,7 @@ class SignUpLayout extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomTextField(
+                            height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
                               bloc.add(SignUpFirstNameChangedEvent(value));
@@ -67,6 +68,7 @@ class SignUpLayout extends StatelessWidget {
                                 TextStyling.greyText(14, FontWeight.normal),
                           ),
                           CustomTextField(
+                            height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
                               bloc.add(SignUpLastNameChangedEvent(value));
@@ -86,6 +88,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpEmailChangedEvent(value));
                         },
@@ -102,6 +105,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        height: 80.h,
                         hintText: 'Enter your password',
                         helperText: 'Password',
                         helperTextStyle:
@@ -124,6 +128,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: CustomTextField(
+                        height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpConfirmPasswordChangedEvent(value));
                         },
