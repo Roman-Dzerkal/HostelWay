@@ -72,3 +72,43 @@ class SignUpLastNameChangedEvent extends SignUpEvent {
   @override
   List<Object> get props => [lastName];
 }
+
+class EmailFormSubmittedEvent extends SignUpEvent {
+  final String email;
+
+  const EmailFormSubmittedEvent({
+    required this.email,
+  });
+}
+
+class PasswordFormSubmittedEvent extends SignUpEvent {
+  final String password;
+
+  const PasswordFormSubmittedEvent({
+    required this.password,
+  });
+}
+
+class ConfirmPasswordFormSubmittedEvent extends SignUpEvent {
+  final String confirmPassword;
+
+  const ConfirmPasswordFormSubmittedEvent({
+    required this.confirmPassword,
+  });
+}
+
+class FirstNameFormSubmittedEvent extends SignUpEvent {
+  final String firstName;
+
+  const FirstNameFormSubmittedEvent({
+    required this.firstName,
+  });
+}
+
+class LastNameFormSubmittedEvent extends SignUpEvent {
+  final String lastName;
+
+  const LastNameFormSubmittedEvent({
+    required this.lastName,
+  });
+}

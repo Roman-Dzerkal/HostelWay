@@ -66,6 +66,13 @@ class SignUpLayout extends StatelessWidget {
                                 TextStyling.blackText(14, FontWeight.w600),
                             hintTextStyle:
                                 TextStyling.greyText(14, FontWeight.normal),
+                            onSubmitted: (value) {
+                              bloc.add(FirstNameFormSubmittedEvent(
+                                  firstName: value));
+                            },
+                            errorText: state.errorState.isFirstNameError
+                                ? state.errorFirstNameMessage
+                                : null,
                           ),
                           CustomTextField(
                             height: 80.h,
@@ -81,6 +88,13 @@ class SignUpLayout extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             hintTextStyle:
                                 TextStyling.greyText(14, FontWeight.normal),
+                            onSubmitted: (value) {
+                              bloc.add(
+                                  LastNameFormSubmittedEvent(lastName: value));
+                            },
+                            errorText: state.errorState.isLastNameError
+                                ? state.errorLastNameMessage
+                                : null,
                           ),
                         ],
                       ),
@@ -100,6 +114,12 @@ class SignUpLayout extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(EmailFormSubmittedEvent(email: value));
+                        },
+                        errorText: state.errorState.isEmailError
+                            ? state.errorEmailMessage
+                            : null,
                       ),
                     ),
                     Padding(
@@ -123,6 +143,12 @@ class SignUpLayout extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(PasswordFormSubmittedEvent(password: value));
+                        },
+                        errorText: state.errorState.isPasswordError
+                            ? state.errorPasswordMessage
+                            : null,
                       ),
                     ),
                     Padding(
@@ -147,6 +173,13 @@ class SignUpLayout extends StatelessWidget {
                         maxLines: 1,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(ConfirmPasswordFormSubmittedEvent(
+                              confirmPassword: value));
+                        },
+                        errorText: state.errorState.isConfirmPasswordError
+                            ? state.errorConfirmPasswordMessage
+                            : null,
                       ),
                     ),
                     Padding(

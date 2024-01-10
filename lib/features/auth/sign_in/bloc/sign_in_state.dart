@@ -1,20 +1,20 @@
 part of 'sign_in_bloc.dart';
 
 sealed class SignInState extends Equatable {
-  final SignInErrorState errorState;
   final String email;
   final String password;
   final bool isPasswordInvisible;
   final String? errorEmailMessage;
   final String? errorPasswordMessage;
+  final SignInErrorState errorState;
 
   const SignInState({
     this.email = '',
-    required this.errorState,
     this.password = '',
     this.isPasswordInvisible = true,
     this.errorEmailMessage,
     this.errorPasswordMessage,
+    required this.errorState,
   });
 
   SignInState copyWith({
@@ -27,11 +27,11 @@ sealed class SignInState extends Equatable {
   }) {
     return SignInInitial(
       email: email ?? this.email,
-      errorState: errorState ?? this.errorState,
       password: password ?? this.password,
       isPasswordInvisible: isPasswordInvisible ?? this.isPasswordInvisible,
       errorEmailMessage: errorEmailMessage ?? this.errorEmailMessage,
       errorPasswordMessage: errorPasswordMessage ?? this.errorPasswordMessage,
+      errorState: errorState ?? this.errorState,
     );
   }
 

@@ -64,11 +64,30 @@ class ValidationService {
     }
   }
 
+  static validateInvitationCode(String invitationCode) {
+    if (invitationCode.isEmpty) {
+      return 'Invitation code cannot be empty';
+    } else {
+      return null;
+    }
+  }
+
   static validatePhoneNumber(String phoneNumber) {
     if (phoneNumber.isEmpty) {
       return 'Phone number cannot be empty';
     } else {
       return null;
+    }
+  }
+
+  static validateGuestsAmount(int guestsAmount) {
+    switch (guestsAmount) {
+      case < 1:
+        return 'Guests amount cannot be less than 1';
+      case > 20:
+        return 'Guests amount cannot be more than 20';
+      default:
+        return null;
     }
   }
 }
