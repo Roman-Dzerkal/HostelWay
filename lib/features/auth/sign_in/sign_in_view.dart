@@ -58,9 +58,15 @@ class SignInLayout extends StatelessWidget {
                       },
                       borderRad: 10.r,
                       hintText: 'Enter your email',
+                      onSubmitted: (value) {
+                        bloc.add(EmailFormSubmittedEvent(email: value));
+                      },
                       keyboardType: TextInputType.emailAddress,
                       hintTextStyle:
                           TextStyling.greyText(14, FontWeight.normal),
+                      errorText: state.errorState.isEmailError
+                          ? state.errorEmailMessage
+                          : null,
                     ),
                   ),
                   Padding(
@@ -83,8 +89,14 @@ class SignInLayout extends StatelessWidget {
                       onEyeTap: () {
                         bloc.add(SignInPasswordVisibleChanged());
                       },
+                      onSubmitted: (value) {
+                        bloc.add(PasswordFormSubmittedEvent(password: value));
+                      },
                       hintTextStyle:
                           TextStyling.greyText(14, FontWeight.normal),
+                      errorText: state.errorState.isPasswordError
+                          ? state.errorPasswordMessage
+                          : null,
                     ),
                   ),
                   Padding(
