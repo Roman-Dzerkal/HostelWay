@@ -7,8 +7,10 @@ import 'package:hostelway/features/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
+import 'package:hostelway/main.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -31,7 +33,17 @@ class SignInLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<SignInBloc>();
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocConsumer<SignInBloc, SignInState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             backgroundColor: CustomColors.lightGrey,

@@ -36,26 +36,31 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         return;
       }
       try {
-        var userCredentials = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: state.email, password: state.password);
+        emit(state.copyWith(isBusy: true));
 
-        if (!(userCredentials.user?.emailVerified ?? false)) {
-          debugPrint('Please verify your email.');
-          return;
+        try {
+          var userCredentials = await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+                  email: state.email, password: state.password);
+
+          if (!(userCredentials.user?.emailVerified ?? false)) {
+            debugPrint('Please verify your email.');
+            return;
+          }
+
+          var doc = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get();
+          emit(state.copyWith(isBusy: false));
+          UserModel userModel = UserModel.fromJson(doc.data()!);
+          authenticationBloc.add(AuthenticationSaveUserInformationEvent(
+              userModel: userModel, voidCallback: navigator.goToHomePage));
+        } catch (e) {
+          emit(state.copyWith(isBusy: false));
+          ToastUtil.showError(e.toString());
         }
-
-        var doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
-
-        UserModel userModel = UserModel.fromJson(doc.data()!);
-        authenticationBloc.add(AuthenticationSaveUserInformationEvent(
-            userModel: userModel, voidCallback: navigator.goToHomePage));
-      } catch (e) {
-        ToastUtil.showError(e.toString());
-      }
+      } catch (e) {}
     });
 
     on<SignInWithGooglePressed>((event, emit) {});

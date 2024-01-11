@@ -50,7 +50,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           await FirebaseAuth.instance.currentUser!.sendEmailVerification();
         }
       } catch (e) {
-        ToastUtil.showError(e.toString());
+        //ToastUtil.showError(e.toString());
       }
 
       await FirebaseFirestore.instance

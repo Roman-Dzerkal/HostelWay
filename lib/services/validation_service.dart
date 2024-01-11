@@ -14,7 +14,7 @@ class ValidationService {
     if (email.isEmpty) {
       return 'Email cannot be empty';
     } else if (!_isValidEmail(email)) {
-      return 'Email has a valid pattern';
+      return 'Email has invalid pattern';
     }
     return null;
   }
@@ -32,7 +32,7 @@ class ValidationService {
 
   static String? validateFirstName(String firstName) {
     if (firstName.isEmpty) {
-      return 'Name cennot be empty';
+      return 'Name cannot be empty';
     } else {
       return null;
     }

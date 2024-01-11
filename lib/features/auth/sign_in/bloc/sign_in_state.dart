@@ -7,24 +7,25 @@ sealed class SignInState extends Equatable {
   final String? errorEmailMessage;
   final String? errorPasswordMessage;
   final SignInErrorState errorState;
+  final bool isBusy;
 
-  const SignInState({
-    this.email = '',
-    this.password = '',
-    this.isPasswordInvisible = true,
-    this.errorEmailMessage,
-    this.errorPasswordMessage,
-    required this.errorState,
-  });
+  const SignInState(
+      {this.email = '',
+      this.password = '',
+      this.isPasswordInvisible = true,
+      this.errorEmailMessage,
+      this.errorPasswordMessage,
+      required this.errorState,
+      this.isBusy = false});
 
-  SignInState copyWith({
-    String? email,
-    String? password,
-    bool? isPasswordInvisible,
-    SignInErrorState? errorState,
-    String? errorEmailMessage,
-    String? errorPasswordMessage,
-  }) {
+  SignInState copyWith(
+      {String? email,
+      String? password,
+      bool? isPasswordInvisible,
+      SignInErrorState? errorState,
+      String? errorEmailMessage,
+      String? errorPasswordMessage,
+      bool? isBusy}) {
     return SignInInitial(
       email: email ?? this.email,
       password: password ?? this.password,
@@ -32,6 +33,7 @@ sealed class SignInState extends Equatable {
       errorEmailMessage: errorEmailMessage ?? this.errorEmailMessage,
       errorPasswordMessage: errorPasswordMessage ?? this.errorPasswordMessage,
       errorState: errorState ?? this.errorState,
+      isBusy: isBusy ?? this.isBusy,
     );
   }
 
@@ -42,17 +44,18 @@ sealed class SignInState extends Equatable {
         errorState,
         isPasswordInvisible,
         errorEmailMessage,
-        errorPasswordMessage
+        errorPasswordMessage,
+        isBusy
       ];
 }
 
 final class SignInInitial extends SignInState {
-  const SignInInitial({
-    super.email,
-    super.password,
-    super.isPasswordInvisible,
-    required super.errorState,
-    super.errorEmailMessage,
-    super.errorPasswordMessage,
-  });
+  const SignInInitial(
+      {super.email,
+      super.password,
+      super.isPasswordInvisible,
+      required super.errorState,
+      super.errorEmailMessage,
+      super.errorPasswordMessage,
+      super.isBusy});
 }
