@@ -112,3 +112,7 @@ class LastNameFormSubmittedEvent extends SignUpEvent {
     required this.lastName,
   });
 }
+
+class AvatarUploadButtonPressedEvent extends SignUpEvent {
+  const AvatarUploadButtonPressedEvent();
+}

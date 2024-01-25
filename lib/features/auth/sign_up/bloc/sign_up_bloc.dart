@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:hostelway/features/auth/sign_up/models/sign_up_error_state.dart';
 import 'package:hostelway/features/auth/sign_up/navigation/sign_in_navigator.dart';
 import 'package:hostelway/services/validation_service.dart';
-import 'package:hostelway/utils/tost_util.dart';
+import 'package:image_picker/image_picker.dart';
+
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
@@ -28,6 +33,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(state.copyWith(confirmPassword: event.confirmPassword));
     });
 
+    on<AvatarUploadButtonPressedEvent>((event, emit) async {
+      emit(state.copyWith(isBusy: true));
+      ImagePicker picker = ImagePicker();
+      XFile? file = await picker.pickImage(source: ImageSource.gallery);
+      if (file != null) {
+        emit(state.copyWith(avatar: file, isBusy: false));
+      }
+    });
+
     on<SignUpButtonPressedEvent>((event, emit) async {
       if (validForm(emit) == false) {
         return;
@@ -42,28 +56,49 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       }
 
       try {
-        var credential = await FirebaseAuth.instance
+        UserCredential credential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: state.email, password: state.password);
 
         if (credential.user != null) {
           await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+
+          if (state.avatar != null) {
+            FirebaseStorage.instance
+                .ref('avatars/${FirebaseAuth.instance.currentUser!.uid}')
+                .putFile(File(state.avatar!.path))
+                .then((p0) {
+              debugPrint(p0.state.toString());
+            });
+          }
+
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({
+            'id': FirebaseAuth.instance.currentUser!.uid,
+            'firstName': state.firstName,
+            'lastName': state.lastName,
+            'role': state.roles[state.initialLabelIndex].toLowerCase(),
+          });
+
+          navigator.returnToSignIn();
         }
       } catch (e) {
-        //ToastUtil.showError(e.toString());
+        if (e is FirebaseAuthException) {
+          if (e.code == 'email-already-in-use') {
+            debugPrint('Email already in use');
+          } else if (e.code == 'weak-password') {
+            debugPrint('Password is too weak');
+          } else if (e.code == 'invalid-email') {
+            debugPrint('Invalid email');
+          } else if (e.code == 'operation-not-allowed') {
+            debugPrint('Operation not allowed');
+          } else {
+            debugPrint(e.toString());
+          }
+        }
       }
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .set({
-        'id': FirebaseAuth.instance.currentUser?.uid,
-        'firstName': state.firstName,
-        'lastName': state.lastName,
-        'role': state.roles[state.initialLabelIndex].toLowerCase(),
-      });
-
-      navigator.returnToSignIn();
     });
 
     on<PasswordVisibilityChangedEvent>((event, emit) {

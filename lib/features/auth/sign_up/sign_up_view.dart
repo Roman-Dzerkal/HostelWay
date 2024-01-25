@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,12 +49,34 @@ class SignUpLayout extends StatelessWidget {
                     EdgeInsets.only(left: 16.sp, right: 16.sp, bottom: 30.sp),
                 child: Column(
                   children: [
+                    Center(
+                      child: Container(
+                          height: 100.h,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[300],
+                            image: state.avatar != null
+                                ? DecorationImage(
+                                    image: FileImage(File(state.avatar!.path)),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.add_a_photo_outlined),
+                            onPressed: () {
+                              bloc.add(const AvatarUploadButtonPressedEvent());
+                            },
+                          )),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomTextField(
+                            autofillHints: const [AutofillHints.givenName],
                             height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
@@ -75,6 +99,7 @@ class SignUpLayout extends StatelessWidget {
                                 : null,
                           ),
                           CustomTextField(
+                            autofillHints: const [AutofillHints.familyName],
                             height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
@@ -102,6 +127,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.email],
                         height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpEmailChangedEvent(value));
@@ -125,6 +151,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.password],
                         height: 80.h,
                         hintText: 'Enter your password',
                         helperText: 'Password',
@@ -154,6 +181,7 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.password],
                         height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpConfirmPasswordChangedEvent(value));

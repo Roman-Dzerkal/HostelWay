@@ -3,9 +3,11 @@ part of 'sign_up_bloc.dart';
 sealed class SignUpState extends Equatable {
   final String email, password, confirmPassword, firstName, lastName;
 
-  final bool isPasswordInvisible, isConfirmPasswordInvisible;
+  final bool isPasswordInvisible, isConfirmPasswordInvisible, isBusy;
 
   final List<String> roles = const ['Manager', 'Guest'];
+
+  final XFile? avatar;
 
   final int initialLabelIndex;
   final String? errorEmailMessage;
@@ -16,6 +18,7 @@ sealed class SignUpState extends Equatable {
   final String? errorConfirmPasswordMessage;
 
   const SignUpState({
+    this.avatar,
     this.email = '',
     this.password = '',
     this.confirmPassword = '',
@@ -23,6 +26,7 @@ sealed class SignUpState extends Equatable {
     this.lastName = '',
     this.isPasswordInvisible = true,
     this.isConfirmPasswordInvisible = true,
+    this.isBusy = false,
     this.initialLabelIndex = 1,
     this.errorEmailMessage,
     this.errorPasswordMessage,
@@ -34,12 +38,14 @@ sealed class SignUpState extends Equatable {
 
   SignUpState copyWith(
       {String? email,
+      XFile? avatar,
       String? password,
       String? confirmPassword,
       String? firstName,
       String? lastName,
       bool? isPasswordInvisible,
       bool? isConfirmPasswordInvisible,
+      bool? isBusy,
       int? initialLabelIndex,
       SignUpErrorState? errorState,
       String? errorEmailMessage,
@@ -48,6 +54,8 @@ sealed class SignUpState extends Equatable {
       String? errorLastNameMessage,
       String? errorConfirmPasswordMessage}) {
     return SignUpInitial(
+      isBusy: isBusy ?? this.isBusy,
+      avatar: avatar ?? this.avatar,
       email: email ?? this.email,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -70,6 +78,7 @@ sealed class SignUpState extends Equatable {
 
   @override
   List<Object?> get props => [
+        avatar,
         email,
         password,
         confirmPassword,
@@ -77,6 +86,7 @@ sealed class SignUpState extends Equatable {
         isConfirmPasswordInvisible,
         initialLabelIndex,
         firstName,
+        isBusy,
         lastName,
         errorState,
         errorEmailMessage,
@@ -89,12 +99,14 @@ sealed class SignUpState extends Equatable {
 
 final class SignUpInitial extends SignUpState {
   const SignUpInitial({
+    super.avatar,
     super.email,
     super.password,
     super.confirmPassword,
     super.isPasswordInvisible,
     super.isConfirmPasswordInvisible,
     super.firstName,
+    super.isBusy,
     super.lastName,
     super.initialLabelIndex,
     required super.errorState,
