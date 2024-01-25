@@ -59,7 +59,7 @@ class SignInLayout extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 15, top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     child: CustomTextField(
                       height: 80.h,
                       helperText: 'Email',
@@ -89,8 +89,7 @@ class SignInLayout extends StatelessWidget {
                         bloc.add(SignInPasswordChanged(value));
                       },
                       helperText: 'Password',
-                      helperTextStyle:
-                          TextStyling.blackText(14, FontWeight.w600),
+                      helperTextStyle: TextStyling.blackText(14, FontWeight.w600),
                       outlineInputBorderColor: CustomColors.grey,
                       borderRad: 10.r,
                       hintText: 'Enter your password',
@@ -104,8 +103,7 @@ class SignInLayout extends StatelessWidget {
                       onSubmitted: (value) {
                         bloc.add(PasswordFormSubmittedEvent(password: value));
                       },
-                      hintTextStyle:
-                          TextStyling.greyText(14, FontWeight.normal),
+                      hintTextStyle: TextStyling.greyText(14, FontWeight.normal),
                       errorText: state.errorState.isPasswordError
                           ? state.errorPasswordMessage
                           : null,
@@ -126,7 +124,9 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          bloc.add(ForgotPasswordTextTapEvent());
+                        },
                         child: Text(
                           'Forgot your password?',
                           style: TextStyling.blackText(14, FontWeight.normal),

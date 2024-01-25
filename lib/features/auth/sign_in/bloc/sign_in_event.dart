@@ -46,3 +46,5 @@ class PasswordFormSubmittedEvent extends SignInEvent {
     required this.password,
   });
 }
+
+class ForgotPasswordTextTapEvent extends SignInEvent {}

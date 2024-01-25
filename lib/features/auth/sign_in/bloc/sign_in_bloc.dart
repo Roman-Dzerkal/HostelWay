@@ -35,32 +35,39 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       if (validForm(emit) == false) {
         return;
       }
+      emit(state.copyWith(isBusy: true));
+
       try {
-        emit(state.copyWith(isBusy: true));
+        var userCredentials = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: state.email, password: state.password);
 
-        try {
-          var userCredentials = await FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-                  email: state.email, password: state.password);
+        if (!(userCredentials.user?.emailVerified ?? false)) {
+          debugPrint('Please verify your email.');
+          return;
+        }
 
-          if (!(userCredentials.user?.emailVerified ?? false)) {
-            debugPrint('Please verify your email.');
-            return;
-          }
+        var doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .get();
 
-          var doc = await FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .get();
-          emit(state.copyWith(isBusy: false));
-          UserModel userModel = UserModel.fromJson(doc.data()!);
-          authenticationBloc.add(AuthenticationSaveUserInformationEvent(
-              userModel: userModel, voidCallback: navigator.goToHomePage));
-        } catch (e) {
-          emit(state.copyWith(isBusy: false));
+        emit(state.copyWith(isBusy: false));
+        UserModel userModel = UserModel.fromJson(doc.data()!);
+        authenticationBloc.add(AuthenticationSaveUserInformationEvent(
+            userModel: userModel, voidCallback: navigator.goToHomePage));
+      } catch (e) {
+        emit(state.copyWith(isBusy: false));
+        if (e is FirebaseAuthException) {
+          ToastUtil.showError(e.message!);
+        } else if (e is FirebaseException) {
+          ToastUtil.showError(e.message!);
+        } else if (e is FirebaseException) {
+          ToastUtil.showError(e.message!);
+        } else {
           ToastUtil.showError(e.toString());
         }
-      } catch (e) {}
+      }
     });
 
     on<SignInWithGooglePressed>((event, emit) {});
@@ -98,6 +105,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           errorState: state.errorState.copyWith(isPasswordError: false),
         ));
       }
+    });
+
+    on<ForgotPasswordTextTapEvent>((event, emit) {
+      navigator.goToForgotPasswordPage();
     });
   }
 
