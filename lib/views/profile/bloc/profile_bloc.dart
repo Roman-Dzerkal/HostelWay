@@ -41,10 +41,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       try {
         if (state.image != null) {
-          Reference ref = FirebaseStorage.instance
-              .ref()
-              .child('users/${FirebaseAuth.instance.currentUser!.uid}/avatar');
-          await ref.putFile(File(state.image!.path));
+          Reference ref = FirebaseStorage.instance.ref().child(
+              'users/${FirebaseAuth.instance.currentUser!.uid}/avatar${state.image!.path.substring(state.image!.path.lastIndexOf('.'))}');
+          await ref.putFile(
+              File(state.image!.path),
+              SettableMetadata(
+                contentType: 'image/jpeg',
+              ));
 
           String url = await ref.getDownloadURL();
 
@@ -67,7 +70,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
 
       if (image != null) {
-        emit(state.copyWith(image: image));
+        emit(state.copyWith(image: image, photoUrl: ''));
       }
     });
   }
