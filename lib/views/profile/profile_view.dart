@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +92,8 @@ class ProfileLayout extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 image: state.photoUrl.isNotEmpty
                                     ? DecorationImage(
-                                        image: NetworkImage(state.photoUrl),
+                                        image: CachedNetworkImageProvider(
+                                            state.photoUrl),
                                         fit: BoxFit.cover)
                                     : state.image == null
                                         ? DecorationImage(
