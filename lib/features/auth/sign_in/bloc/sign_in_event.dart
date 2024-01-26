@@ -30,3 +30,21 @@ class SignInWithFacebookPressed extends SignInEvent {}
 class SignUpTextTapEvent extends SignInEvent {}
 
 class SignInPasswordVisibleChanged extends SignInEvent {}
+
+class EmailFormSubmittedEvent extends SignInEvent {
+  final String email;
+
+  const EmailFormSubmittedEvent({
+    required this.email,
+  });
+}
+
+class PasswordFormSubmittedEvent extends SignInEvent {
+  final String password;
+
+  const PasswordFormSubmittedEvent({
+    required this.password,
+  });
+}
+
+class ForgotPasswordTextTapEvent extends SignInEvent {}

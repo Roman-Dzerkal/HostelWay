@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,12 +49,35 @@ class SignUpLayout extends StatelessWidget {
                     EdgeInsets.only(left: 16.sp, right: 16.sp, bottom: 30.sp),
                 child: Column(
                   children: [
+                    Center(
+                      child: Container(
+                          height: 100.h,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey[300],
+                            image: state.avatar != null
+                                ? DecorationImage(
+                                    image: FileImage(File(state.avatar!.path)),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.add_a_photo_outlined),
+                            onPressed: () {
+                              bloc.add(const AvatarUploadButtonPressedEvent());
+                            },
+                          )),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15, top: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomTextField(
+                            autofillHints: const [AutofillHints.givenName],
+                            height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
                               bloc.add(SignUpFirstNameChangedEvent(value));
@@ -65,8 +90,17 @@ class SignUpLayout extends StatelessWidget {
                                 TextStyling.blackText(14, FontWeight.w600),
                             hintTextStyle:
                                 TextStyling.greyText(14, FontWeight.normal),
+                            onSubmitted: (value) {
+                              bloc.add(FirstNameFormSubmittedEvent(
+                                  firstName: value));
+                            },
+                            errorText: state.errorState.isFirstNameError
+                                ? state.errorFirstNameMessage
+                                : null,
                           ),
                           CustomTextField(
+                            autofillHints: const [AutofillHints.familyName],
+                            height: 80.h,
                             width: 170.w,
                             onChanged: (value) {
                               bloc.add(SignUpLastNameChangedEvent(value));
@@ -79,6 +113,13 @@ class SignUpLayout extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             hintTextStyle:
                                 TextStyling.greyText(14, FontWeight.normal),
+                            onSubmitted: (value) {
+                              bloc.add(
+                                  LastNameFormSubmittedEvent(lastName: value));
+                            },
+                            errorText: state.errorState.isLastNameError
+                                ? state.errorLastNameMessage
+                                : null,
                           ),
                         ],
                       ),
@@ -86,6 +127,8 @@ class SignUpLayout extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.email],
+                        height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpEmailChangedEvent(value));
                         },
@@ -97,11 +140,19 @@ class SignUpLayout extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(EmailFormSubmittedEvent(email: value));
+                        },
+                        errorText: state.errorState.isEmailError
+                            ? state.errorEmailMessage
+                            : null,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 15),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.password],
+                        height: 80.h,
                         hintText: 'Enter your password',
                         helperText: 'Password',
                         helperTextStyle:
@@ -119,11 +170,19 @@ class SignUpLayout extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(PasswordFormSubmittedEvent(password: value));
+                        },
+                        errorText: state.errorState.isPasswordError
+                            ? state.errorPasswordMessage
+                            : null,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: CustomTextField(
+                        autofillHints: const [AutofillHints.password],
+                        height: 80.h,
                         onChanged: (value) {
                           bloc.add(SignUpConfirmPasswordChangedEvent(value));
                         },
@@ -142,6 +201,13 @@ class SignUpLayout extends StatelessWidget {
                         maxLines: 1,
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
+                        onSubmitted: (value) {
+                          bloc.add(ConfirmPasswordFormSubmittedEvent(
+                              confirmPassword: value));
+                        },
+                        errorText: state.errorState.isConfirmPasswordError
+                            ? state.errorConfirmPasswordMessage
+                            : null,
                       ),
                     ),
                     Padding(

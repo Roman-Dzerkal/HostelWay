@@ -7,5 +7,5 @@ class CustomColors {
   static const Color secondary = Color(0xFF53A28C);
   static const Color red = Color(0xFFDC7564);
   static const Color grey = Color(0xFF9c9c9c);
-  static  const Color lightGrey = const Color.fromARGB(255, 238, 238, 238);
+  static  const Color lightGrey = Color.fromARGB(255, 238, 238, 238);
 }

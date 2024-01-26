@@ -7,8 +7,10 @@ import 'package:hostelway/features/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
+import 'package:hostelway/main.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -31,7 +33,17 @@ class SignInLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<SignInBloc>();
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocConsumer<SignInBloc, SignInState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             backgroundColor: CustomColors.lightGrey,
@@ -47,8 +59,9 @@ class SignInLayout extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 15, top: 15),
+                    padding: const EdgeInsets.only(top: 15),
                     child: CustomTextField(
+                      height: 80.h,
                       helperText: 'Email',
                       helperTextStyle:
                           TextStyling.blackText(14, FontWeight.w600),
@@ -57,20 +70,26 @@ class SignInLayout extends StatelessWidget {
                       },
                       borderRad: 10.r,
                       hintText: 'Enter your email',
+                      onSubmitted: (value) {
+                        bloc.add(EmailFormSubmittedEvent(email: value));
+                      },
                       keyboardType: TextInputType.emailAddress,
                       hintTextStyle:
                           TextStyling.greyText(14, FontWeight.normal),
+                      errorText: state.errorState.isEmailError
+                          ? state.errorEmailMessage
+                          : null,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: CustomTextField(
+                      height: 80.h,
                       onChanged: (value) {
                         bloc.add(SignInPasswordChanged(value));
                       },
                       helperText: 'Password',
-                      helperTextStyle:
-                          TextStyling.blackText(14, FontWeight.w600),
+                      helperTextStyle: TextStyling.blackText(14, FontWeight.w600),
                       outlineInputBorderColor: CustomColors.grey,
                       borderRad: 10.r,
                       hintText: 'Enter your password',
@@ -81,8 +100,13 @@ class SignInLayout extends StatelessWidget {
                       onEyeTap: () {
                         bloc.add(SignInPasswordVisibleChanged());
                       },
-                      hintTextStyle:
-                          TextStyling.greyText(14, FontWeight.normal),
+                      onSubmitted: (value) {
+                        bloc.add(PasswordFormSubmittedEvent(password: value));
+                      },
+                      hintTextStyle: TextStyling.greyText(14, FontWeight.normal),
+                      errorText: state.errorState.isPasswordError
+                          ? state.errorPasswordMessage
+                          : null,
                     ),
                   ),
                   Padding(
@@ -100,7 +124,9 @@ class SignInLayout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 15),
                     child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          bloc.add(ForgotPasswordTextTapEvent());
+                        },
                         child: Text(
                           'Forgot your password?',
                           style: TextStyling.blackText(14, FontWeight.normal),

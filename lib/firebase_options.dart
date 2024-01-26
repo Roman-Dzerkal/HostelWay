@@ -53,7 +53,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDgfNQFkVFAv_0xbKdUpduUNjkgnA6-BJk',
+    apiKey: 'AIzaSyDXb0keNiYN0eMesZ4QgKyG7Hvrt-2cDEs',
     appId: '1:493144528853:android:8141e156f30405c7008f5c',
     messagingSenderId: '493144528853',
     projectId: 'hostelway-fad58',

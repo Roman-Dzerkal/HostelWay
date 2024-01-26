@@ -1,3 +1,4 @@
+import 'package:hostelway/features/auth/forgot_password/navigation/forgot_password_route.dart';
 import 'package:hostelway/features/auth/sign_up/navigation/sign_in_route.dart';
 import 'package:hostelway/utils/role_navigator.dart';
 import 'package:hostelway/views/home/navigation/home_guest_route.dart';
@@ -16,5 +17,9 @@ class SignInNavigator extends RoleNavigator {
     } else {
       navigator.pushAndRemoveUntil(HomeManagerRoute(), (route) => false);
     }
+  }
+
+  void goToForgotPasswordPage() {
+    navigator.push(ForgotPasswordRoute());
   }
 }

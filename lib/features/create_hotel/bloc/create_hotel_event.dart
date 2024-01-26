@@ -7,16 +7,27 @@ sealed class CreateHotelEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CreateHotelButtonTapEvent extends CreateHotelEvent {
-  final String name, description, city;
-  final String managerId;
-  final List<String> photos;
-  final List<String> facilities;
-  const CreateHotelButtonTapEvent(
-      {required this.name,
-      required this.description,
-      required this.city,
-      required this.facilities,
-      required this.managerId,
-      required this.photos});
+class RemoveImageEvent extends CreateHotelEvent {
+  final int index;
+  const RemoveImageEvent(this.index);
+}
+
+class UploadPhotoButtonTapEvent extends CreateHotelEvent {}
+
+class CreateHotelButtonTapEvent extends CreateHotelEvent {}
+
+class UploadOnePhotoButtonTapEvent extends CreateHotelEvent {}
+
+// ============== Submiters ==============
+
+class DescriptionSubmittedEvent extends CreateHotelEvent {
+  final String description;
+  const DescriptionSubmittedEvent(this.description);
+}
+
+// ============== Change events ==============
+
+class DescriptionChangedEvent extends CreateHotelEvent {
+  final String description;
+  const DescriptionChangedEvent(this.description);
 }

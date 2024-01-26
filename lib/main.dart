@@ -5,28 +5,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostelway/app/my_app.dart';
 import 'package:hostelway/firebase_options.dart';
-import 'package:talker/talker.dart';
 
 class DebugBlocObserver extends BlocObserver {
-  final talker = Talker(
-    settings: TalkerSettings(
-      enabled: true,
-      useHistory: true,
-      useConsoleLogs: true,
-    ),
-    logger: TalkerLogger(),
-  );
-
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    talker.log(event);
+    debugPrint(event.toString());
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    debugPrint(transition.toString());
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
-    talker.error(error);
+    debugPrint(error.toString());
   }
 }
 
