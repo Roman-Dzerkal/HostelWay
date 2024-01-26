@@ -11,8 +11,12 @@ class ForgotPasswordBloc
     extends Bloc<ForgotPasswordEvent, ForgotPasswordState> {
   final ForgotPasswordNavigator navigator;
 
-  ForgotPasswordBloc(this.navigator) : super(ForgotPasswordInitial()) {
+  ForgotPasswordBloc(this.navigator) : super(const ForgotPasswordInitial()) {
     on<ForgotPasswordEvent>((event, emit) {});
+
+    on<EmailChangedEvent>((event, emit) {
+      emit(state.copyWith(email: event.email));
+    });
 
     on<PasswordResetButtonTapEvent>((event, emit) async {
       // TODO: implement fields validation

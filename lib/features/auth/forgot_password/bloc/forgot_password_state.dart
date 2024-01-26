@@ -28,7 +28,7 @@ sealed class ForgotPasswordState extends Equatable {
 }
 
 final class ForgotPasswordInitial extends ForgotPasswordState {
-  ForgotPasswordInitial({
+  const ForgotPasswordInitial({
     super.email,
     super.isBusy,
   });

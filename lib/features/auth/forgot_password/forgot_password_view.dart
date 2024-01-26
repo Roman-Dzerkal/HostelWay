@@ -56,6 +56,9 @@ class ForgotPasswordLayout extends StatelessWidget {
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
                         height: 50.h,
+                        onChanged: (value) {
+                          bloc.add(EmailChangedEvent(value));
+                        },
                         hintText: 'Your Email Address',
                         helperText: 'Email'),
                   ),

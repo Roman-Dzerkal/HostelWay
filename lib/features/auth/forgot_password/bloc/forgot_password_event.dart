@@ -8,3 +8,9 @@ sealed class ForgotPasswordEvent extends Equatable {
 }
 
 class PasswordResetButtonTapEvent extends ForgotPasswordEvent {}
+
+class EmailChangedEvent extends ForgotPasswordEvent {
+  final String email;
+
+  EmailChangedEvent(this.email);
+}
