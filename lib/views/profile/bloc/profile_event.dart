@@ -10,3 +10,7 @@ sealed class ProfileEvent extends Equatable {
 class ProfileLogoutEvent extends ProfileEvent {
   const ProfileLogoutEvent();
 }
+
+class ProfileLoadEvent extends ProfileEvent {
+  const ProfileLoadEvent();
+}
