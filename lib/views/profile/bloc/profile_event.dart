@@ -14,3 +14,7 @@ class ProfileLogoutEvent extends ProfileEvent {
 class ProfileLoadEvent extends ProfileEvent {
   const ProfileLoadEvent();
 }
+
+class ProfilePhotoChangedEvent extends ProfileEvent {}
+
+class ProfileSaveEvent  extends ProfileEvent {}

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/main.dart';
+import 'package:hostelway/resources/assets.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/services/overlay_service.dart';
@@ -82,20 +85,28 @@ class ProfileLayout extends StatelessWidget {
                         child:
                             Stack(alignment: Alignment.bottomRight, children: [
                           Container(
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://via.placeholder.com/100'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: CustomColors.black, width: 1),
+                                shape: BoxShape.circle,
+                                image: state.photoUrl.isNotEmpty
+                                    ? DecorationImage(
+                                        image: NetworkImage(state.photoUrl),
+                                        fit: BoxFit.cover)
+                                    : state.image == null
+                                        ? DecorationImage(
+                                            image: Assets.images.avatar,
+                                            fit: BoxFit.cover)
+                                        : DecorationImage(
+                                            image: FileImage(
+                                                File(state.image!.path)),
+                                            fit: BoxFit.cover)),
                             width: 100.w,
                             height: 100.h,
                             alignment: Alignment.bottomRight,
                             child: InkWell(
                               onTap: () {
-                                debugPrint('Change Profile Picture');
+                                bloc.add(ProfilePhotoChangedEvent());
                               },
                               child: Container(
                                 width: 30.w,
@@ -213,7 +224,9 @@ class ProfileLayout extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 15),
                         child: BestButton(
-                          onTap: () {},
+                          onTap: () {
+                            bloc.add(ProfileSaveEvent());
+                          },
                           height: 60.h,
                           text: "Save",
                           backgroundColor: CustomColors.primary,
