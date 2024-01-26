@@ -12,5 +12,5 @@ class PasswordResetButtonTapEvent extends ForgotPasswordEvent {}
 class EmailChangedEvent extends ForgotPasswordEvent {
   final String email;
 
-  EmailChangedEvent(this.email);
+  const EmailChangedEvent(this.email);
 }

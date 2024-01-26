@@ -9,7 +9,7 @@ class CustomHotelItem extends StatelessWidget {
   HotelModel model;
   final double height;
   //final Function()? onTap;
-  CustomHotelItem(this.model, this.height, /*this.onTap,*/{super.key});
+  CustomHotelItem(this.model, this.height, /*this.onTap,*/ {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +24,13 @@ class CustomHotelItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CachedNetworkImage(
-                imageUrl: model.photos.first,
-                height: imageSize,
-                width: imageSize,
-                fit: BoxFit.cover,
-              ),
+              if (model.photos != null && model.photos!.isNotEmpty)
+                CachedNetworkImage(
+                  imageUrl: model.photos!.first,
+                  height: imageSize,
+                  width: imageSize,
+                  fit: BoxFit.cover,
+                ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -51,12 +51,13 @@ class HotelPageViewLayout extends StatelessWidget {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CachedNetworkImage(
-                  imageUrl: hotel.photos.first,
-                  width: screenSize.width,
-                  height: screenSize.height / 3,
-                  fit: BoxFit.cover,
-                ),
+                if (hotel.photos != null && hotel.photos!.isNotEmpty)
+                  CachedNetworkImage(
+                    imageUrl: hotel.photos!.first,
+                    width: screenSize.width,
+                    height: screenSize.height / 3,
+                    fit: BoxFit.cover,
+                  ),
                 Padding(
                     padding: const EdgeInsets.all(15),
                     child: Text('ABOUT',

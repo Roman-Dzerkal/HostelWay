@@ -18,7 +18,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final AuthorizationRepository authRepository;
 
   ProfileBloc({required this.navigator, required this.authRepository})
-      : super(ProfileInitial()) {
+      : super(const ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
 
     on<ProfileLoadEvent>((event, emit) async {

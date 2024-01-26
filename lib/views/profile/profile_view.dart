@@ -25,7 +25,7 @@ class ProfileView extends StatelessWidget {
       create: (context) => ProfileBloc(
           navigator: ProfileNavigator(context),
           authRepository: context.read<AuthorizationRepository>())
-        ..add(ProfileLoadEvent()),
+        ..add(const ProfileLoadEvent()),
       child: const ProfileLayout(),
     );
   }

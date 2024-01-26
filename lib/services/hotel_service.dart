@@ -11,14 +11,15 @@ class HotelService {
 
     return docs.map((e) => HotelModel.fromJson(e.data())).toList();
   }
-  Future<void> createHotel(HotelModel newHotel) async {
+  Future<String> createHotel(HotelModel newHotel) async {
     CollectionReference hotels = FirebaseFirestore.instance.collection('hotels');
 
-      await hotels.add({ 'name': newHotel.name,
+      var reference = await hotels.add({ 'name': newHotel.name,
       'description': newHotel.description,
-      'photos': newHotel.photos,
       'managerId': newHotel.managerId,
       'facilities': newHotel.facilities,
       'city':newHotel.city });
+    
+    return reference.id;
   }
 }

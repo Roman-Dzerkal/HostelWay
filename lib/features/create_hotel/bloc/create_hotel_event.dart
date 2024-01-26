@@ -31,3 +31,8 @@ class DescriptionChangedEvent extends CreateHotelEvent {
   final String description;
   const DescriptionChangedEvent(this.description);
 }
+
+class NameChangedEvent extends CreateHotelEvent {
+  final String name;
+  const NameChangedEvent(this.name);
+}
