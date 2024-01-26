@@ -10,12 +10,11 @@ class HotelsRepository {
   return service.getAllHotels() ;
   }
   
-Future<bool> createHotel(HotelModel model) async {
+Future<String> createHotel(HotelModel model) async {
     try {
-      await service.createHotel(model);
-      return true;
+      return await service.createHotel(model);
     } catch (e) {
-      return false;
+      return '';
     }
   }
 

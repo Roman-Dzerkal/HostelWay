@@ -13,8 +13,8 @@ class HomeManagerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeManagerBloc(navigator: HomeManagerNavigator(context)),
-      // ..add(const HomeManagerBlocInitialEvent()),
+          HomeManagerBloc(navigator: HomeManagerNavigator(context))
+          ..add(const FetchHotelsEvent()),
       child: const HomeManagerLayout(),
     );
   }

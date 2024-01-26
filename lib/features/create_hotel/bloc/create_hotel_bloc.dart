@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
@@ -27,26 +31,44 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
         (event, emit) => _uploadOnePhoto(event, emit));
     on<DescriptionChangedEvent>(
         (event, emit) => _descriptionChanged(event, emit));
+    on<NameChangedEvent>((event, emit) => _nameChanged(event, emit));
   }
 
-  void _createHotel(
-      CreateHotelButtonTapEvent event, Emitter<CreateHotelState> emit) {
+  Future<void> _createHotel(
+      CreateHotelButtonTapEvent event, Emitter<CreateHotelState> emit) async {
     if (validForm(emit) == false) {
       return;
     }
+    emit(state.copyWith(isBusy: true));
 
     if (state.localPhotos.isEmpty) {
+      emit(state.copyWith(isBusy: false));
       TostService.showTost('Please upload at least one photo');
       return;
     }
 
-    hotelsRepository.createHotel(HotelModel(
-        city: state.city,
+    var hotelId = await hotelsRepository.createHotel(HotelModel(
+        city: 'Dnipro',
         description: state.description,
-        facilities: state.facilities,
-        managerId: state.managerId,
-        name: state.name,
-        photos: state.photos));
+        facilities: ['Wifi', 'Parking', 'Pool', 'Breakfast'],
+        managerId: FirebaseAuth.instance.currentUser!.uid,
+        name: state.name));
+
+    if (state.localPhotos.isNotEmpty) {
+      for (XFile element in state.localPhotos) {
+        FirebaseStorage.instance
+            .ref()
+            .child('hotels/$hotelId/${element.name}')
+            .putFile(
+                File(element.path),
+                SettableMetadata(
+                  contentType: 'image/jpeg',
+                ))
+            .then((p0) => debugPrint('Image uploaded'));
+      }
+    }
+    emit(state.copyWith(isBusy: false));
+    navigator.goToHotelList();
   }
 
   Future<void> _uploadPhoto(
@@ -70,14 +92,16 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       debugPrint('file is null');
       return;
     }
+    emit(state.copyWith(isBusy: true));
     List<XFile> currentLocalPhotos = state.localPhotos;
     currentLocalPhotos.add(file);
-    emit(state.copyWith(localPhotos: currentLocalPhotos));
+    emit(state.copyWith(localPhotos: currentLocalPhotos, isBusy: false));
   }
 
   void _descriptionChanged(
       DescriptionChangedEvent event, Emitter<CreateHotelState> emit) {
-    emit(state.copyWith(description: event.description));
+    emit(state.copyWith(isBusy: true));
+    emit(state.copyWith(description: event.description, isBusy: false));
   }
 
   bool validForm(Emitter<CreateHotelState> emit) {
@@ -95,5 +119,9 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     ));
 
     return !(validateDescription != null) && !(validateHotelName != null);
+  }
+
+  _nameChanged(NameChangedEvent event, Emitter<CreateHotelState> emit) {
+    emit(state.copyWith(name: event.name));
   }
 }
