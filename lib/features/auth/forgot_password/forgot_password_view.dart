@@ -55,7 +55,7 @@ class ForgotPasswordLayout extends StatelessWidget {
                             TextStyling.blackText(14, FontWeight.w600),
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
-                        height: 80.h,
+                        height: 50.h,
                         hintText: 'Your Email Address',
                         helperText: 'Email',
                         keyboardType: TextInputType.emailAddress,

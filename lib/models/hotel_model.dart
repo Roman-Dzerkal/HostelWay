@@ -6,7 +6,7 @@ part 'hotel_model.g.dart';
 class HotelModel {
   final String name, description, city;
   final String managerId;
-  final List<String> photos;
+  final List<String>? photos;
   final List<String> facilities;
 
   HotelModel(
@@ -15,7 +15,7 @@ class HotelModel {
       required this.city,
       required this.facilities,
       required this.managerId,
-      required this.photos});
+      this.photos});
 
   factory HotelModel.fromJson(Map<String, dynamic> json) =>
       _$HotelModelFromJson(json);

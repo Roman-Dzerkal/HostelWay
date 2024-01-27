@@ -13,7 +13,8 @@ sealed class CreateHotelState extends Equatable {
       this.managerId = '',
       this.photos = const [],
       this.localPhotos = const [],
-      required this.errorState});
+      required this.errorState,
+      this.isBusy = false});
 
   final String name, description, city;
   final String managerId;
@@ -24,6 +25,8 @@ sealed class CreateHotelState extends Equatable {
   final String errorNameMessage;
   final String errorDescriptionMessage;
   final CreateHotelErrorState errorState;
+
+  final bool isBusy;
 
   CreateHotelState copyWith({
     String? name,
@@ -36,6 +39,7 @@ sealed class CreateHotelState extends Equatable {
     String? errorNameMessage,
     String? errorDescriptionMessage,
     CreateHotelErrorState? errorState,
+    bool? isBusy,
   }) {
     return CreateHotelInitial(
       errorState: errorState ?? this.errorState,
@@ -49,6 +53,7 @@ sealed class CreateHotelState extends Equatable {
       errorNameMessage: errorNameMessage ?? this.errorNameMessage,
       errorDescriptionMessage:
           errorDescriptionMessage ?? this.errorDescriptionMessage,
+      isBusy: isBusy ?? this.isBusy,
     );
   }
 
@@ -64,6 +69,7 @@ sealed class CreateHotelState extends Equatable {
         errorNameMessage,
         errorDescriptionMessage,
         errorState,
+        isBusy,
       ];
 }
 
@@ -81,5 +87,6 @@ final class CreateHotelInitial extends CreateHotelState {
     super.errorDescriptionMessage,
 
     required super.errorState,
+    super.isBusy,
   });
 }

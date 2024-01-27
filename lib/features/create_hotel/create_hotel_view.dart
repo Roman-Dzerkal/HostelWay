@@ -58,11 +58,17 @@ class CreateHotelLayout extends StatelessWidget {
                         child: CustomTextField(
                           height: 80.h,
                           helperText: 'Hotel Name',
+                          errorText: state.errorState.isNameError
+                              ? state.errorNameMessage
+                              : null,
+
                           outlineInputBorderColor:
                               const Color.fromARGB(0, 255, 255, 255),
                           helperTextStyle:
                               TextStyling.blackText(14, FontWeight.w600),
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            bloc.add(NameChangedEvent(value));
+                          },
                           borderRad: 10.r,
                           hintText: 'Hotel Name',
                           keyboardType: TextInputType.name,

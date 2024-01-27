@@ -22,3 +22,9 @@ class ForgotPasswordEmailChangedEvent extends ForgotPasswordEvent {
 
   const ForgotPasswordEmailChangedEvent(this.email);
 }
+
+class EmailChangedEvent extends ForgotPasswordEvent {
+  final String email;
+
+  const EmailChangedEvent(this.email);
+}

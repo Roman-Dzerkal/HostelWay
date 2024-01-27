@@ -11,7 +11,7 @@ class AuthorizationRepository {
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
-
+        
         UserModel userModel = UserModel.fromJson(doc.data()!);
 
         return userModel;

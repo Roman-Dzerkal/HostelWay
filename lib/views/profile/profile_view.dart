@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
+import 'package:hostelway/main.dart';
+import 'package:hostelway/resources/assets.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/views/profile/bloc/profile_bloc.dart';
 import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
@@ -18,7 +24,8 @@ class ProfileView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileBloc(
           navigator: ProfileNavigator(context),
-          authRepository: context.read<AuthorizationRepository>()),
+          authRepository: context.read<AuthorizationRepository>())
+        ..add(const ProfileLoadEvent()),
       child: const ProfileLayout(),
     );
   }
@@ -30,7 +37,17 @@ class ProfileLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<ProfileBloc>();
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocConsumer<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             //backgroundColor: CustomColors.lightGrey,
@@ -69,20 +86,29 @@ class ProfileLayout extends StatelessWidget {
                         child:
                             Stack(alignment: Alignment.bottomRight, children: [
                           Container(
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://via.placeholder.com/100'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: CustomColors.black, width: 1),
+                                shape: BoxShape.circle,
+                                image: state.photoUrl.isNotEmpty
+                                    ? DecorationImage(
+                                        image: CachedNetworkImageProvider(
+                                            state.photoUrl),
+                                        fit: BoxFit.cover)
+                                    : state.image == null
+                                        ? DecorationImage(
+                                            image: Assets.images.avatar,
+                                            fit: BoxFit.cover)
+                                        : DecorationImage(
+                                            image: FileImage(
+                                                File(state.image!.path)),
+                                            fit: BoxFit.cover)),
                             width: 100.w,
                             height: 100.h,
                             alignment: Alignment.bottomRight,
                             child: InkWell(
                               onTap: () {
-                                debugPrint('Change Profile Picture');
+                                bloc.add(ProfilePhotoChangedEvent());
                               },
                               child: Container(
                                 width: 30.w,
@@ -167,6 +193,8 @@ class ProfileLayout extends StatelessWidget {
                             CustomTextField(
                               width: 170.w,
                               height: 80.h,
+                              controller:
+                                  TextEditingController(text: state.firstName),
                               onChanged: (value) {},
                               borderRad: 10.r,
                               helperText: 'First Name',
@@ -182,6 +210,8 @@ class ProfileLayout extends StatelessWidget {
                               height: 80.h,
                               onChanged: (value) {},
                               borderRad: 10.r,
+                              controller:
+                                  TextEditingController(text: state.lastName),
                               helperText: 'Last Name',
                               helperTextStyle:
                                   TextStyling.blackText(14, FontWeight.w600),
@@ -196,7 +226,9 @@ class ProfileLayout extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 15, bottom: 15),
                         child: BestButton(
-                          onTap: () {},
+                          onTap: () {
+                            bloc.add(ProfileSaveEvent());
+                          },
                           height: 60.h,
                           text: "Save",
                           backgroundColor: CustomColors.primary,

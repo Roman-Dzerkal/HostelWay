@@ -16,9 +16,12 @@ class ForgotPasswordBloc
   ForgotPasswordBloc(this.navigator)
       : super(ForgotPasswordInitial(errorState: ForgotPasswordErrorState())) {
     on<ForgotPasswordEvent>((event, emit) {});
-    
-    
+
     on<ForgotPasswordEmailChangedEvent>((event, emit) {
+      emit(state.copyWith(email: event.email));
+    });
+
+    on<EmailChangedEvent>((event, emit) {
       emit(state.copyWith(email: event.email));
     });
 

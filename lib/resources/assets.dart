@@ -26,8 +26,8 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/splash_image_1.jpg');
   AssetGenImage get splashImage2 =>
       const AssetGenImage('assets/images/splash_image_2.jpg');
-  AssetGenImage get splashImage3 =>
-      const AssetGenImage('assets/images/splash_image_3.jpg');
+  AssetGenImage get splashImage3 => const AssetGenImage('assets/images/splash_image_3.jpg');
+  AssetGenImage get avatar => const AssetGenImage('assets/images/avatar_dummy.jpg');
 }
 
 class $AssetsLottieGen {
