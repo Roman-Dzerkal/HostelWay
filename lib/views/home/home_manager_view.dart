@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/views/home/home_manager/bloc/home_manager_bloc.dart';
 import 'package:hostelway/views/home/navigation/home_manager_navigator.dart';
@@ -13,7 +14,7 @@ class HomeManagerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeManagerBloc(navigator: HomeManagerNavigator(context))
+          HomeManagerBloc(rep: context.read<HotelsRepository>(), navigator: HomeManagerNavigator(context))
           ..add(const FetchHotelsEvent()),
       child: const HomeManagerLayout(),
     );
