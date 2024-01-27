@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/features/create_hotel/bloc/create_hotel_bloc.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
+import 'package:hostelway/main.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/resources/const.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
 import 'package:place_picker/entities/location_result.dart';
@@ -36,7 +38,17 @@ class CreateHotelLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CreateHotelBloc bloc = context.read<CreateHotelBloc>();
-    return BlocBuilder<CreateHotelBloc, CreateHotelState>(
+    return BlocConsumer<CreateHotelBloc, CreateHotelState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
