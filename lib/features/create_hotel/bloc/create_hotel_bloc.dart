@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
 import 'package:hostelway/models/hotel_model.dart';
@@ -12,6 +14,7 @@ import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:place_picker/entities/location_result.dart';
 
 part 'create_hotel_event.dart';
 part 'create_hotel_state.dart';
@@ -32,6 +35,19 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     on<DescriptionChangedEvent>(
         (event, emit) => _descriptionChanged(event, emit));
     on<NameChangedEvent>((event, emit) => _nameChanged(event, emit));
+    on<FetchCurrentLocationEvent>((event, emit) async {
+      LocationPermission locationPermission =
+          await Geolocator.checkPermission();
+      if (locationPermission == LocationPermission.denied) {
+        await Geolocator.requestPermission();
+      }
+
+      Position currentPosition = await Geolocator.getCurrentPosition();
+      emit(state.copyWith(currentUserLocation: currentPosition));
+    });
+    on<LocationChangedEvent>((event, emit) {
+      emit(state.copyWith(hotelLocation: event.location));
+    });
   }
 
   Future<void> _createHotel(
@@ -48,23 +64,27 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     }
 
     var hotelId = await hotelsRepository.createHotel(HotelModel(
-        city: 'Dnipro',
+        city: state.hotelLocation!.city!.name ?? '',
         description: state.description,
         facilities: ['Wifi', 'Parking', 'Pool', 'Breakfast'],
         managerId: FirebaseAuth.instance.currentUser!.uid,
         name: state.name));
 
+    await FirebaseFirestore.instance.collection('hotels').doc(hotelId).update({
+      'location': GeoPoint(state.hotelLocation!.latLng!.latitude,
+          state.hotelLocation!.latLng!.longitude),
+    });
+
     if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
-        FirebaseStorage.instance
+        await FirebaseStorage.instance
             .ref()
             .child('hotels/$hotelId/${element.name}')
             .putFile(
                 File(element.path),
                 SettableMetadata(
                   contentType: 'image/jpeg',
-                ))
-            .then((p0) => debugPrint('Image uploaded'));
+                ));
       }
     }
     emit(state.copyWith(isBusy: false));
@@ -96,6 +116,8 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     List<XFile> currentLocalPhotos = state.localPhotos;
     currentLocalPhotos.add(file);
     emit(state.copyWith(localPhotos: currentLocalPhotos, isBusy: false));
+
+    debugPrint('${currentLocalPhotos.length}+${currentLocalPhotos.first.name}');
   }
 
   void _descriptionChanged(
@@ -108,6 +130,8 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     var validateDescription =
         ValidationService.validateDescription(state.description, null);
     var validateHotelName = ValidationService.validateFirstName(state.name);
+    var validateLocation = ValidationService.validateLocation(
+        state.hotelLocation!.formattedAddress ?? '');
 
     emit(state.copyWith(
       errorDescriptionMessage: validateDescription,
@@ -115,10 +139,13 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       errorState: state.errorState.copyWith(
         isDescriptionError: validateDescription != null,
         isNameError: validateHotelName != null,
+        isLocationError: validateLocation != null,
       ),
     ));
 
-    return !(validateDescription != null) && !(validateHotelName != null);
+    return !(validateDescription != null) &&
+        !(validateHotelName != null) &&
+        !(validateLocation != null);
   }
 
   _nameChanged(NameChangedEvent event, Emitter<CreateHotelState> emit) {
