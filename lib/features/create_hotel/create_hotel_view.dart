@@ -6,10 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/features/create_hotel/bloc/create_hotel_bloc.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
+import 'package:hostelway/resources/const.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
+import 'package:place_picker/entities/location_result.dart';
+import 'package:place_picker/place_picker.dart';
+import 'package:place_picker/widgets/place_picker.dart';
 
 class CreateHotelView extends StatelessWidget {
   const CreateHotelView({super.key});
@@ -19,7 +23,8 @@ class CreateHotelView extends StatelessWidget {
     return BlocProvider(
       create: (context) => CreateHotelBloc(
           hotelsRepository: context.read<HotelsRepository>(),
-          navigator: CreateHotelNavigator(context)),
+          navigator: CreateHotelNavigator(context))
+        ..add(FetchCurrentLocationEvent()),
       child: const CreateHotelLayout(),
     );
   }
@@ -61,7 +66,6 @@ class CreateHotelLayout extends StatelessWidget {
                           errorText: state.errorState.isNameError
                               ? state.errorNameMessage
                               : null,
-
                           outlineInputBorderColor:
                               const Color.fromARGB(0, 255, 255, 255),
                           helperTextStyle:
@@ -95,6 +99,40 @@ class CreateHotelLayout extends StatelessWidget {
                         borderRad: 10.r,
                         hintText: 'Description',
                         keyboardType: TextInputType.text,
+                        hintTextStyle:
+                            TextStyling.greyText(14, FontWeight.normal),
+                      ),
+                      CustomTextField(
+                        height: 80.h,
+                        helperText: 'Location',
+                        outlineInputBorderColor:
+                            const Color.fromARGB(0, 255, 255, 255),
+                        errorText: state.errorState.isLocationError
+                            ? state.errorLocationMessage
+                            : null,
+                        readOnly: true,
+                        helperTextStyle:
+                            TextStyling.blackText(14, FontWeight.w600),
+                        borderRad: 10.r,
+                        onTap: () async {
+                          LocationResult result = await Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (context) => PlacePicker(
+                                        googleApiKey,
+                                        displayLocation:
+                                            state.currentUserLocation == null
+                                                ? LatLng(
+                                                    state.currentUserLocation!
+                                                        .latitude,
+                                                    state.currentUserLocation!
+                                                        .longitude)
+                                                : const LatLng(0, 0),
+                                      )));
+                          bloc.add(LocationChangedEvent(result));
+                        },
+                        controller: TextEditingController(
+                            text: state.hotelLocation?.formattedAddress),
+                        hintText: 'Location',
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
                       ),
