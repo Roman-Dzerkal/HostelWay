@@ -4,11 +4,8 @@ sealed class SignUpState extends Equatable {
   final String email, password, confirmPassword, firstName, lastName;
 
   final bool isPasswordInvisible, isConfirmPasswordInvisible, isBusy;
-
   final List<String> roles = const ['Manager', 'Guest'];
-
   final XFile? avatar;
-
   final int initialLabelIndex;
   final String? errorEmailMessage;
   final String? errorPasswordMessage;

@@ -8,3 +8,17 @@ sealed class ForgotPasswordEvent extends Equatable {
 }
 
 class PasswordResetButtonTapEvent extends ForgotPasswordEvent {}
+
+class EmailFormSubmittedEvent extends ForgotPasswordEvent {
+  final String email;
+
+  const EmailFormSubmittedEvent({
+    required this.email,
+  });
+}
+
+class ForgotPasswordEmailChangedEvent extends ForgotPasswordEvent {
+  final String email;
+
+  const ForgotPasswordEmailChangedEvent(this.email);
+}
