@@ -13,9 +13,7 @@ import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
-import 'package:place_picker/entities/location_result.dart';
 import 'package:place_picker/place_picker.dart';
-import 'package:place_picker/widgets/place_picker.dart';
 
 class CreateHotelView extends StatelessWidget {
   const CreateHotelView({super.key});

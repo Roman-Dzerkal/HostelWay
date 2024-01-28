@@ -1,25 +1,36 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:core';
+
 import 'package:hostelway/models/hotel_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HotelService {
-  final instance = FirebaseFirestore.instance;
+  final SupabaseClient client = Supabase.instance.client;
 
   Future<List<HotelModel>> getAllHotels() async {
-    QuerySnapshot<Map<String, dynamic>> hotels =
-        await instance.collection('hotels').get();
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = hotels.docs;
-
-    return docs.map((e) => HotelModel.fromJson(e.data())).toList();
+    List<Map<String, dynamic>> select =
+        await Supabase.instance.client.from('hotels').select();
+    return select.map((e) => HotelModel.fromJson(e)).toList();
   }
+
   Future<String> createHotel(HotelModel newHotel) async {
-    CollectionReference hotels = FirebaseFirestore.instance.collection('hotels');
+    var single = await Supabase.instance.client
+        .from('hotels')
+        .insert({
+          'name': newHotel.name,
+          'description': newHotel.description,
+          'managerId': newHotel.managerId,
+          'facilities': newHotel.facilities,
+          'city': newHotel.city
+        })
+        .select()
+        .single();
 
-      var reference = await hotels.add({ 'name': newHotel.name,
-      'description': newHotel.description,
-      'managerId': newHotel.managerId,
-      'facilities': newHotel.facilities,
-      'city':newHotel.city });
-    
-    return reference.id;
+    return single['id'].toString();
   }
+
+  /* Future<String> createHotel() async {
+    Map<String, dynamic> hotel =
+        await _client.from('hotels').insert({}).select().single();
+    return (hotel['id'] as int).toString();
+  } */
 }

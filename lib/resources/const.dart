@@ -1,2 +1,9 @@
 // Google Maps API
+// ignore_for_file: constant_identifier_names
+
 const String googleApiKey = "AIzaSyDXb0keNiYN0eMesZ4QgKyG7Hvrt-2cDEs";
+
+// Supabase API
+const String SUPABASE_URL = "https://kgmjucupmbionanxhpef.supabase.co";
+const String SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnbWp1Y3VwbWJpb25hbnhocGVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDIzODk1NDgsImV4cCI6MjAxNzk2NTU0OH0.wdv4zyP2AwERkH1xNoGe6Fw75_L1VzKnMhbYn-nqXgo";
+const String SUPABASE_SERVICE_ROLE_Key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnbWp1Y3VwbWJpb25hbnhocGVmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjM4OTU0OCwiZXhwIjoyMDE3OTY1NTQ4fQ.VSViPGST-FKA0ndkgOzrZPhgUGx4x2c5-i93plht0SQ";

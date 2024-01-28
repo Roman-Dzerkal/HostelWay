@@ -1,10 +1,5 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
@@ -15,6 +10,7 @@ import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:place_picker/entities/location_result.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'create_hotel_event.dart';
 part 'create_hotel_state.dart';
@@ -63,19 +59,21 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       return;
     }
 
-    var hotelId = await hotelsRepository.createHotel(HotelModel(
+    await hotelsRepository.createHotel(HotelModel(
         city: state.hotelLocation!.city!.name ?? '',
         description: state.description,
         facilities: ['Wifi', 'Parking', 'Pool', 'Breakfast'],
-        managerId: FirebaseAuth.instance.currentUser!.uid,
+        managerId: Supabase.instance.client.auth.currentUser!.id,
         name: state.name));
 
-    await FirebaseFirestore.instance.collection('hotels').doc(hotelId).update({
+    // TODO: set location
+    /* await Supabase.instance.client.from('hotels').update({
       'location': GeoPoint(state.hotelLocation!.latLng!.latitude,
           state.hotelLocation!.latLng!.longitude),
-    });
+    }).eq('id', hotelId); */
 
-    if (state.localPhotos.isNotEmpty) {
+    // TODO: upload photos to firebase storage
+    /* if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
         await FirebaseStorage.instance
             .ref()
@@ -86,7 +84,7 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
                   contentType: 'image/jpeg',
                 ));
       }
-    }
+    } */
     emit(state.copyWith(isBusy: false));
     navigator.goToHotelList();
   }
