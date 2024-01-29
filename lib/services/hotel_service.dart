@@ -1,48 +1,67 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/rendering.dart';
+import 'dart:core';
+
 import 'package:hostelway/models/hotel_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HotelService {
-  final instance = FirebaseFirestore.instance;
+  final SupabaseClient client = Supabase.instance.client;
 
-  Future<List<HotelModel>> getAllHotels({String managerId = ""}) async {
-    QuerySnapshot<Map<String, dynamic>>? hotels;
-    try {
-      if (managerId.isNotEmpty) {
-        hotels = await instance
-            .collection('hotels')
-            .where("managerId", isEqualTo: managerId)
-            .get();
-      } else {
-        hotels = await instance.collection('hotels').get();
-      }
-    } catch (e) {
-      if (e is FirebaseException) {
-        debugPrint(e.toString());
-      }
-      else{
-        debugPrint(e.toString());
-      }
-    }
-
-    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs = hotels!.docs;
-
-    return docs.map((e) => HotelModel.fromJson(e.data())).toList();
+  Future<List<HotelModel>> getAllHotels() async {
+    List<Map<String, dynamic>> select =
+        await Supabase.instance.client.from('hotels').select();
+    return select.map((e) => HotelModel.fromJson(e)).toList();
   }
 
-  Future<String> createHotel(HotelModel newHotel) async {
-    CollectionReference hotels =
-        FirebaseFirestore.instance.collection('hotels');
+  Future<String> createHotel(Map<String, dynamic> data) async {
+    var single = await Supabase.instance.client
+        .from('hotels')
+        .insert({
+          'city': data['city'],
+          'description': data['description'],
+          'facilities': data['facilities'],
+          'latitude': data['latitude'],
+          'longitude': data['longitude'],
+          'manager_id': data['manager_id'],
+          'name': data['name'],
+        })
+        .select()
+        .single();
 
-    var reference = await hotels.add({
-      'name': newHotel.name,
-      'description': newHotel.description,
-      'managerId': newHotel.managerId,
-      'facilities': newHotel.facilities,
-      'city': newHotel.city
-    });
+    return single['hotel_id'].toString();
+  }
 
-    return reference.id;
+  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
+    List<Map<String, dynamic>> hotels = List.empty(growable: true);
+
+    if (userId.isNotEmpty) {
+      var t = await client.from('hotels').select().eq('manager_id', userId);
+
+      if (t.isEmpty) {
+        return [];
+      }
+
+      hotels.addAll(t);
+    }
+    var t = await client.from('hotels').select();
+    if (t.isEmpty) {
+      return [];
+    }
+
+    hotels.addAll(t);
+
+    for (Map<String, dynamic> hotel in hotels) {
+      int id = hotel['hotel_id'] as int;
+
+      List<FileObject> hotelPhotos =
+          await client.storage.from('hotels').list(path: id.toString());
+
+      var photoUrls = hotelPhotos.map((e) {
+        return client.storage.from('hotels').getPublicUrl('$id/${e.name}');
+      }).toList();
+      hotel.addAll({'photos': photoUrls});
+    }
+
+    return hotels.map((e) => HotelModel.fromJson(e)).toList();
   }
 }
 

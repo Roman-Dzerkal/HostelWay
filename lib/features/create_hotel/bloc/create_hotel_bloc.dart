@@ -1,20 +1,17 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
-import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:place_picker/entities/location_result.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'create_hotel_event.dart';
 part 'create_hotel_state.dart';
@@ -63,28 +60,21 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       return;
     }
 
-    var hotelId = await hotelsRepository.createHotel(HotelModel(
-        city: state.hotelLocation!.city!.name ?? '',
-        description: state.description,
-        facilities: ['Wifi', 'Parking', 'Pool', 'Breakfast'],
-        managerId: FirebaseAuth.instance.currentUser!.uid,
-        name: state.name));
-
-    await FirebaseFirestore.instance.collection('hotels').doc(hotelId).update({
-      'location': GeoPoint(state.hotelLocation!.latLng!.latitude,
-          state.hotelLocation!.latLng!.longitude),
+    String hotelId = await hotelsRepository.createHotel({
+      'city': state.hotelLocation!.city!.name ?? '',
+      'description': state.description,
+      'facilities': ['Wifi', 'Parking', 'Pool', 'Breakfast'],
+      'latitude': state.hotelLocation!.latLng!.latitude,
+      'longitude': state.hotelLocation!.latLng!.longitude,
+      'manager_id': Supabase.instance.client.auth.currentUser!.id,
+      'name': state.name,
     });
 
     if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
-        await FirebaseStorage.instance
-            .ref()
-            .child('hotels/$hotelId/${element.name}')
-            .putFile(
-                File(element.path),
-                SettableMetadata(
-                  contentType: 'image/jpeg',
-                ));
+        await Supabase.instance.client.storage
+            .from('hotels')
+            .upload('$hotelId/${element.name}', File(element.path));
       }
     }
     emit(state.copyWith(isBusy: false));

@@ -9,7 +9,7 @@ sealed class CreateHotelState extends Equatable {
       this.city = '',
       this.errorDescriptionMessage = '',
       this.errorNameMessage = '',
-      this.facilities = const [],
+      this.facilities = const ['Wifi', 'Parking', 'Pool', 'Breakfast'],
       this.managerId = '',
       this.photos = const [],
       this.localPhotos = const [],

@@ -13,12 +13,11 @@ class HomeGuestBloc extends Bloc<HomeGuestEvent, HomeGuestState> {
   HomeGuestBloc(this.rep, this.navigator) : super(const HomeGuestInitial()) {
     on<HomeGuestEvent>((event, emit) {});
     on<HomeGuestBlocInitialEvent>((event, emit) async {
-      List<HotelModel> hotels = await rep.getHotels();
-      emit(state.copyWith(hotels: hotels));
+      // List<HotelModel> hotels = rep.getHotels();
+      // emit(state.copyWith(hotels: hotels));
     });
     on<OnTapHotelItemEvent>((event, emit) async {
       navigator.goToHotelPage(event.model);
-      
     });
   }
 }

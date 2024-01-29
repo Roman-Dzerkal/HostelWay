@@ -1,14 +1,11 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/models/user_model.dart';
 import 'package:hostelway/utils/tost_util.dart';
 import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -28,7 +25,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         firstName: user!.firstName,
         lastName: user.lastName,
         isBusy: false,
-        photoUrl: FirebaseAuth.instance.currentUser?.photoURL ?? '',
+        photoUrl: Supabase
+                .instance.client.auth.currentUser?.userMetadata?['avatar'] ??
+            '',
+        email: Supabase.instance.client.auth.currentUser!.email ?? '',
       ));
     });
 
@@ -40,7 +40,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(isBusy: true));
 
       try {
-        if (state.image != null) {
+        /* if (state.image != null) {
           Reference ref = FirebaseStorage.instance.ref().child(
               'users/${FirebaseAuth.instance.currentUser!.uid}/avatar${state.image!.path.substring(state.image!.path.lastIndexOf('.'))}');
           await ref.putFile(
@@ -52,11 +52,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           String url = await ref.getDownloadURL();
 
           await FirebaseAuth.instance.currentUser!.updatePhotoURL(url);
-        }
+        } */
       } catch (e) {
         emit(state.copyWith(isBusy: false));
-        if (e is FirebaseException) {
-          ToastUtil.showError(e.message!);
+        if (e is StorageException) {
+          ToastUtil.showError(e.message);
         } else {
           ToastUtil.showError(e.toString());
         }

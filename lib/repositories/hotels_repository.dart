@@ -5,15 +5,15 @@ class HotelsRepository {
   final HotelService service;
   HotelsRepository(this.service);
 
-  Future<List<HotelModel>> getHotels({String managerId = ""}) {
-    return service.getAllHotels(managerId: managerId);
+  List getHotels() {
+    return [];
   }
 
-  Future<String> createHotel(HotelModel model) async {
-    try {
-      return await service.createHotel(model);
-    } catch (e) {
-      return '';
-    }
+  Future<String> createHotel(Map<String, dynamic> data) async {
+    return await service.createHotel(data);
+  }
+
+  Future<List<HotelModel>> fetchHotels() async {
+    return await service.fetchHotels();
   }
 }

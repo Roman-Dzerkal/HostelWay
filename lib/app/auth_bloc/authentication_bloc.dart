@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/models/auth_model.dart';
 import 'package:hostelway/models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -27,8 +27,7 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit) async {
     UserModel? user = await _authRepository.getUser();
 
-    if (user != null &&
-        (FirebaseAuth.instance.currentUser?.emailVerified ?? false)) {
+    if (user != null && (Supabase.instance.client.auth.currentUser != null)) {
       emit(AuthenticationIsAuthenticated(
           authModel: AuthModel(role: user.role), userModel: user));
     } else {
@@ -45,7 +44,7 @@ class AuthenticationBloc
 
   void _logout(AuthenticationLogoutEvent event,
       Emitter<AuthenticationState> emit) async {
-    await FirebaseAuth.instance.signOut();
+    await Supabase.instance.client.auth.signOut();
     add(AuthenticationInitialEvent());
   }
 }

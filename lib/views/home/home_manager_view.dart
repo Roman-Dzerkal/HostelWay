@@ -13,9 +13,10 @@ class HomeManagerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          HomeManagerBloc(rep: context.read<HotelsRepository>(), navigator: HomeManagerNavigator(context))
-          ..add(const FetchHotelsEvent()),
+      create: (context) => HomeManagerBloc(
+          navigator: HomeManagerNavigator(context),
+          repository: context.read<HotelsRepository>())
+        ..add(const FetchHotelsEvent()),
       child: const HomeManagerLayout(),
     );
   }
@@ -30,23 +31,38 @@ class HomeManagerLayout extends StatelessWidget {
     return BlocBuilder<HomeManagerBloc, HomeManagerState>(
       builder: (context, state) {
         return Scaffold(
-          floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                bloc.add(const AddHotelButtonTapEvent());
-              },
-              backgroundColor: CustomColors.primary,
-              child: const Icon(Icons.add, color: CustomColors.white)),
-          bottomNavigationBar:  ManagerNavigationBar(currentIndex: 0, navigator: ManagerBottomNavigator(context)),
-          appBar: AppBar(
-            title: const Text('HomeManager'),
-          ),
-          body: const Center(
-            child: Text('HomeManager'),
-          ),
-        );
+            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  bloc.add(const AddHotelButtonTapEvent());
+                },
+                backgroundColor: CustomColors.primary,
+                child: const Icon(Icons.add, color: CustomColors.white)),
+            bottomNavigationBar: ManagerNavigationBar(
+                currentIndex: 0, navigator: ManagerBottomNavigator(context)),
+            appBar: AppBar(
+              title: const Text('HomeManager'),
+            ),
+            body: state.isBusy
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: state.hotels.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Image.network(
+                          state.hotels[index].photos[0],
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(state.hotels[index].name),
+                        subtitle: Text(state.hotels[index].city),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                      );
+                    },
+                  ));
       },
     );
   }

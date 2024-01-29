@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/features/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:hostelway/features/auth/sign_up/navigation/sign_in_navigator.dart';
+import 'package:hostelway/main.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -29,7 +31,17 @@ class SignUpLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<SignUpBloc>();
-    return BlocBuilder<SignUpBloc, SignUpState>(
+    return BlocConsumer<SignUpBloc, SignUpState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(

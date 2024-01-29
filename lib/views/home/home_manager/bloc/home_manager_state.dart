@@ -1,22 +1,21 @@
 part of 'home_manager_bloc.dart';
 
 sealed class HomeManagerState extends Equatable {
-
   final List<HotelModel> hotels;
 
-  const HomeManagerState({this.hotels = const []});
+  final bool isBusy;
 
-  HomeManagerState copyWith({
-    List<HotelModel>? hotels,
-  }) {
+  const HomeManagerState({required this.hotels, this.isBusy = false});
+
+  HomeManagerState copyWith({List<HotelModel>? hotels, bool? isBusy}) {
     return HomeManagerInitial(
-      hotels: hotels ?? this.hotels,
-    );
+        hotels: hotels ?? this.hotels, isBusy: isBusy ?? this.isBusy);
   }
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [hotels, isBusy];
 }
 
 final class HomeManagerInitial extends HomeManagerState {
-const HomeManagerInitial({super.hotels});
+  const HomeManagerInitial({required super.hotels, super.isBusy});
 }
