@@ -51,9 +51,9 @@ class HotelPageViewLayout extends StatelessWidget {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (hotel.photos != null && hotel.photos!.isNotEmpty)
+                if (hotel.photos.isNotEmpty)
                   CachedNetworkImage(
-                    imageUrl: hotel.photos!.first,
+                    imageUrl: hotel.photos.first,
                     width: screenSize.width,
                     height: screenSize.height / 3,
                     fit: BoxFit.cover,

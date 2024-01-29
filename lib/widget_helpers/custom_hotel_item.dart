@@ -24,9 +24,9 @@ class CustomHotelItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (model.photos != null && model.photos!.isNotEmpty)
+              if (model.photos.isNotEmpty)
                 CachedNetworkImage(
-                  imageUrl: model.photos!.first,
+                  imageUrl: model.photos.first,
                   height: imageSize,
                   width: imageSize,
                   fit: BoxFit.cover,

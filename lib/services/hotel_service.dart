@@ -30,9 +30,37 @@ class HotelService {
     return single['hotel_id'].toString();
   }
 
-  /* Future<String> createHotel() async {
-    Map<String, dynamic> hotel =
-        await _client.from('hotels').insert({}).select().single();
-    return (hotel['id'] as int).toString();
-  } */
+  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
+    List<Map<String, dynamic>> hotels = List.empty(growable: true);
+
+    if (userId.isNotEmpty) {
+      var t = await client.from('hotels').select().eq('manager_id', userId);
+
+      if (t.isEmpty) {
+        return [];
+      }
+
+      hotels.addAll(t);
+    }
+    var t = await client.from('hotels').select();
+    if (t.isEmpty) {
+      return [];
+    }
+
+    hotels.addAll(t);
+
+    for (Map<String, dynamic> hotel in hotels) {
+      int id = hotel['hotel_id'] as int;
+
+      List<FileObject> hotelPhotos =
+          await client.storage.from('hotels').list(path: id.toString());
+
+      var photoUrls = hotelPhotos.map((e) {
+        return client.storage.from('hotels').getPublicUrl('$id/${e.name}');
+      }).toList();
+      hotel.addAll({'photos': photoUrls});
+    }
+
+    return hotels.map((e) => HotelModel.fromJson(e)).toList();
+  }
 }
