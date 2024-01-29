@@ -22,7 +22,7 @@ class HomeManagerBloc extends Bloc<HomeManagerEvent, HomeManagerState> {
       var hotels = await Supabase.instance.client
           .from('hotels')
           .select()
-          .eq('managerId', Supabase.instance.client.auth.currentUser!.id);
+          .eq('manager_id', Supabase.instance.client.auth.currentUser!.id);
 
       // TODO: remove debugPrint and add logic to show hotels
       for (var element in hotels) {

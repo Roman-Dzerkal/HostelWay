@@ -12,20 +12,22 @@ class HotelService {
     return select.map((e) => HotelModel.fromJson(e)).toList();
   }
 
-  Future<String> createHotel(HotelModel newHotel) async {
+  Future<String> createHotel(Map<String, dynamic> data) async {
     var single = await Supabase.instance.client
         .from('hotels')
         .insert({
-          'name': newHotel.name,
-          'description': newHotel.description,
-          'managerId': newHotel.managerId,
-          'facilities': newHotel.facilities,
-          'city': newHotel.city
+          'city': data['city'],
+          'description': data['description'],
+          'facilities': data['facilities'],
+          'latitude': data['latitude'],
+          'longitude': data['longitude'],
+          'manager_id': data['manager_id'],
+          'name': data['name'],
         })
         .select()
         .single();
 
-    return single['id'].toString();
+    return single['hotel_id'].toString();
   }
 
   /* Future<String> createHotel() async {

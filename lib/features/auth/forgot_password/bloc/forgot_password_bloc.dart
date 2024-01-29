@@ -26,7 +26,6 @@ class ForgotPasswordBloc
     });
 
     on<PasswordResetButtonTapEvent>((event, emit) async {
-      // TODO: implement fields validation
       if (validForm(emit) == false) {
         return;
       }

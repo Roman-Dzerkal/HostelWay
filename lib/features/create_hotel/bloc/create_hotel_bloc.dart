@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
-import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
@@ -59,32 +60,23 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       return;
     }
 
-    await hotelsRepository.createHotel(HotelModel(
-        city: state.hotelLocation!.city!.name ?? '',
-        description: state.description,
-        facilities: ['Wifi', 'Parking', 'Pool', 'Breakfast'],
-        managerId: Supabase.instance.client.auth.currentUser!.id,
-        name: state.name));
+    String hotelId = await hotelsRepository.createHotel({
+      'city': state.hotelLocation!.city!.name ?? '',
+      'description': state.description,
+      'facilities': ['Wifi', 'Parking', 'Pool', 'Breakfast'],
+      'latitude': state.hotelLocation!.latLng!.latitude,
+      'longitude': state.hotelLocation!.latLng!.longitude,
+      'manager_id': Supabase.instance.client.auth.currentUser!.id,
+      'name': state.name,
+    });
 
-    // TODO: set location
-    /* await Supabase.instance.client.from('hotels').update({
-      'location': GeoPoint(state.hotelLocation!.latLng!.latitude,
-          state.hotelLocation!.latLng!.longitude),
-    }).eq('id', hotelId); */
-
-    // TODO: upload photos to firebase storage
-    /* if (state.localPhotos.isNotEmpty) {
+    if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
-        await FirebaseStorage.instance
-            .ref()
-            .child('hotels/$hotelId/${element.name}')
-            .putFile(
-                File(element.path),
-                SettableMetadata(
-                  contentType: 'image/jpeg',
-                ));
+        await Supabase.instance.client.storage
+            .from('hotels')
+            .upload('$hotelId/${element.name}', File(element.path));
       }
-    } */
+    }
     emit(state.copyWith(isBusy: false));
     navigator.goToHotelList();
   }
