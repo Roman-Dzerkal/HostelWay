@@ -14,9 +14,11 @@ class HomeGuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeGuestBloc(context.read<HotelsRepository>(), navigator)
-        ..add(const HomeGuestBlocInitialEvent()),
-      child:  HomeGuestLayout(navigator: navigator),
+       create: (context) => HomeGuestBloc(
+          navigator: HomeGuestNavigator(context),
+          rep: context.read<HotelsRepository>())
+        ..add(const FetchHotelsEvent()),
+      child: HomeGuestLayout(navigator: navigator),
     );
   }
 }
@@ -41,18 +43,24 @@ class HomeGuestLayout extends StatelessWidget {
                   .map((HotelModel hotel) => CustomHotelItem(hotel, 100.h, ()=> bloc.add(OnTapHotelItemEvent(state.hotels.first))))
                   .toList(),
             )*/
-            body: ListView.builder(
-                itemCount: state.hotels.length,
-                itemBuilder: (context, index) => InkWell(
-                  child: CustomHotelItem(
-                      state.hotels[index],
-                      100.h,
-                      ),
-                      onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index]))
-                                
-                ),
-                    ));
-                
+              body: state.isBusy
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: state.hotels.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Image.network(
+                          state.hotels[index].photos[0],
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(state.hotels[index].name),
+                        subtitle: Text(state.hotels[index].city),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                      );
+                    },
+                  ));
       },
     );
   }

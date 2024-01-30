@@ -13,7 +13,7 @@ class HotelsRepository {
     return await service.createHotel(data);
   }
 
-  Future<List<HotelModel>> fetchHotels() async {
-    return await service.fetchHotels();
+  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
+    return await service.fetchHotels(userId: userId);
   }
 }

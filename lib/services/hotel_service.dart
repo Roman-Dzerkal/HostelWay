@@ -41,14 +41,15 @@ class HotelService {
       }
 
       hotels.addAll(t);
-    }
-    var t = await client.from('hotels').select();
-    if (t.isEmpty) {
-      return [];
+    } else {
+      var t = await client.from('hotels').select();
+      if (t.isEmpty) {
+        return [];
+      }
+      hotels.addAll(t);
     }
 
-    hotels.addAll(t);
-
+  
     for (Map<String, dynamic> hotel in hotels) {
       int id = hotel['hotel_id'] as int;
 
