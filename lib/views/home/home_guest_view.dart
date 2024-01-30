@@ -49,6 +49,7 @@ class HomeGuestLayout extends StatelessWidget {
                     itemCount: state.hotels.length,
                     itemBuilder: (context, index) {
                       return ListTile(
+                        onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index])),
                         leading: Image.network(
                           state.hotels[index].photos[0],
                           width: 60,

@@ -20,6 +20,9 @@ class HomeManagerBloc extends Bloc<HomeManagerEvent, HomeManagerState> {
       debugPrint('AddHotelButtonTapEvent');
       navigator.goToCreateHotelPage();
     });
+    on<OnTapHotelItemEvent>((event, emit) async {
+      navigator.goToHotelPage(event.model);
+    });
 
     on<FetchHotelsEvent>((event, emit) async {
       emit(state.copyWith(isBusy: true));
