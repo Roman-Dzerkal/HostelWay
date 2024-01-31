@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hostelway/resources/custom_colors.dart';
-import 'package:place_picker/place_picker.dart';
 
 class HotelMapView extends StatelessWidget {
   final LatLng latLng;
@@ -20,7 +18,7 @@ class HotelMapView extends StatelessWidget {
         ),
         backgroundColor: CustomColors.primary,
       ),
-      body: Container(
+      body: SizedBox(
         height: size.height,
         width: size.width,
         child: GoogleMap(
@@ -29,7 +27,7 @@ class HotelMapView extends StatelessWidget {
           scrollGesturesEnabled: true,
           initialCameraPosition: CameraPosition(zoom: 6, target: latLng),
           markers:
-              Set.from([Marker(markerId: MarkerId("1"), position: latLng)]),
+              {Marker(markerId: const MarkerId("1"), position: latLng)},
         ),
       ),
     );

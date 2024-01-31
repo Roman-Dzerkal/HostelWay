@@ -75,10 +75,11 @@ class HotelPageViewLayout extends StatelessWidget {
                             14,
                             FontWeight.normal,
                           ))),
-                  Container(
+                  SizedBox(
                     height: 300.h,
                     child: GoogleMap(
-                      onTap: (argument) => bloc.add(OpenHotelPositionEvent(LatLng(hotel.latitude, hotel.longitude))),
+                      onTap: (argument) => bloc.add(OpenHotelPositionEvent(
+                          LatLng(hotel.latitude, hotel.longitude))),
                       mapType: MapType.normal,
                       zoomControlsEnabled: false,
                       scrollGesturesEnabled: false,
@@ -86,11 +87,11 @@ class HotelPageViewLayout extends StatelessWidget {
                       initialCameraPosition: CameraPosition(
                           zoom: 6,
                           target: LatLng(hotel.latitude, hotel.longitude)),
-                      markers: Set.from([
+                      markers: {
                         Marker(
-                            markerId: MarkerId("1"),
+                            markerId: const MarkerId("1"),
                             position: LatLng(hotel.latitude, hotel.longitude))
-                      ]),
+                      },
                     ),
                   ),
                 ],
