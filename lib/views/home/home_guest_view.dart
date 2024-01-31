@@ -12,7 +12,7 @@ class HomeGuestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-       create: (context) => HomeGuestBloc(
+      create: (context) => HomeGuestBloc(
           navigator: HomeGuestNavigator(context),
           rep: context.read<HotelsRepository>())
         ..add(const FetchHotelsEvent()),
@@ -33,21 +33,26 @@ class HomeGuestLayout extends StatelessWidget {
         return Scaffold(
             bottomNavigationBar: GuestNavigationBar(
                 currentIndex: 0, navigator: GuestBottomNavigator(context)),
-            appBar: AppBar(
+            /* appBar: AppBar(
               title: const Text('HomeGuest'),
-            ),
+            ), */
             /*body: ListView(
               children: state.hotels
                   .map((HotelModel hotel) => CustomHotelItem(hotel, 100.h, ()=> bloc.add(OnTapHotelItemEvent(state.hotels.first))))
                   .toList(),
             )*/
-              body: state.isBusy
+            body: state.isBusy
                 ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
+                    physics: const ScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
+                    shrinkWrap: true,
                     itemCount: state.hotels.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index])),
+                        onTap: () =>
+                            bloc.add(OnTapHotelItemEvent(state.hotels[index])),
                         leading: Image.network(
                           state.hotels[index].photos[0],
                           width: 60,

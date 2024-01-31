@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,11 +58,20 @@ class HotelPageViewLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (hotel.photos.isNotEmpty)
-                    CachedNetworkImage(
-                      imageUrl: hotel.photos.first,
-                      width: screenSize.width,
-                      height: screenSize.height / 3,
-                      fit: BoxFit.cover,
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        disableCenter: true,
+                        autoPlay: true,
+                        pageSnapping: true,
+                      ),
+                      items: hotel.photos.map((e) {
+                        return CachedNetworkImage(
+                          imageUrl: e,
+                          width: screenSize.width,
+                          height: screenSize.height / 3,
+                          fit: BoxFit.contain
+                        );
+                      }).toList(),
                     ),
                   Padding(
                       padding: const EdgeInsets.all(15),
