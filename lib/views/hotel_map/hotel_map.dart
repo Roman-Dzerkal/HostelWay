@@ -24,7 +24,7 @@ class HotelMapView extends StatelessWidget {
         height: size.height,
         width: size.width,
         child: GoogleMap(
-          mapType: MapType.normal,
+          mapType: MapType.hybrid,
           zoomControlsEnabled: true,
           scrollGesturesEnabled: true,
           initialCameraPosition: CameraPosition(zoom: 6, target: latLng),
