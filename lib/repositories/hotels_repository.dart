@@ -16,4 +16,8 @@ class HotelsRepository {
   Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
     return await service.fetchHotels(userId: userId);
   }
+
+void addFavorites(int id) async {
+    service.addFavorites(id);
+  }
 }

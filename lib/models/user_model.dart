@@ -3,18 +3,20 @@ class UserModel {
   final String lastName;
   final String id;
   final String role;
+  final List<int> favs;
 
-  UserModel copyWith({
-    String? firstName,
-    String? role,
-    String? lastName,
-    String? id,
-  }) {
+  UserModel copyWith(
+      {String? firstName,
+      String? role,
+      String? lastName,
+      String? id,
+      List<int>? favs}) {
     return UserModel(
       firstName: firstName ?? this.firstName,
       role: role ?? this.role,
       lastName: lastName ?? this.lastName,
       id: id ?? this.id,
+      favs: favs ?? this.favs
     );
   }
 
@@ -24,6 +26,7 @@ class UserModel {
       role: json['role'] as String,
       lastName: json['last_name'] as String,
       id: json['user_id'] as String,
+      favs: json['favorites'] as List<int>
     );
   }
 
@@ -32,6 +35,7 @@ class UserModel {
     required this.role,
     required this.lastName,
     required this.id,
+    required this.favs
   });
 
   Map<String, dynamic> toJson(UserModel instance) {
@@ -40,6 +44,7 @@ class UserModel {
       'lastName': instance.lastName,
       'id': instance.id,
       'role': instance.role,
+      'favorites': instance.favs
     };
   }
 }

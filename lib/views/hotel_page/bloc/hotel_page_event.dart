@@ -10,5 +10,9 @@ sealed class HotelPageEvent extends Equatable {
 class OpenHotelPositionEvent extends HotelPageEvent {
   final LatLng latLng;
   const OpenHotelPositionEvent(this.latLng);
-  
+}
+
+class AddToFavoritesEvent extends HotelPageEvent {
+  final int id;
+  const AddToFavoritesEvent(this.id);
 }

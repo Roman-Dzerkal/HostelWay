@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/material.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,6 +11,31 @@ class HotelService {
     List<Map<String, dynamic>> select =
         await Supabase.instance.client.from('hotels').select();
     return select.map((e) => HotelModel.fromJson(e)).toList();
+  }
+
+  void addFavorites(int id) async {
+    try {
+      var single = await client
+          .from('users')
+          .select('favorites')
+          .eq('user_id', client.auth.currentUser!.id)
+          .single();
+      List<int> favs = single['favorites'] as List<int>;
+      if (favs.contains(id)) {
+        favs.remove(id);
+      } else {
+        favs.add(id);
+      }
+      client
+          .from("users")
+          .update({'favorites': favs})
+          .eq('user_id', client.auth.currentUser!.id)
+          .then((value) => debugPrint('added to favorites'));
+    } catch (e) {
+      if (e is PostgrestException) {
+        debugPrint(e.message);
+      }
+    }
   }
 
   Future<String> createHotel(Map<String, dynamic> data) async {
@@ -49,7 +75,6 @@ class HotelService {
       hotels.addAll(t);
     }
 
-  
     for (Map<String, dynamic> hotel in hotels) {
       int id = hotel['hotel_id'] as int;
 
