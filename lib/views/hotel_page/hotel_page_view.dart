@@ -8,6 +8,7 @@ import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/views/hotel_page/bloc/hotel_page_bloc.dart';
 import 'package:hostelway/views/hotel_page/navigation/hotel_page_navigator.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HotelPageView extends StatelessWidget {
   const HotelPageView(
