@@ -57,6 +57,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         AuthResponse response = await Supabase.instance.client.auth
             .signUp(email: state.email, password: state.password, data: {
           'display_name': '${state.firstName} ${state.lastName}',
+          'role': state.roles[state.initialLabelIndex].toLowerCase(),
         });
 
         /* if (state.avatar != null) {
