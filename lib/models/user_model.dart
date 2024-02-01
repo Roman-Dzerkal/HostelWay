@@ -26,7 +26,8 @@ class UserModel {
       role: json['role'] as String,
       lastName: json['last_name'] as String,
       id: json['user_id'] as String,
-      favs: json['favorites'] as List<int>
+      //favs: json['favorites'] as List<int>
+      favs: List<int>.from(json["favorites"])
     );
   }
 

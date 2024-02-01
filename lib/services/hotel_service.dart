@@ -20,7 +20,16 @@ class HotelService {
           .select('favorites')
           .eq('user_id', client.auth.currentUser!.id)
           .single();
-      List<int> favs = single['favorites'] as List<int>;
+      print("fsfdfdfdfdfdf");
+      List<int> favs = [];
+
+      if (single != null &&
+          single.containsKey('favorites') &&
+          single['favorites'] != null) {
+        favs = List<int>.from(single['favorites']);
+      }
+      print("222222");
+
       if (favs.contains(id)) {
         favs.remove(id);
       } else {
@@ -34,6 +43,8 @@ class HotelService {
     } catch (e) {
       if (e is PostgrestException) {
         debugPrint(e.message);
+      } else {
+        debugPrint("error in service");
       }
     }
   }

@@ -21,7 +21,10 @@ class HotelPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HotelPageBloc(navigator: navigator, model: hotel, rep: context.read<HotelsRepository>()),
+      create: (context) => HotelPageBloc(
+          navigator: navigator,
+          model: hotel,
+          rep: context.read<HotelsRepository>()),
       child: HotelPageViewLayout(
         hotel: hotel,
         navigator: navigator,
@@ -63,6 +66,7 @@ class HotelPageViewLayout extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
+                      //debugPrint(hotel.id);
                       bloc.add(AddToFavoritesEvent(hotel.id));
                     },
                   )

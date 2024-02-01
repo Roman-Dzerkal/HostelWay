@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/views/hotel_page/navigation/hotel_page_navigator.dart';
@@ -21,7 +22,9 @@ class HotelPageBloc extends Bloc<HotelPageEvent, HotelPageState> {
       navigator.openHotelGoogleMaps(event.latLng);
     });
     on<AddToFavoritesEvent>((event, emit) {
+      print({event.id});
       rep.addFavorites(event.id);
+      print("123123");
     });
   }
 }
