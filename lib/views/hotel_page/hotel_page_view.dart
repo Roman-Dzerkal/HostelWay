@@ -58,7 +58,7 @@ class HotelPageViewLayout extends StatelessWidget {
                         ?.userMetadata?['role'] as String) ==
                     "guest")
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.favorite,
                       color: Colors.white,
                     ),

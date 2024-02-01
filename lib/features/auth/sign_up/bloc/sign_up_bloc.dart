@@ -74,6 +74,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           'first_name': state.firstName,
           'last_name': state.lastName,
           'role': state.roles[state.initialLabelIndex].toLowerCase(),
+          'favorites': [0],
         });
         emit(state.copyWith(isBusy: false));
         ToastUtil.showError('User created successfully');
