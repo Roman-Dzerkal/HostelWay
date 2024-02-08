@@ -16,10 +16,13 @@ class HotelPageBloc extends Bloc<HotelPageEvent, HotelPageState> {
   final HotelsRepository rep;
   final RoomsRepository rep2;
   HotelPageBloc(
-      {required this.navigator, required this.model, required this.rep,required this.rep2 })
+      {required this.navigator,
+      required this.model,
+      required this.rep,
+      required this.rep2})
       : super(HotelPageInitial(rooms: List.empty(growable: true))) {
     on<HotelPageEvent>((event, emit) {});
-    
+
     on<OpenHotelPositionEvent>((event, emit) {
       navigator.openHotelGoogleMaps(event.latLng);
     });
@@ -28,9 +31,11 @@ class HotelPageBloc extends Bloc<HotelPageEvent, HotelPageState> {
       rep.addFavorites(event.id);
     });
     on<FetchRoomsEvent>((event, emit) async {
-      emit(state.copyWith());
+      state.copyWith(isBusy: true);
       List<RoomModel> rooms = await rep2.fetchRooms(event.hotelId);
-      emit(state.copyWith(rooms: rooms));
+      List<RoomModel> list = state.rooms;
+      list.addAll(rooms);
+      emit(state.copyWith(rooms: list, isBusy: false));
     });
   }
 }

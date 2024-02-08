@@ -17,10 +17,10 @@ class RoomModel {
   factory RoomModel.fromJson(Map<String, dynamic> json) => RoomModel(
       name: json['name'] as String,
       price: json['price'] as int,
-      hotelId: json['hotelId'] as int,
-      bookingStatus: json['bookingStatus'] as String,
+      hotelId: json['hotel_id'] as int,
+      bookingStatus: json['booking_status'] as String,
       description: json['description'] as String,
-      id: json['hotel_id'] as int);
+      id: json['room_id'] as int);
 
   Map<String, dynamic> toJson() => <String, dynamic>{
         'name': name,

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hostelway/main.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/repositories/rooms_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
+import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/views/hotel_page/bloc/hotel_page_bloc.dart';
 import 'package:hostelway/views/hotel_page/navigation/hotel_page_navigator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -46,7 +48,17 @@ class HotelPageViewLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     HotelPageBloc bloc = context.read<HotelPageBloc>();
     final screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<HotelPageBloc, HotelPageState>(
+    return BlocConsumer<HotelPageBloc, HotelPageState>(
+      listener: (context, state) {
+        if (state.isBusy) {
+          OverlayService.instance.showBusyOverlay(
+            context: context,
+            size: size,
+          );
+        } else {
+          OverlayService.instance.closeBusyOverlay(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -126,31 +138,28 @@ class HotelPageViewLayout extends StatelessWidget {
                       },
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, bottom: 15, right: 15),
-                    child: ListView.builder(
-                      physics: const ScrollPhysics(
-                        parent: BouncingScrollPhysics(),
-                      ),
-                      shrinkWrap: true,
-                      itemCount: state.rooms.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          /*onTap: () => bloc
-                              .add(OnTapHotelItemEvent(state.hotels[index])),*/
-                          /*leading: Image.network(
-                            state.hotels[index].photos[0],
-                            width: 60,
-                            height: 60,
-                            fit: BoxFit.cover,
-                          ),*/
-                          title: Text(state.rooms[index].name),
-                          subtitle: Text(state.rooms[index].price as String),
-                          trailing: const Icon(Icons.arrow_forward_ios),
-                        );
-                      },
+                  ListView.builder(
+                    physics: const ScrollPhysics(
+                      parent: BouncingScrollPhysics(),
                     ),
+                    shrinkWrap: true,
+                    itemCount: state.rooms.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {
+                          // bloc.add(OnTapHotelItemEvent(state.rooms[index]));
+                        },
+                        /* leading: Image.network(
+                              state.hotels[index].photos[0],
+                              width: 60,
+                              height: 60,
+                              fit: BoxFit.cover,
+                            ), */
+                        title: Text(state.rooms[index].name),
+                        subtitle: Text(state.rooms[index].price.toString()),
+                        trailing: const Icon(Icons.arrow_forward_ios),
+                      );
+                    },
                   )
                 ],
               ),

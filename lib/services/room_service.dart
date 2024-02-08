@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:flutter/material.dart';
+
 import 'package:hostelway/models/room_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -8,7 +8,7 @@ class RoomService {
 
   Future<List<RoomModel>> fetchRooms(int hotelId) async {
     List<Map<String, dynamic>> rooms = List.empty(growable: true);
-    var t;
+    List<Map<String, dynamic>> t = List.empty(growable: true);
     if ((Supabase.instance.client.auth.currentUser?.userMetadata?['role']
             as String) ==
         "guest") {

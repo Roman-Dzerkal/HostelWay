@@ -22,8 +22,7 @@ class HotelService {
           .single();
       
       List<int> favs = [];
-      if (single != null &&
-          single.containsKey('favorites') &&
+      if (single.containsKey('favorites') &&
           single['favorites'] != null) {
         favs = List<int>.from(single['favorites']);
       }
