@@ -20,16 +20,14 @@ class HotelService {
           .select('favorites')
           .eq('user_id', client.auth.currentUser!.id)
           .single();
-      print("fsfdfdfdfdfdf");
+      
       List<int> favs = [];
-
       if (single != null &&
           single.containsKey('favorites') &&
           single['favorites'] != null) {
         favs = List<int>.from(single['favorites']);
       }
-      print("222222");
-
+    
       if (favs.contains(id)) {
         favs.remove(id);
       } else {
