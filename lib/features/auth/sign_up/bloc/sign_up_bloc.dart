@@ -69,7 +69,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
             });
           } */
 
-        await Supabase.instance.client.from('users').insert({
+        Supabase.instance.client.from('users').insert({
           'user_id': response.user!.id,
           'first_name': state.firstName,
           'last_name': state.lastName,
