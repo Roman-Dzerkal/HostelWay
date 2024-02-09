@@ -155,7 +155,7 @@ class ProfileLayout extends StatelessWidget {
                             ),
                             Column(
                               children: [
-                                Text('Favorites',
+                                Text('favorite_hotels',
                                     style: TextStyling.greyText(
                                         14, FontWeight.bold)),
                                 Text('0',

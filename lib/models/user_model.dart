@@ -26,8 +26,8 @@ class UserModel {
       role: json['role'] as String,
       lastName: json['last_name'] as String,
       id: json['user_id'] as String,
-      //favs: json['favorites'] as List<int>
-      favs: List<String>.from(json["favorites"])
+      //favs: json['favorite_hotels'] as List<int>
+      favs: List<String>.from(json["favorite_hotels"])
     );
   }
 
@@ -45,7 +45,7 @@ class UserModel {
       'lastName': instance.lastName,
       'id': instance.id,
       'role': instance.role,
-      'favorites': instance.favs
+      'favorite_hotels': instance.favs
     };
   }
 }

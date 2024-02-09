@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class RoomService {
   final SupabaseClient client = Supabase.instance.client;
 
-  Future<List<RoomModel>> fetchRooms(int hotelId) async {
+  Future<List<RoomModel>> fetchRooms(String hotelId) async {
     List<Map<String, dynamic>> rooms = List.empty(growable: true);
     List<Map<String, dynamic>> t = List.empty(growable: true);
     if ((Supabase.instance.client.auth.currentUser?.userMetadata?['role']

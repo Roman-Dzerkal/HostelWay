@@ -51,13 +51,16 @@ class HomeManagerLayout extends StatelessWidget {
                     itemCount: state.hotels.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        onTap: () => bloc.add(OnTapHotelItemEvent(state.hotels[index])),
-                        leading: Image.network(
-                          state.hotels[index].photos[0],
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.cover,
-                        ),
+                        onTap: () =>
+                            bloc.add(OnTapHotelItemEvent(state.hotels[index])),
+                        leading: state.hotels[index].photos.isNotEmpty
+                            ? Image.network(
+                                state.hotels[index].photos[0],
+                                width: 60,
+                                height: 60,
+                                fit: BoxFit.cover,
+                              )
+                            : null,
                         title: Text(state.hotels[index].name),
                         subtitle: Text(state.hotels[index].city),
                         trailing: const Icon(Icons.arrow_forward_ios),

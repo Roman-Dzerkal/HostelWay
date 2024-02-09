@@ -4,7 +4,7 @@ class HotelModel {
   final List<String> photos;
   final List<String> facilities;
   final double latitude, longitude;
-  final int id;
+  final String id;
 
   HotelModel(
       {required this.name,
@@ -29,7 +29,7 @@ class HotelModel {
             (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
         latitude: json['latitude'] as double,
         longitude: json['longitude'] as double,
-        id: json['hotel_id'] as int
+        id: json['hotel_id'] as String
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{

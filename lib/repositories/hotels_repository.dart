@@ -17,7 +17,11 @@ class HotelsRepository {
     return await service.fetchHotels(userId: userId);
   }
 
-void addFavorites(int id) async {
+  void addFavorites(String id) async {
     service.addFavorites(id);
+  }
+
+  Future<void> test() async {
+    await service.test();
   }
 }

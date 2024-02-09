@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+typedef MyType = List<Map<String, dynamic>>;
+
 class HotelService {
   final SupabaseClient client = Supabase.instance.client;
 
@@ -13,20 +15,20 @@ class HotelService {
     return select.map((e) => HotelModel.fromJson(e)).toList();
   }
 
-  void addFavorites(int id) async {
+  void addFavorites(String id) async {
     try {
       var single = await client
           .from('users')
-          .select('favorites')
+          .select('favorite_hotels')
           .eq('user_id', client.auth.currentUser!.id)
           .single();
-      
-      List<int> favs = [];
-      if (single.containsKey('favorites') &&
-          single['favorites'] != null) {
-        favs = List<int>.from(single['favorites']);
+
+      List<String> favs = [];
+      if (single.containsKey('favorite_hotels') &&
+          single['favorite_hotels'] != null) {
+        favs = List<String>.from(single['favorite_hotels']);
       }
-    
+
       if (favs.contains(id)) {
         favs.remove(id);
       } else {
@@ -34,7 +36,7 @@ class HotelService {
       }
       client
           .from("users")
-          .update({'favorites': favs})
+          .update({'favorite_hotels': favs})
           .eq('user_id', client.auth.currentUser!.id)
           .then((value) => debugPrint('added to favorites'));
     } catch (e) {
@@ -64,6 +66,16 @@ class HotelService {
     return single['hotel_id'].toString();
   }
 
+  Future<void> test() async {
+    /* MyType t = await client.from('hotels').select().inFilter(
+        'hotel_id',
+        (await client
+                .from('users')
+                .select('favorite_hotels')
+                .eq('user_id', client.auth.currentUser!.id))
+            .first['favorite_hotels'] as List<dynamic>); */
+  }
+
   Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
     List<Map<String, dynamic>> hotels = List.empty(growable: true);
 
@@ -84,7 +96,7 @@ class HotelService {
     }
 
     for (Map<String, dynamic> hotel in hotels) {
-      int id = hotel['hotel_id'] as int;
+      String id = hotel['hotel_id'] as String;
 
       List<FileObject> hotelPhotos =
           await client.storage.from('hotels').list(path: id.toString());
