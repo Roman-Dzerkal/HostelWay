@@ -3,14 +3,14 @@ class UserModel {
   final String lastName;
   final String id;
   final String role;
-  final List<int> favs;
+  final List<String> favs;
 
   UserModel copyWith(
       {String? firstName,
       String? role,
       String? lastName,
       String? id,
-      List<int>? favs}) {
+      List<String>? favs}) {
     return UserModel(
       firstName: firstName ?? this.firstName,
       role: role ?? this.role,
@@ -27,7 +27,7 @@ class UserModel {
       lastName: json['last_name'] as String,
       id: json['user_id'] as String,
       //favs: json['favorites'] as List<int>
-      favs: List<int>.from(json["favorites"])
+      favs: List<String>.from(json["favorites"])
     );
   }
 
