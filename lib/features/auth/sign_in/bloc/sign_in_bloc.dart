@@ -70,7 +70,28 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
     });
 
-    on<SignInWithGooglePressed>((event, emit) {});
+    on<SignInWithGooglePressed>((event, emit) async {
+      /* GoogleSignInAccount? googleSignInAccount = await GoogleSignIn(
+              scopes: [
+            'email',
+            'https://www.googleapis.com/auth/contacts.readonly',
+          ],
+              clientId:
+                  '493144528853-d48v0rkd6o3nboa6imo7ie4ba1jsbq03.apps.googleusercontent.com')
+          .signIn();
+
+      if (googleSignInAccount != null) {
+        GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        AuthResponse response = await Supabase.instance.client.auth
+            .signInWithIdToken(
+                provider: OAuthProvider.google,
+                idToken: googleSignInAuthentication.idToken!,
+                accessToken: googleSignInAuthentication.accessToken!);
+        print(response.user!.toJson());
+      } */
+    });
 
     on<SignInWithFacebookPressed>((event, emit) {});
 

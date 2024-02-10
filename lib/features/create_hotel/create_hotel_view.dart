@@ -23,8 +23,7 @@ class CreateHotelView extends StatelessWidget {
     return BlocProvider(
       create: (context) => CreateHotelBloc(
           hotelsRepository: context.read<HotelsRepository>(),
-          navigator: CreateHotelNavigator(context))
-        ..add(FetchCurrentLocationEvent()),
+          navigator: CreateHotelNavigator(context)),
       child: const CreateHotelLayout(),
     );
   }
@@ -129,14 +128,7 @@ class CreateHotelLayout extends StatelessWidget {
                               .push(MaterialPageRoute(
                                   builder: (context) => PlacePicker(
                                         googleApiKey,
-                                        displayLocation:
-                                            state.currentUserLocation == null
-                                                ? LatLng(
-                                                    state.currentUserLocation!
-                                                        .latitude,
-                                                    state.currentUserLocation!
-                                                        .longitude)
-                                                : const LatLng(0, 0),
+                                        displayLocation: const LatLng(0, 0),
                                       )));
                           bloc.add(LocationChangedEvent(result));
                         },

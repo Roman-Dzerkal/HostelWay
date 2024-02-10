@@ -1,7 +1,7 @@
 // Google Maps API
 // ignore_for_file: constant_identifier_names
 
-const String googleApiKey = "AIzaSyDXb0keNiYN0eMesZ4QgKyG7Hvrt-2cDEs";
+const String googleApiKey = "AIzaSyA2dxAd2uBUnajZ9TqIXe-kBaW-7dknMrY";
 
 // Supabase API
 const String SUPABASE_URL = "https://kgmjucupmbionanxhpef.supabase.co";

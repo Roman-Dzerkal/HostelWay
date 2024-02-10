@@ -32,16 +32,7 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     on<DescriptionChangedEvent>(
         (event, emit) => _descriptionChanged(event, emit));
     on<NameChangedEvent>((event, emit) => _nameChanged(event, emit));
-    on<FetchCurrentLocationEvent>((event, emit) async {
-      LocationPermission locationPermission =
-          await Geolocator.checkPermission();
-      if (locationPermission == LocationPermission.denied) {
-        await Geolocator.requestPermission();
-      }
-
-      Position currentPosition = await Geolocator.getCurrentPosition();
-      emit(state.copyWith(currentUserLocation: currentPosition));
-    });
+    
     on<LocationChangedEvent>((event, emit) {
       emit(state.copyWith(hotelLocation: event.location));
     });
