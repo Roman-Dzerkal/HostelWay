@@ -69,12 +69,13 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
             });
           } */
 
-        Supabase.instance.client.from('users').insert({
+        await Supabase.instance.client.from('users').insert({
           'user_id': response.user!.id,
           'first_name': state.firstName,
           'last_name': state.lastName,
           'role': state.roles[state.initialLabelIndex].toLowerCase(),
           'favorite_hotels': <String>[],
+          'favorite_rooms': <String>[],
         });
         emit(state.copyWith(isBusy: false));
         ToastUtil.showError('User created successfully');

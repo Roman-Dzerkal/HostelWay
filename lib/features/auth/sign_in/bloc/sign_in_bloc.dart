@@ -71,6 +71,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     });
 
     on<SignInWithGooglePressed>((event, emit) async {
+      
       /* GoogleSignInAccount? googleSignInAccount = await GoogleSignIn(
               scopes: [
             'email',
