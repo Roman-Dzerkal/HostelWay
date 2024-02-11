@@ -16,7 +16,13 @@ class AddToFavoritesEvent extends HotelPageEvent {
   final String id;
   const AddToFavoritesEvent(this.id);
 }
+
 class FetchRoomsEvent extends HotelPageEvent {
   final String hotelId;
   const FetchRoomsEvent(this.hotelId);
+}
+
+class CreateRoomButtonTapEvent extends HotelPageEvent {
+  final String hotelId;
+  const CreateRoomButtonTapEvent(this.hotelId);
 }

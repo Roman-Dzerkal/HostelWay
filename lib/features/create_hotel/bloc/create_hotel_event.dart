@@ -32,6 +32,12 @@ class DescriptionSubmittedEvent extends CreateHotelEvent {
   const DescriptionSubmittedEvent(this.description);
 }
 
+
+class NameSubmittedEvent extends CreateHotelEvent {
+  final String name;
+  const NameSubmittedEvent(this.name);
+}
+
 // ============== Change events ==============
 
 class DescriptionChangedEvent extends CreateHotelEvent {

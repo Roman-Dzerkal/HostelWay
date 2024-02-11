@@ -13,6 +13,7 @@ import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/views/hotel_page/bloc/hotel_page_bloc.dart';
 import 'package:hostelway/views/hotel_page/navigation/hotel_page_navigator.dart';
+import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HotelPageView extends StatelessWidget {
@@ -47,6 +48,9 @@ class HotelPageViewLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HotelPageBloc bloc = context.read<HotelPageBloc>();
+    String role =
+        Supabase.instance.client.auth.currentUser?.userMetadata?['role'];
+
     final screenSize = MediaQuery.of(context).size;
     return BlocConsumer<HotelPageBloc, HotelPageState>(
       listener: (context, state) {
@@ -61,6 +65,17 @@ class HotelPageViewLayout extends StatelessWidget {
       },
       builder: (context, state) {
         return Scaffold(
+            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: role == 'manager'
+                ? FloatingActionButton(
+                    onPressed: () {
+                      bloc.add(CreateRoomButtonTapEvent(hotel.id));
+                    },
+                    backgroundColor: CustomColors.primary,
+                    child: const Icon(Icons.add, color: CustomColors.white))
+                : null,
             appBar: AppBar(
               leading: IconButton(
                 icon: const Icon(Icons.keyboard_arrow_left,
@@ -156,8 +171,16 @@ class HotelPageViewLayout extends StatelessWidget {
                               fit: BoxFit.cover,
                             ), */
                         title: Text(state.rooms[index].name),
-                        subtitle: Text(state.rooms[index].price.toString()),
-                        trailing: const Icon(Icons.arrow_forward_ios),
+                        subtitle: Text(state.rooms[index].description),
+                        trailing: /*const Icon(Icons.arrow_forward_ios)*/
+                            BestButton(
+                          onTap: () {},
+                          width: 100.w,
+                          height: 50.h,
+                          text: "Book ${state.rooms[index].price}\$",
+                          backgroundColor: CustomColors.primary,
+                          borderRadius: 50.r,
+                        ),
                       );
                     },
                   )

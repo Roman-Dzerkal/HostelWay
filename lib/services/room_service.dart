@@ -29,4 +29,20 @@ class RoomService {
 
     return rooms.map((e) => RoomModel.fromJson(e)).toList();
   }
+
+  Future<String> createRoom(Map<String, dynamic> data) async {
+    var single = await Supabase.instance.client
+        .from('rooms')
+        .insert({
+          'name': data['name'],
+          'description': data['description'],
+          'hotel_id': data['hotel_id'],
+          'price': data['price'],
+          'booking_status': data['booking_status'],
+        })
+        .select()
+        .single();
+
+    return single['room_id'].toString();
+  }
 }

@@ -30,6 +30,10 @@ class HotelPageBloc extends Bloc<HotelPageEvent, HotelPageState> {
     on<AddToFavoritesEvent>((event, emit) {
       rep.addFavorites(event.id);
     });
+
+    on<CreateRoomButtonTapEvent>((event, emit) {
+      navigator.goToRoomPage(event.hotelId);
+    });
     on<FetchRoomsEvent>((event, emit) async {
       state.copyWith(isBusy: true);
       List<RoomModel> rooms = await rep2.fetchRooms(event.hotelId);
