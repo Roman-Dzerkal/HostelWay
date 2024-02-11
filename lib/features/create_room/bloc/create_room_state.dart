@@ -7,7 +7,7 @@ sealed class CreateRoomState extends Equatable {
       this.errorDescriptionMessage = '',
       this.errorNameMessage = '',
       this.hotelId = '',
-      this.price = 0,
+      this.price = 2,
       this.photos = const [],
       this.localPhotos = const [],
       required this.errorState,
@@ -67,7 +67,7 @@ sealed class CreateRoomState extends Equatable {
 }
 
 final class CreateRoomInitial extends CreateRoomState {
-  CreateRoomInitial({
+  const CreateRoomInitial({
     super.name,
     super.description,
     super.price,

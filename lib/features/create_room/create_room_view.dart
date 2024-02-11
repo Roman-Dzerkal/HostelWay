@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,8 @@ class CreateRoomView extends StatelessWidget {
     return BlocProvider(
       create: (context) => CreateRoomBloc(
           roomsRepository: context.read<RoomsRepository>(),
-          navigator: CreateRoomNavigator(context), hotelId:hotelId),
+          navigator: CreateRoomNavigator(context),
+          hotelId: hotelId),
       child: const CreateHotelLayout(),
     );
   }
@@ -38,9 +40,7 @@ class CreateHotelLayout extends StatelessWidget {
     CreateRoomBloc bloc = context.read<CreateRoomBloc>();
 
     return BlocConsumer<CreateRoomBloc, CreateRoomState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(

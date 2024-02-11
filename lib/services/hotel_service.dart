@@ -101,6 +101,8 @@ class HotelService {
       List<FileObject> hotelPhotos =
           await client.storage.from('hotels').list(path: id.toString());
 
+      hotelPhotos.removeWhere((element) => element.metadata == null);
+
       var photoUrls = hotelPhotos.map((e) {
         return client.storage.from('hotels').getPublicUrl('$id/${e.name}');
       }).toList();

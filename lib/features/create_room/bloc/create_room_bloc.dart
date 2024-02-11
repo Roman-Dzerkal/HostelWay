@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +18,16 @@ class CreateRoomBloc extends Bloc<CreateRoomEvent, CreateRoomState> {
   final CreateRoomNavigator navigator;
   final RoomsRepository roomsRepository;
   final String hotelId;
-  CreateRoomBloc({required this.navigator, required this.roomsRepository, required this.hotelId})
+  CreateRoomBloc(
+      {required this.navigator,
+      required this.roomsRepository,
+      required this.hotelId})
       : super(CreateRoomInitial(errorState: CreateRoomErrorState())) {
-    on<CreateRoomEvent>((event, emit) {
-      // TODO: implement event handler
-    });
+    on<CreateRoomEvent>((event, emit) {});
     on<CreateRoomButtonTapEvent>((event, emit) => _createRoom(event, emit));
+    on<PriceChangedEvent>((event, emit) {
+      emit(state.copyWith(price: event.price));
+    });
     on<UploadPhotoButtonTapEvent>((event, emit) => _uploadPhoto(event, emit));
     on<RemoveImageEvent>((event, emit) => _removeImage(event, emit));
     on<UploadOnePhotoButtonTapEvent>(
@@ -52,13 +58,13 @@ class CreateRoomBloc extends Bloc<CreateRoomEvent, CreateRoomState> {
       'booking_status': 'free'
     });
 
-    /*if (state.localPhotos.isNotEmpty) {
+    if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
         await Supabase.instance.client.storage
             .from('hotels')
-            .upload('$hotelId/${element.name}', File(element.path));
+            .upload('$hotelId/$roomId/${element.name}', File(element.path));
       }
-    }*/
+    }
     emit(state.copyWith(isBusy: false));
     navigator.goToHotelList();
   }

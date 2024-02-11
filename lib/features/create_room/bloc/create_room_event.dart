@@ -42,3 +42,8 @@ class NameChangedEvent extends CreateRoomEvent {
   final String name;
   const NameChangedEvent(this.name);
 }
+
+class PriceChangedEvent extends CreateRoomEvent {
+  final int price;
+  const PriceChangedEvent(this.price);
+}
