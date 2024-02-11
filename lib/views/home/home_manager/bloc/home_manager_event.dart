@@ -14,3 +14,9 @@ class AddHotelButtonTapEvent extends HomeManagerEvent {
 class FetchHotelsEvent extends HomeManagerEvent {
   const FetchHotelsEvent();
 }
+
+
+class OnTapHotelItemEvent extends HomeManagerEvent {
+  final HotelModel model;
+  const OnTapHotelItemEvent(this.model);
+}

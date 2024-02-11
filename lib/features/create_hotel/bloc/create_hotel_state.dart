@@ -9,11 +9,14 @@ sealed class CreateHotelState extends Equatable {
       this.city = '',
       this.errorDescriptionMessage = '',
       this.errorNameMessage = '',
-      this.facilities = const [],
+      this.facilities = const ['Wifi', 'Parking', 'Pool', 'Breakfast'],
       this.managerId = '',
       this.photos = const [],
       this.localPhotos = const [],
       required this.errorState,
+      this.currentUserLocation,
+      this.hotelLocation,
+      this.errorLocationMessage = '',
       this.isBusy = false});
 
   final String name, description, city;
@@ -24,9 +27,13 @@ sealed class CreateHotelState extends Equatable {
 
   final String errorNameMessage;
   final String errorDescriptionMessage;
+  final String errorLocationMessage;
   final CreateHotelErrorState errorState;
 
   final bool isBusy;
+
+  final Position? currentUserLocation;
+  final LocationResult? hotelLocation;
 
   CreateHotelState copyWith({
     String? name,
@@ -40,6 +47,9 @@ sealed class CreateHotelState extends Equatable {
     String? errorDescriptionMessage,
     CreateHotelErrorState? errorState,
     bool? isBusy,
+    Position? currentUserLocation,
+    LocationResult? hotelLocation,
+    String? errorLocationMessage,
   }) {
     return CreateHotelInitial(
       errorState: errorState ?? this.errorState,
@@ -54,11 +64,14 @@ sealed class CreateHotelState extends Equatable {
       errorDescriptionMessage:
           errorDescriptionMessage ?? this.errorDescriptionMessage,
       isBusy: isBusy ?? this.isBusy,
+      currentUserLocation: currentUserLocation ?? this.currentUserLocation,
+      hotelLocation: hotelLocation ?? this.hotelLocation,
+      errorLocationMessage: errorLocationMessage ?? this.errorLocationMessage,
     );
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         description,
         city,
@@ -70,6 +83,9 @@ sealed class CreateHotelState extends Equatable {
         errorDescriptionMessage,
         errorState,
         isBusy,
+        currentUserLocation,
+        hotelLocation,
+        errorLocationMessage,
       ];
 }
 
@@ -88,5 +104,9 @@ final class CreateHotelInitial extends CreateHotelState {
 
     required super.errorState,
     super.isBusy,
+
+    super.currentUserLocation,
+    super.hotelLocation,
+    super.errorLocationMessage,
   });
 }

@@ -9,12 +9,15 @@ sealed class ProfileState extends Equatable {
 
   final XFile? image;
 
+  final String email;
+
   const ProfileState({
     this.isBusy = false,
     this.firstName = '',
     this.lastName = '',
     this.photoUrl = '',
     this.image,
+    this.email = '',
   });
 
   ProfileState copyWith({
@@ -23,6 +26,7 @@ sealed class ProfileState extends Equatable {
     String? lastName,
     String? photoUrl,
     XFile? image,
+    String? email,
   }) {
     return ProfileInitial(
       isBusy: isBusy ?? this.isBusy,
@@ -30,11 +34,12 @@ sealed class ProfileState extends Equatable {
       lastName: lastName ?? this.lastName,
       photoUrl: photoUrl ?? this.photoUrl,
       image: image ?? this.image,
+      email: email ?? this.email,
     );
   }
 
   @override
-  List<Object?> get props => [firstName, lastName, isBusy, photoUrl, image];
+  List<Object?> get props => [firstName, lastName, isBusy, photoUrl, image, email];
 }
 
 final class ProfileInitial extends ProfileState {
@@ -44,5 +49,6 @@ final class ProfileInitial extends ProfileState {
     super.isBusy,
     super.photoUrl,
     super.image,
+    super.email,
   });
 }

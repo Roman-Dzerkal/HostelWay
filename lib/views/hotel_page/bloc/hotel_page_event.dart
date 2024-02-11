@@ -6,3 +6,23 @@ sealed class HotelPageEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class OpenHotelPositionEvent extends HotelPageEvent {
+  final LatLng latLng;
+  const OpenHotelPositionEvent(this.latLng);
+}
+
+class AddToFavoritesEvent extends HotelPageEvent {
+  final String id;
+  const AddToFavoritesEvent(this.id);
+}
+
+class FetchRoomsEvent extends HotelPageEvent {
+  final String hotelId;
+  const FetchRoomsEvent(this.hotelId);
+}
+
+class CreateRoomButtonTapEvent extends HotelPageEvent {
+  final String hotelId;
+  const CreateRoomButtonTapEvent(this.hotelId);
+}

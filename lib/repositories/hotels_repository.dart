@@ -4,18 +4,24 @@ import 'package:hostelway/services/hotel_service.dart';
 class HotelsRepository {
   final HotelService service;
   HotelsRepository(this.service);
-  
-  Future<List<HotelModel>> getHotels(){
 
-  return service.getAllHotels() ;
-  }
-  
-Future<String> createHotel(HotelModel model) async {
-    try {
-      return await service.createHotel(model);
-    } catch (e) {
-      return '';
-    }
+  List getHotels() {
+    return [];
   }
 
+  Future<String> createHotel(Map<String, dynamic> data) async {
+    return await service.createHotel(data);
+  }
+
+  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
+    return await service.fetchHotels(userId: userId);
+  }
+
+  void addFavorites(String id) async {
+    service.addFavorites(id);
+  }
+
+  Future<void> test() async {
+    await service.test();
+  }
 }

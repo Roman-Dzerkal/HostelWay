@@ -1,13 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'hotel_model.g.dart';
-
-@JsonSerializable()
 class HotelModel {
   final String name, description, city;
   final String managerId;
-  final List<String>? photos;
+  final List<String> photos;
   final List<String> facilities;
+  final double latitude, longitude;
+  final String id;
 
   HotelModel(
       {required this.name,
@@ -15,10 +12,35 @@ class HotelModel {
       required this.city,
       required this.facilities,
       required this.managerId,
-      this.photos});
+      required this.latitude,
+      required this.longitude,
+      required this.id,
+      required this.photos});
 
-  factory HotelModel.fromJson(Map<String, dynamic> json) =>
-      _$HotelModelFromJson(json);
+  factory HotelModel.fromJson(Map<String, dynamic> json) => HotelModel(
+        name: json['name'] as String,
+        description: json['description'] as String,
+        city: json['city'] as String,
+        facilities: (json['facilities'] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
+        managerId: json['manager_id'] as String,
+        photos:
+            (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
+        latitude: json['latitude'] as double,
+        longitude: json['longitude'] as double,
+        id: json['hotel_id'] as String
+      );
 
-  Map<String, dynamic> toJson() => _$HotelModelToJson(this);
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'name': name,
+        'description': description,
+        'city': city,
+        'managerId': managerId,
+        'photos': photos,
+        'facilities': facilities,
+        'latitude': latitude,
+        'longitude': longitude,
+        'hotel_id': id
+      };
 }

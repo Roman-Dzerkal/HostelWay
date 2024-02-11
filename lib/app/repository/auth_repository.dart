@@ -1,18 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hostelway/models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthorizationRepository {
   Future<UserModel?> getUser() async {
     try {
-      if (FirebaseAuth.instance.currentUser != null) {
-        final doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
-        
-        UserModel userModel = UserModel.fromJson(doc.data()!);
+      if (Supabase.instance.client.auth.currentUser != null) {
+        final doc = await Supabase.instance.client
+            .from('users')
+            .select()
+            .eq('user_id', Supabase.instance.client.auth.currentUser!.id)
+            .single();
+
+        UserModel userModel = UserModel.fromJson(doc);
 
         return userModel;
       }

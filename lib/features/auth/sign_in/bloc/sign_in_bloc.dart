@@ -1,14 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/models/sign_in_error_state.dart';
 import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
 import 'package:hostelway/models/user_model.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:hostelway/utils/tost_util.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
@@ -38,39 +36,63 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(state.copyWith(isBusy: true));
 
       try {
-        var userCredentials = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: state.email, password: state.password);
+        AuthResponse response =
+            await Supabase.instance.client.auth.signInWithPassword(
+          email: state.email,
+          password: state.password,
+        );
 
-        if (!(userCredentials.user?.emailVerified ?? false)) {
-          debugPrint('Please verify your email.');
+        Map<String, dynamic> user = await Supabase.instance.client
+            .from('users')
+            .select()
+            .eq('user_id', response.user!.id)
+            .single();
+
+        if (user.isEmpty) {
+          emit(state.copyWith(isBusy: false));
+          ToastUtil.showError('User not found');
           return;
         }
 
-        var doc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .get();
-
         emit(state.copyWith(isBusy: false));
-        UserModel userModel = UserModel.fromJson(doc.data()!);
+        UserModel userModel = UserModel.fromJson(user);
         authenticationBloc.add(AuthenticationSaveUserInformationEvent(
             userModel: userModel, voidCallback: navigator.goToHomePage));
       } catch (e) {
         emit(state.copyWith(isBusy: false));
-        if (e is FirebaseAuthException) {
-          ToastUtil.showError(e.message!);
-        } else if (e is FirebaseException) {
-          ToastUtil.showError(e.message!);
-        } else if (e is FirebaseException) {
-          ToastUtil.showError(e.message!);
+        if (e is AuthException) {
+          ToastUtil.showError(e.message);
+        } else if (e is PostgrestException) {
+          ToastUtil.showError(e.message);
         } else {
           ToastUtil.showError(e.toString());
         }
       }
     });
 
-    on<SignInWithGooglePressed>((event, emit) {});
+    on<SignInWithGooglePressed>((event, emit) async {
+      
+      /* GoogleSignInAccount? googleSignInAccount = await GoogleSignIn(
+              scopes: [
+            'email',
+            'https://www.googleapis.com/auth/contacts.readonly',
+          ],
+              clientId:
+                  '493144528853-d48v0rkd6o3nboa6imo7ie4ba1jsbq03.apps.googleusercontent.com')
+          .signIn();
+
+      if (googleSignInAccount != null) {
+        GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        AuthResponse response = await Supabase.instance.client.auth
+            .signInWithIdToken(
+                provider: OAuthProvider.google,
+                idToken: googleSignInAuthentication.idToken!,
+                accessToken: googleSignInAuthentication.accessToken!);
+        print(response.user!.toJson());
+      } */
+    });
 
     on<SignInWithFacebookPressed>((event, emit) {});
 

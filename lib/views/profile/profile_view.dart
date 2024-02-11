@@ -155,7 +155,7 @@ class ProfileLayout extends StatelessWidget {
                             ),
                             Column(
                               children: [
-                                Text('Favorites',
+                                Text('favorite_hotels',
                                     style: TextStyling.greyText(
                                         14, FontWeight.bold)),
                                 Text('0',
@@ -179,7 +179,7 @@ class ProfileLayout extends StatelessWidget {
                           onChanged: (value) {},
                           borderRad: 10.r,
                           readOnly: true,
-                          hintText: 'aprilliss.2001@gmail.com',
+                          hintText: state.email,
                           keyboardType: TextInputType.emailAddress,
                           hintTextStyle:
                               TextStyling.greyText(14, FontWeight.normal),

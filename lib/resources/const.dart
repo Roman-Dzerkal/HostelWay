@@ -1,6 +1,9 @@
-const String supabseUrl = 'https://cwsldwsnxxhanrjerbgf.supabase.co';
-const String supabseAnonKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3c2xkd3NueHhoYW5yamVyYmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MTUwNDAsImV4cCI6MjAxODQ5MTA0MH0.kvJr8-i41GF4kGohmal7vbfg65wqrJ6boASeB7u-2qs';
+// Google Maps API
+// ignore_for_file: constant_identifier_names
 
-// Google Maps API (Geocoding)
-const String googleApiKey = "AIzaSyAVBZeTXhhfYJiO3v3zYxt1IT0sMbnZ-I8";
+const String googleApiKey = "AIzaSyA2dxAd2uBUnajZ9TqIXe-kBaW-7dknMrY";
+
+// Supabase API
+const String SUPABASE_URL = "https://kgmjucupmbionanxhpef.supabase.co";
+const String SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnbWp1Y3VwbWJpb25hbnhocGVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDIzODk1NDgsImV4cCI6MjAxNzk2NTU0OH0.wdv4zyP2AwERkH1xNoGe6Fw75_L1VzKnMhbYn-nqXgo";
+const String SUPABASE_SERVICE_ROLE_Key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnbWp1Y3VwbWJpb25hbnhocGVmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwMjM4OTU0OCwiZXhwIjoyMDE3OTY1NTQ4fQ.VSViPGST-FKA0ndkgOzrZPhgUGx4x2c5-i93plht0SQ";

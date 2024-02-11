@@ -17,3 +17,8 @@ class OnTapHotelItemEvent extends HomeGuestEvent {
   final HotelModel model;
   const OnTapHotelItemEvent(this.model);
 }
+
+class FetchHotelsEvent extends HomeGuestEvent {
+  const FetchHotelsEvent();
+}
+

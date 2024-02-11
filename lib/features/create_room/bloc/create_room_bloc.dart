@@ -3,28 +3,31 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:hostelway/features/create_hotel/models/create_hotel_error_state.dart';
-import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
-import 'package:hostelway/repositories/hotels_repository.dart';
+import 'package:hostelway/features/create_room/models/create_room_error_state.dart';
+import 'package:hostelway/features/create_room/navigation/create_room_navigator.dart';
+import 'package:hostelway/repositories/rooms_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:place_picker/entities/location_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-part 'create_hotel_event.dart';
-part 'create_hotel_state.dart';
+part 'create_room_event.dart';
+part 'create_room_state.dart';
 
-class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
-  final CreateHotelNavigator navigator;
-  final HotelsRepository hotelsRepository;
-  CreateHotelBloc({required this.navigator, required this.hotelsRepository})
-      : super(CreateHotelInitial(
-          errorState: CreateHotelErrorState(),
-        )) {
-    on<CreateHotelEvent>((event, emit) {});
-    on<CreateHotelButtonTapEvent>((event, emit) => _createHotel(event, emit));
+class CreateRoomBloc extends Bloc<CreateRoomEvent, CreateRoomState> {
+  final CreateRoomNavigator navigator;
+  final RoomsRepository roomsRepository;
+  final String hotelId;
+  CreateRoomBloc(
+      {required this.navigator,
+      required this.roomsRepository,
+      required this.hotelId})
+      : super(CreateRoomInitial(errorState: CreateRoomErrorState())) {
+    on<CreateRoomEvent>((event, emit) {});
+    on<CreateRoomButtonTapEvent>((event, emit) => _createRoom(event, emit));
+    on<PriceChangedEvent>((event, emit) {
+      emit(state.copyWith(price: event.price));
+    });
     on<UploadPhotoButtonTapEvent>((event, emit) => _uploadPhoto(event, emit));
     on<RemoveImageEvent>((event, emit) => _removeImage(event, emit));
     on<UploadOnePhotoButtonTapEvent>(
@@ -32,14 +35,10 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     on<DescriptionChangedEvent>(
         (event, emit) => _descriptionChanged(event, emit));
     on<NameChangedEvent>((event, emit) => _nameChanged(event, emit));
-    
-    on<LocationChangedEvent>((event, emit) {
-      emit(state.copyWith(hotelLocation: event.location));
-    });
   }
 
-  Future<void> _createHotel(
-      CreateHotelButtonTapEvent event, Emitter<CreateHotelState> emit) async {
+  Future<void> _createRoom(
+      CreateRoomButtonTapEvent event, Emitter<CreateRoomState> emit) async {
     if (validForm(emit) == false) {
       return;
     }
@@ -51,21 +50,19 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       return;
     }
 
-    String hotelId = await hotelsRepository.createHotel({
-      'city': state.hotelLocation!.city!.name ?? '',
+    String roomId = await roomsRepository.createRoom({
       'description': state.description,
-      'facilities': ['Wifi', 'Parking', 'Pool', 'Breakfast'],
-      'latitude': state.hotelLocation!.latLng!.latitude,
-      'longitude': state.hotelLocation!.latLng!.longitude,
-      'manager_id': Supabase.instance.client.auth.currentUser!.id,
+      'hotel_id': hotelId,
       'name': state.name,
+      'price': state.price,
+      'booking_status': 'free'
     });
 
     if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
         await Supabase.instance.client.storage
             .from('hotels')
-            .upload('$hotelId/${element.name}', File(element.path));
+            .upload('$hotelId/$roomId/${element.name}', File(element.path));
       }
     }
     emit(state.copyWith(isBusy: false));
@@ -73,20 +70,20 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
   }
 
   Future<void> _uploadPhoto(
-      UploadPhotoButtonTapEvent event, Emitter<CreateHotelState> emit) async {
+      UploadPhotoButtonTapEvent event, Emitter<CreateRoomState> emit) async {
     ImagePicker picker = ImagePicker();
     List<XFile> response = await picker.pickMultiImage();
     emit(state.copyWith(localPhotos: response));
   }
 
-  void _removeImage(RemoveImageEvent event, Emitter<CreateHotelState> emit) {
+  void _removeImage(RemoveImageEvent event, Emitter<CreateRoomState> emit) {
     List<XFile> newLocalPhotos = state.localPhotos;
     newLocalPhotos.removeAt(event.index);
     emit(state.copyWith(localPhotos: newLocalPhotos));
   }
 
-  Future<void> _uploadOnePhoto(UploadOnePhotoButtonTapEvent event,
-      Emitter<CreateHotelState> emit) async {
+  Future<void> _uploadOnePhoto(
+      UploadOnePhotoButtonTapEvent event, Emitter<CreateRoomState> emit) async {
     ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
     if (file == null) {
@@ -102,17 +99,15 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
   }
 
   void _descriptionChanged(
-      DescriptionChangedEvent event, Emitter<CreateHotelState> emit) {
+      DescriptionChangedEvent event, Emitter<CreateRoomState> emit) {
     emit(state.copyWith(isBusy: true));
     emit(state.copyWith(description: event.description, isBusy: false));
   }
 
-  bool validForm(Emitter<CreateHotelState> emit) {
+  bool validForm(Emitter<CreateRoomState> emit) {
     var validateDescription =
         ValidationService.validateDescription(state.description, null);
     var validateHotelName = ValidationService.validateFirstName(state.name);
-    var validateLocation = ValidationService.validateLocation(
-        state.hotelLocation!.formattedAddress ?? '');
 
     emit(state.copyWith(
       errorDescriptionMessage: validateDescription,
@@ -120,16 +115,13 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       errorState: state.errorState.copyWith(
         isDescriptionError: validateDescription != null,
         isNameError: validateHotelName != null,
-        isLocationError: validateLocation != null,
       ),
     ));
 
-    return !(validateDescription != null) &&
-        !(validateHotelName != null) &&
-        !(validateLocation != null);
+    return !(validateDescription != null) && !(validateHotelName != null);
   }
 
-  _nameChanged(NameChangedEvent event, Emitter<CreateHotelState> emit) {
+  _nameChanged(NameChangedEvent event, Emitter<CreateRoomState> emit) {
     emit(state.copyWith(name: event.name));
   }
 }

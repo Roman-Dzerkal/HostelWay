@@ -28,7 +28,7 @@ class ForgotPasswordLayout extends StatelessWidget {
     var bloc = context.read<ForgotPasswordBloc>();
     return BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
       listener: (context, state) {
-        // TODO: implement listener
+        
       },
       builder: (context, state) {
         return Scaffold(
@@ -56,11 +56,19 @@ class ForgotPasswordLayout extends StatelessWidget {
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
                         height: 50.h,
-                        onChanged: (value) {
-                          bloc.add(EmailChangedEvent(value));
-                        },
                         hintText: 'Your Email Address',
-                        helperText: 'Email'),
+                        helperText: 'Email',
+                        keyboardType: TextInputType.emailAddress,
+                        onSubmitted: (value) {
+                          bloc.add(EmailFormSubmittedEvent(email: value));
+                        },
+                        onChanged: (value) {
+                          bloc.add(ForgotPasswordEmailChangedEvent(value));
+                        },
+                        errorText: state.errorState.isEmailError
+                            ? state.errorEmailMessage
+                            : null,),
+                        
                   ),
                   BestButton(
                       onTap: () {

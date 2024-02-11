@@ -1,20 +1,20 @@
-class CreateHotelErrorState {
+class CreateRoomErrorState {
   bool isNameError;
   bool isDescriptionError;
   bool isLocationError;
 
-  CreateHotelErrorState({
+  CreateRoomErrorState({
     this.isNameError = false,
     this.isDescriptionError = false,
     this.isLocationError = false,
   });
 
-  CreateHotelErrorState copyWith({
+  CreateRoomErrorState copyWith({
     bool? isNameError,
     bool? isDescriptionError,
     bool? isLocationError,
   }) {
-    return CreateHotelErrorState(
+    return CreateRoomErrorState(
       isNameError: isNameError ?? this.isNameError,
       isDescriptionError: isDescriptionError ?? this.isDescriptionError,
       isLocationError: isLocationError ?? this.isLocationError,

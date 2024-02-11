@@ -1,29 +1,32 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hostelway/features/create_hotel/bloc/create_hotel_bloc.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
-import 'package:hostelway/main.dart';
-import 'package:hostelway/repositories/hotels_repository.dart';
-import 'package:hostelway/resources/const.dart';
+import 'package:hostelway/features/create_room/bloc/create_room_bloc.dart';
+import 'package:hostelway/features/create_room/navigation/create_room_navigator.dart';
+import 'package:hostelway/repositories/rooms_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
-import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
-import 'package:place_picker/place_picker.dart';
 
-class CreateHotelView extends StatelessWidget {
-  const CreateHotelView({super.key});
+class CreateRoomView extends StatelessWidget {
+  const CreateRoomView(
+      {required this.hotelId, required this.navigator, super.key});
+
+  final String hotelId;
+  final CreateHotelNavigator navigator;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateHotelBloc(
-          hotelsRepository: context.read<HotelsRepository>(),
-          navigator: CreateHotelNavigator(context)),
+      create: (context) => CreateRoomBloc(
+          roomsRepository: context.read<RoomsRepository>(),
+          navigator: CreateRoomNavigator(context),
+          hotelId: hotelId),
       child: const CreateHotelLayout(),
     );
   }
@@ -34,18 +37,10 @@ class CreateHotelLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CreateHotelBloc bloc = context.read<CreateHotelBloc>();
-    return BlocConsumer<CreateHotelBloc, CreateHotelState>(
-      listener: (context, state) {
-        if (state.isBusy) {
-          OverlayService.instance.showBusyOverlay(
-            context: context,
-            size: size,
-          );
-        } else {
-          OverlayService.instance.closeBusyOverlay(context);
-        }
-      },
+    CreateRoomBloc bloc = context.read<CreateRoomBloc>();
+
+    return BlocConsumer<CreateRoomBloc, CreateRoomState>(
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -71,7 +66,7 @@ class CreateHotelLayout extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 8),
                         child: CustomTextField(
                           height: 80.h,
-                          helperText: 'Hotel Name',
+                          helperText: 'Room Name',
                           errorText: state.errorState.isNameError
                               ? state.errorNameMessage
                               : null,
@@ -83,7 +78,7 @@ class CreateHotelLayout extends StatelessWidget {
                             bloc.add(NameChangedEvent(value));
                           },
                           borderRad: 10.r,
-                          hintText: 'Hotel Name',
+                          hintText: 'Room Name',
                           keyboardType: TextInputType.name,
                           hintTextStyle:
                               TextStyling.greyText(14, FontWeight.normal),
@@ -108,33 +103,6 @@ class CreateHotelLayout extends StatelessWidget {
                         borderRad: 10.r,
                         hintText: 'Description',
                         keyboardType: TextInputType.text,
-                        hintTextStyle:
-                            TextStyling.greyText(14, FontWeight.normal),
-                      ),
-                      CustomTextField(
-                        height: 80.h,
-                        helperText: 'Location',
-                        outlineInputBorderColor:
-                            const Color.fromARGB(0, 255, 255, 255),
-                        errorText: state.errorState.isLocationError
-                            ? state.errorLocationMessage
-                            : null,
-                        readOnly: true,
-                        helperTextStyle:
-                            TextStyling.blackText(14, FontWeight.w600),
-                        borderRad: 10.r,
-                        onTap: () async {
-                          LocationResult result = await Navigator.of(context)
-                              .push(MaterialPageRoute(
-                                  builder: (context) => PlacePicker(
-                                        googleApiKey,
-                                        displayLocation: const LatLng(0, 0),
-                                      )));
-                          bloc.add(LocationChangedEvent(result));
-                        },
-                        controller: TextEditingController(
-                            text: state.hotelLocation?.formattedAddress),
-                        hintText: 'Location',
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
                       ),
@@ -206,10 +174,10 @@ class CreateHotelLayout extends StatelessWidget {
                         ),
                       BestButton(
                         onTap: () {
-                          bloc.add(CreateHotelButtonTapEvent());
+                          bloc.add(CreateRoomButtonTapEvent());
                         },
                         height: 60.h,
-                        text: "Create",
+                        text: "Create room",
                         backgroundColor: CustomColors.primary,
                         borderRadius: 100.r,
                       ),
