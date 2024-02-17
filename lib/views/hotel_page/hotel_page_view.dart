@@ -164,12 +164,12 @@ class HotelPageViewLayout extends StatelessWidget {
                         onTap: () {
                           // bloc.add(OnTapHotelItemEvent(state.rooms[index]));
                         },
-                        /* leading: Image.network(
-                              state.hotels[index].photos[0],
+                        leading: Image.network(
+                              state.rooms[index].photos[0],
                               width: 60,
                               height: 60,
                               fit: BoxFit.cover,
-                            ), */
+                            ), 
                         title: Text(state.rooms[index].name),
                         subtitle: Text(state.rooms[index].description),
                         trailing: /*const Icon(Icons.arrow_forward_ios)*/

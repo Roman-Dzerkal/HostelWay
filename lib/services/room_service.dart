@@ -27,6 +27,21 @@ class RoomService {
 
     rooms.addAll(t);
 
+    for (Map<String, dynamic> room in rooms) {
+      String id = room['room_id'] as String;
+
+      List<FileObject> roomPhotos = await client.storage
+          .from('hotels')
+          .list(path: '${room['hotel_id']}/${id.toString()}');
+
+      roomPhotos.removeWhere((element) => element.metadata == null);
+
+      var photoUrls = roomPhotos.map((e) {
+        return client.storage.from('hotels').getPublicUrl('${room['hotel_id']}/$id/${e.name}');
+      }).toList();
+      room.addAll({'photos': photoUrls});
+    }
+
     return rooms.map((e) => RoomModel.fromJson(e)).toList();
   }
 
