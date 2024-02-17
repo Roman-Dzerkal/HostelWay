@@ -33,3 +33,4 @@ class HotelMapView extends StatelessWidget {
     );
   }
 }
+

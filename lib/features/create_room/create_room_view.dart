@@ -51,7 +51,7 @@ class CreateHotelLayout extends StatelessWidget {
               ),
               centerTitle: true,
               backgroundColor: CustomColors.primary,
-              title: Text('Create Hotel',
+              title: Text('Create Room',
                   style: TextStyling.whiteText(18, FontWeight.bold)),
             ),
             body: SingleChildScrollView(

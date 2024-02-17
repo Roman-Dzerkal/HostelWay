@@ -27,10 +27,10 @@ class FavoritesLayout extends StatelessWidget {
           bottomNavigationBar: GuestNavigationBar(
               currentIndex: 1, navigator: GuestBottomNavigator(context)),
           appBar: AppBar(
-            title: const Text('favorite_hotels'),
+            title: const Text('Favorites'),
           ),
           body: const Center(
-            child: Text('favorite_hotels'),
+            child: Text('Favorites'),
           ),
         );
       },
