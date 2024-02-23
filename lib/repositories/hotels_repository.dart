@@ -21,7 +21,7 @@ class HotelsRepository {
     service.addFavorites(id);
   }
 
-  Future<void> test() async {
-    await service.test();
+   Future<List<HotelModel>> fetchFavoriteHotels() async {
+    return await service.fetchFavoriteHotels();
   }
 }
