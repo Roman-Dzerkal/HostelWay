@@ -32,7 +32,7 @@ Future<void> main() async {
   const supabaseUrl =
       String.fromEnvironment('SUPABASE_URL', defaultValue: 'aboba2');
   const supabaseAnonKey =
-      String.fromEnvironment('SUPABASE_ANON_KEY', defaultValue: 'aboba3');
+      String.fromEnvironment('SUPABASE_ANON_TOKEN', defaultValue: 'aboba3');
 
   await Supabase.initialize(
     url: supabaseUrl,
