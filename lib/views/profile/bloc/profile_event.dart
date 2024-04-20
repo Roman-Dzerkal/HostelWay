@@ -17,4 +17,6 @@ class ProfileLoadEvent extends ProfileEvent {
 
 class ProfilePhotoChangedEvent extends ProfileEvent {}
 
-class ProfileSaveEvent  extends ProfileEvent {}
+class ProfileSaveEvent extends ProfileEvent {}
+
+class TestEvent extends ProfileEvent {}

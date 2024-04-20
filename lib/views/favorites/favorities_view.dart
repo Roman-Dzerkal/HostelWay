@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
@@ -74,7 +73,7 @@ class FavoritesLayout extends StatelessWidget {
                     );
                   },
                 ),
-                Text("Rooms")
+                const Text("Rooms")
               ],
             ),
           ),

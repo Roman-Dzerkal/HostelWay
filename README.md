@@ -1,4 +1,4 @@
-# hostelway
+# Hostelway
 
 A new Flutter project.
 

@@ -13,10 +13,21 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileNavigator navigator;
   final AuthorizationRepository authRepository;
-
+  GoTrueClient authClient = Supabase.instance.client.auth;
   ProfileBloc({required this.navigator, required this.authRepository})
       : super(const ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
+
+    on<TestEvent>((event, emit) async {
+      String targetUser = 'd88bfb74-b04f-4ffb-a0aa-851db86c0e6c';
+      SupabaseClient adminClient = SupabaseClient(
+          const String.fromEnvironment('SUPABASE_URL'),
+          const String.fromEnvironment('SUPABASE_SERVICE_ROLE_KEY'));
+      await adminClient.auth.admin.updateUserById(targetUser,
+          attributes: AdminUserAttributes(userMetadata: {
+            'aboba_list': List<String>.from(['a', 'b', 'c', 'd'])
+          }));
+    });
 
     on<ProfileLoadEvent>((event, emit) async {
       emit(state.copyWith(isBusy: true));

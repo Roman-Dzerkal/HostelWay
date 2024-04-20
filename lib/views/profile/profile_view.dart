@@ -59,6 +59,9 @@ class ProfileLayout extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                 ),
                 actions: [
+                  IconButton(onPressed: () {
+                    bloc.add(TestEvent());
+                  }, icon: Icon(Icons.abc)),
                   IconButton(
                       onPressed: () {
                         context

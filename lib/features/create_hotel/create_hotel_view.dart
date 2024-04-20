@@ -7,7 +7,6 @@ import 'package:hostelway/features/create_hotel/bloc/create_hotel_bloc.dart';
 import 'package:hostelway/features/create_hotel/navigation/create_hotel_navigator.dart';
 import 'package:hostelway/main.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
-import 'package:hostelway/resources/const.dart';
 import 'package:hostelway/resources/custom_colors.dart';
 import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/services/overlay_service.dart';
@@ -127,7 +126,7 @@ class CreateHotelLayout extends StatelessWidget {
                           LocationResult result = await Navigator.of(context)
                               .push(MaterialPageRoute(
                                   builder: (context) => PlacePicker(
-                                        googleApiKey,
+                                        const String.fromEnvironment('GOOGLE_API_KEY'),
                                         displayLocation: const LatLng(0, 0),
                                       )));
                           bloc.add(LocationChangedEvent(result));
