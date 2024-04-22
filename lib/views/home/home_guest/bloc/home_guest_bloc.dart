@@ -9,10 +9,19 @@ part 'home_guest_state.dart';
 class HomeGuestBloc extends Bloc<HomeGuestEvent, HomeGuestState> {
   final HotelsRepository rep;
   final HomeGuestNavigator navigator;
-  HomeGuestBloc({required this.navigator, required this.rep}) : super(HomeGuestInitial(hotels: List.empty(growable: true))) {
+  HomeGuestBloc({required this.navigator, required this.rep})
+      : super(HomeGuestInitial(hotels: List.empty(growable: true), query: '')) {
     on<HomeGuestEvent>((event, emit) {});
-    on<HomeGuestBlocInitialEvent>((event, emit) async {
-    
+    on<HomeGuestBlocInitialEvent>((event, emit) async {});
+    on<OnTapSearchEvent>((event, emit) async {
+      emit(state.copyWith(isSearching: !event.isSearching));
+      if(state.isSearching==false){
+        emit(state.copyWith(query: ""));
+      }
+
+    });
+     on<SetQueryEvent>((event, emit) async {
+      emit(state.copyWith(query: event.query));
     });
     on<OnTapHotelItemEvent>((event, emit) async {
       navigator.goToHotelPage(event.model);
@@ -20,7 +29,7 @@ class HomeGuestBloc extends Bloc<HomeGuestEvent, HomeGuestState> {
 
     on<FetchHotelsEvent>((event, emit) async {
       emit(state.copyWith(isBusy: true));
-      List<HotelModel> hotels = await rep.fetchHotels();
+      List<HotelModel> hotels = await rep.fetchHotels(query: event.query);
       emit(state.copyWith(hotels: hotels, isBusy: false));
     });
   }

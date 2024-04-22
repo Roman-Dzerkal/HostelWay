@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hostelway/models/hotel_model.dart';
@@ -96,7 +97,8 @@ class HotelService {
     return hotels.map((e) => HotelModel.fromJson(e)).toList();
   }
 
-  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
+  Future<List<HotelModel>> fetchHotels(
+      {String userId = '', String query = ''}) async {
     List<Map<String, dynamic>> hotels = List.empty(growable: true);
 
     if (userId.isNotEmpty) {
@@ -108,11 +110,22 @@ class HotelService {
 
       hotels.addAll(t);
     } else {
-      var t = await client.from('hotels').select();
-      if (t.isEmpty) {
-        return [];
+      try {
+        var t;
+        if (query == '') {
+          t = await client.from('hotels').select();
+        } else {
+          t = await client.from('hotels').select().textSearch('name', query);
+        }
+
+        if (t.isEmpty) {
+          return [];
+        }
+        hotels.addAll(t);
+        log(hotels.length.toString());
+      } on Exception catch (e) {
+        log(e.toString());
       }
-      hotels.addAll(t);
     }
 
     for (Map<String, dynamic> hotel in hotels) {
