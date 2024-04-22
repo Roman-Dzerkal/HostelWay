@@ -15,6 +15,14 @@ class ProfileLoadEvent extends ProfileEvent {
   const ProfileLoadEvent();
 }
 
+class LastNameChangeEvent extends ProfileEvent {
+  final String lastName;
+  const LastNameChangeEvent(this.lastName);
+}
+class FirstNameChangeEvent extends ProfileEvent {
+  final String firstName;
+  const FirstNameChangeEvent(this.firstName);
+}
 class ProfilePhotoChangedEvent extends ProfileEvent {}
 
 class ProfileSaveEvent extends ProfileEvent {}

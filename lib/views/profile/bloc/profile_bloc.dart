@@ -4,6 +4,7 @@ import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/models/user_model.dart';
 import 'package:hostelway/utils/tost_util.dart';
 import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,6 +18,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({required this.navigator, required this.authRepository})
       : super(const ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
+    on<FirstNameChangeEvent>((event, emit) {
+      emit(state.copyWith(firstName: event.firstName));
+    });
+    on<LastNameChangeEvent>((event, emit) {
+      emit(state.copyWith(lastName: event.lastName));
+    });
 
     on<TestEvent>((event, emit) async {
       String targetUser = 'd88bfb74-b04f-4ffb-a0aa-851db86c0e6c';
@@ -51,6 +58,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(isBusy: true));
 
       try {
+        await Supabase.instance.client.from('users').update({
+          'first_name': state.firstName,
+          'last_name': state.lastName,
+        }).eq('user_id',
+            Supabase.instance.client.auth.currentUser!.id.toString());
+
         /* if (state.image != null) {
           Reference ref = FirebaseStorage.instance.ref().child(
               'users/${FirebaseAuth.instance.currentUser!.uid}/avatar${state.image!.path.substring(state.image!.path.lastIndexOf('.'))}');
