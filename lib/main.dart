@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostelway/app/my_app.dart';
-import 'package:hostelway/utils/data.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DebugBlocObserver extends BlocObserver {

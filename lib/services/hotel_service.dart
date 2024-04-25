@@ -111,12 +111,13 @@ class HotelService {
       hotels.addAll(t);
     } else {
       try {
-        var t;
-        if (query == '') {
-          t = await client.from('hotels').select();
-        } else {
-          t = await client.from('hotels').select().textSearch('name', query);
+        var dbQuery = client.from('hotels').select();
+
+        if (query.isNotEmpty) {
+          dbQuery.textSearch('name', query);
         }
+
+        var t = await dbQuery; // Execute the query
 
         if (t.isEmpty) {
           return [];

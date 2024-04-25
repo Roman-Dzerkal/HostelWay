@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hostelway/features/auth/sign_up/models/sign_up_error_state.dart';
 import 'package:hostelway/features/auth/sign_up/navigation/sign_in_navigator.dart';
 import 'package:hostelway/services/validation_service.dart';
-import 'package:hostelway/utils/data.dart';
 import 'package:hostelway/utils/tost_util.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -60,12 +59,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           'display_name': '${state.firstName} ${state.lastName}',
           'role': state.roles[state.initialLabelIndex].toLowerCase(),
         });
-
-        int? userMetadata = await DataClass.getUserMetadata<int>('key');
-
-        if (userMetadata == null) {
-          throw Exception('User metadata returned null');
-        }
 
         /* if (state.avatar != null) {
             FirebaseStorage.instance
