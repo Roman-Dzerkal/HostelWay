@@ -32,11 +32,19 @@ class ForgotPasswordBloc
       emit(state.copyWith(isBusy: true));
 
       try {
-        // await FirebaseAuth.instance.sendPasswordResetEmail(email: state.email);
         emit(state.copyWith(isBusy: false));
-        ToastUtil.showError(
-            'Password reset link has been sent to your email address');
-        navigator.goBack();
+        Supabase.instance.client.auth.resetPasswordForEmail(state.email); // Sends OTP token to email
+        // AuthResponse response = await Supabase.instance.client.auth.verifyOTP(token: 'token', type: OtpType.recovery);
+
+        // if (response.user != null) {
+        //   Supabase.instance.client.auth.admin.updateUserById('uid',
+        //       attributes: AdminUserAttributes(
+        //         password: 'new_password',
+        //       ));
+        // }
+
+        ToastUtil.showError('Password reset link has been sent to your email address');
+        navigator.goCheckOtp();
       } catch (e) {
         emit(state.copyWith(isBusy: false));
         if (e is AuthException) {

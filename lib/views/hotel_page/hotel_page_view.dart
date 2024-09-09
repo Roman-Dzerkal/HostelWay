@@ -137,8 +137,9 @@ class HotelPageViewLayout extends StatelessWidget {
                   SizedBox(
                     height: 300.h,
                     child: GoogleMap(
-                      onTap: (argument) => bloc.add(OpenHotelPositionEvent(
-                          LatLng(hotel.latitude, hotel.longitude))),
+                      onTap: (argument) {
+                        // bloc.add(OpenHotelPositionEvent(LatLng(hotel.latitude, hotel.longitude)));
+                      },
                       mapType: MapType.normal,
                       zoomControlsEnabled: false,
                       scrollGesturesEnabled: false,

@@ -4,7 +4,6 @@ import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/models/user_model.dart';
 import 'package:hostelway/utils/tost_util.dart';
 import 'package:hostelway/views/profile/navigation/profile_navigator.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -60,7 +59,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         await Supabase.instance.client.from('users').update({
           'first_name': state.firstName,
-          'last_name': state.lastName,
+          'last_name': state.lastName, 
         }).eq('user_id',
             Supabase.instance.client.auth.currentUser!.id.toString());
 

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import 'package:hostelway/resources/text_styling.dart';
 import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
 import 'package:hostelway/widget_helpers/custom_text_field.dart';
-import 'package:place_picker/place_picker.dart';
+// import 'package:place_picker/place_picker.dart';
 
 class CreateHotelView extends StatelessWidget {
   const CreateHotelView({super.key});
@@ -123,16 +125,18 @@ class CreateHotelLayout extends StatelessWidget {
                             TextStyling.blackText(14, FontWeight.w600),
                         borderRad: 10.r,
                         onTap: () async {
-                          LocationResult result = await Navigator.of(context)
+                          // TODO: Current place picker must be replaced with a new one
+                          // ignore: dead_code
+
+                          /*LocationResult result = await Navigator.of(context)
                               .push(MaterialPageRoute(
                                   builder: (context) => PlacePicker(
                                         const String.fromEnvironment('GOOGLE_API_KEY'),
                                         displayLocation: const LatLng(0, 0),
                                       )));
-                          bloc.add(LocationChangedEvent(result));
+                          bloc.add(LocationChangedEvent(result));*/
                         },
-                        controller: TextEditingController(
-                            text: state.hotelLocation?.formattedAddress),
+                        // controller: TextEditingController(text: state.hotelLocation?.formattedAddress),
                         hintText: 'Location',
                         hintTextStyle:
                             TextStyling.greyText(14, FontWeight.normal),
