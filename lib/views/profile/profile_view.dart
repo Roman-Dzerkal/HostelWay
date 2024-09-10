@@ -59,6 +59,9 @@ class ProfileLayout extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                 ),
                 actions: [
+                  /*IconButton(onPressed: () {
+                    bloc.add(TestEvent());
+                  }, icon: Icon(Icons.abc)),*/
                   IconButton(
                       onPressed: () {
                         context
@@ -193,9 +196,11 @@ class ProfileLayout extends StatelessWidget {
                             CustomTextField(
                               width: 170.w,
                               height: 80.h,
-                              controller:
-                                  TextEditingController(text: state.firstName),
-                              onChanged: (value) {},
+                             /* controller:
+                                  TextEditingController(text: state.firstName),*/
+                              onChanged: (value) {
+                                bloc.add(FirstNameChangeEvent(value));
+                              },
                               borderRad: 10.r,
                               helperText: 'First Name',
                               hintText: 'John',
@@ -208,10 +213,12 @@ class ProfileLayout extends StatelessWidget {
                             CustomTextField(
                               width: 170.w,
                               height: 80.h,
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                bloc.add(LastNameChangeEvent(value));
+                              },
                               borderRad: 10.r,
-                              controller:
-                                  TextEditingController(text: state.lastName),
+                              /*controller:
+                                  TextEditingController(text: state.lastName),*/
                               helperText: 'Last Name',
                               helperTextStyle:
                                   TextStyling.blackText(14, FontWeight.w600),

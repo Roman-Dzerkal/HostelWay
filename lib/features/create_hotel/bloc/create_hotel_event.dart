@@ -20,10 +20,10 @@ class UploadOnePhotoButtonTapEvent extends CreateHotelEvent {}
 
 class FetchCurrentLocationEvent extends CreateHotelEvent {}
 
-class LocationChangedEvent extends CreateHotelEvent {
+/* class LocationChangedEvent extends CreateHotelEvent {
   final LocationResult location;
   const LocationChangedEvent(this.location);
-}
+} */
 
 // ============== Submiters ==============
 

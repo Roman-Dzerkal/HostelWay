@@ -13,15 +13,16 @@ class HotelsRepository {
     return await service.createHotel(data);
   }
 
-  Future<List<HotelModel>> fetchHotels({String userId = ''}) async {
-    return await service.fetchHotels(userId: userId);
+  Future<List<HotelModel>> fetchHotels({String userId = '', String query=''}) async {
+    return await service.fetchHotels(userId: userId, query:query);
   }
 
   void addFavorites(String id) async {
     service.addFavorites(id);
   }
 
-  Future<void> test() async {
-    await service.test();
+  Future<List<HotelModel>> fetchFavoriteHotels() async {
+    return await service.fetchFavoriteHotels();
   }
+
 }

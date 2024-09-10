@@ -1,6 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,7 +52,7 @@ class CreateHotelLayout extends StatelessWidget {
               ),
               centerTitle: true,
               backgroundColor: CustomColors.primary,
-              title: Text('Create Hotel',
+              title: Text('Create Room',
                   style: TextStyling.whiteText(18, FontWeight.bold)),
             ),
             body: SingleChildScrollView(

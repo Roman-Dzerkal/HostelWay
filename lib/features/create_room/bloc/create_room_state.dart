@@ -27,7 +27,7 @@ sealed class CreateRoomState extends Equatable {
   CreateRoomState copyWith({
     String? name,
     String? description,
-    int ? price,
+    int? price,
     String? hotelId,
     List<String>? photos,
     List<XFile>? localPhotos,
@@ -37,7 +37,7 @@ sealed class CreateRoomState extends Equatable {
     bool? isBusy,
   }) {
     return CreateRoomInitial(
-      price: price??this.price,
+      price: price ?? this.price,
       errorState: errorState ?? this.errorState,
       name: name ?? this.name,
       description: description ?? this.description,

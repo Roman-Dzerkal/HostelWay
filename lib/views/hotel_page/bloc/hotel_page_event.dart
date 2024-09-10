@@ -7,10 +7,10 @@ sealed class HotelPageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OpenHotelPositionEvent extends HotelPageEvent {
+/* class OpenHotelPositionEvent extends HotelPageEvent {
   final LatLng latLng;
   const OpenHotelPositionEvent(this.latLng);
-}
+} */
 
 class AddToFavoritesEvent extends HotelPageEvent {
   final String id;

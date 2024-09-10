@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:hostelway/resources/const.dart';
 import 'package:http/http.dart';
 
 class Place {
@@ -42,16 +40,14 @@ class PlaceApiProvider {
 
   final String sessionToken;
 
-  static const String androidKey = googleApiKey;
-  static const String iosKey = googleApiKey;
-  final apiKey = Platform.isAndroid ? androidKey : iosKey;
+  static const String androidKey = String.fromEnvironment('GOOGLE_API_KEY');
 
   Future<List<Suggestion>> fetchSuggestions(String input) async {
     final response = await client.get(
         Uri.https('maps.googleapis.com', '/maps/api/place/autocomplete/json', {
       'input': input,
       'types': 'geocode',
-      'key': apiKey,
+      'key': androidKey,
     }));
 
     if (response.statusCode == 200) {
@@ -77,7 +73,7 @@ class PlaceApiProvider {
         .get(Uri.https('maps.googleapis.com', '/maps/api/place/details/json', {
       'place_id': placeId,
       'fields': 'address_component',
-      'key': apiKey,
+      'key': androidKey,
       'sessiontoken': sessionToken
     }));
 

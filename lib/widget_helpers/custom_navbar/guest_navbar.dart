@@ -43,7 +43,7 @@ class GuestNavigationBar extends StatelessWidget {
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
         BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border), label: 'favorite_hotels'),
+            icon: Icon(Icons.favorite_border), label: 'Favorites'),
         BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Bookings'),
         BottomNavigationBarItem(
             icon: Icon(Icons.person_2_outlined), label: 'Profile'),
