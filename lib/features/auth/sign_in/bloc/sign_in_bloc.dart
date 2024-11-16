@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/models/sign_in_error_state.dart';
 import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
@@ -27,10 +29,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     });
 
     // TODO: Implement with Firebase Auth
-    on<SignInSubmitted>((event, emit) async {});
+    on<SignInSubmitted>((event, emit) async {
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: state.email,
+        password: state.password,
+      );
+    });
 
     on<SignInWithGooglePressed>((event, emit) async {
-      
       /* GoogleSignInAccount? googleSignInAccount = await GoogleSignIn(
               scopes: [
             'email',
