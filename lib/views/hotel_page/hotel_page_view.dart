@@ -14,7 +14,6 @@ import 'package:hostelway/services/overlay_service.dart';
 import 'package:hostelway/views/hotel_page/bloc/hotel_page_bloc.dart';
 import 'package:hostelway/views/hotel_page/navigation/hotel_page_navigator.dart';
 import 'package:hostelway/widget_helpers/best_button.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HotelPageView extends StatelessWidget {
   const HotelPageView(
@@ -48,8 +47,9 @@ class HotelPageViewLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HotelPageBloc bloc = context.read<HotelPageBloc>();
-    String role =
-        Supabase.instance.client.auth.currentUser?.userMetadata?['role'];
+
+    // Replace with Firebase Auth user's role
+    String role = '';
 
     final screenSize = MediaQuery.of(context).size;
     return BlocConsumer<HotelPageBloc, HotelPageState>(
@@ -87,9 +87,8 @@ class HotelPageViewLayout extends StatelessWidget {
               title: Text(hotel.name,
                   style: TextStyling.whiteText(18, FontWeight.bold)),
               actions: <Widget>[
-                if ((Supabase.instance.client.auth.currentUser
-                        ?.userMetadata?['role'] as String) ==
-                    "guest")
+                // Replace with Firebase Auth user's role
+                if (('role' as String) == "guest")
                   IconButton(
                     icon: const Icon(
                       Icons.favorite,
@@ -166,11 +165,11 @@ class HotelPageViewLayout extends StatelessWidget {
                           // bloc.add(OnTapHotelItemEvent(state.rooms[index]));
                         },
                         leading: Image.network(
-                              state.rooms[index].photos[0],
-                              width: 60,
-                              height: 60,
-                              fit: BoxFit.cover,
-                            ), 
+                          state.rooms[index].photos[0],
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
                         title: Text(state.rooms[index].name),
                         subtitle: Text(state.rooms[index].description),
                         trailing: /*const Icon(Icons.arrow_forward_ios)*/

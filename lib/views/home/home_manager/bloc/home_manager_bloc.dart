@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hostelway/models/hotel_model.dart';
 import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/views/home/navigation/home_manager_navigator.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'home_manager_event.dart';
 part 'home_manager_state.dart';
@@ -30,7 +29,8 @@ class HomeManagerBloc extends Bloc<HomeManagerEvent, HomeManagerState> {
 
       // await repository.test();
 
-      List<HotelModel> hotels = await repository.fetchHotels(userId: Supabase.instance.client.auth.currentUser!.id);
+      // TODO: Replace with Firebase Auth user's ID
+      List<HotelModel> hotels = await repository.fetchHotels(userId: '');
       emit(state.copyWith(hotels: hotels, isBusy: false));
     });
   }

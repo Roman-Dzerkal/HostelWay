@@ -1,34 +1,108 @@
 {
   "project_info": {
     "project_number": "493144528853",
+    "firebase_url": "https://hostelway-fad58-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "hostelway-fad58",
     "storage_bucket": "hostelway-fad58.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:493144528853:android:8141e156f30405c7008f5c",
+        "mobilesdk_app_id": "1:493144528853:android:612f3a030173e26b008f5c",
         "android_client_info": {
           "package_name": "com.example.hostelway"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "493144528853-4et8oplovuj5s1b41osdstcn4801g73h.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDgfNQFkVFAv_0xbKdUpduUNjkgnA6-BJk"
+          "current_key": "AIzaSyDhcm7eZDzHWw3xP1KpsImiSKAwK2OJLhs"
+        },
+        {
+          "current_key": "AIzaSyDq4JJLT6sObVoAU5-Sx9ep47-2mWMtvhw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "493144528853-4et8oplovuj5s1b41osdstcn4801g73h.apps.googleusercontent.com",
+              "client_id": "493144528853-acqobsv39u83me2qdj5lo62ok6mdmqll.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "493144528853-mcnuqrslmn36jutvd05q2450i14a6qo6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.hostelway"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493144528853:android:c20b8fff4f619c6f008f5c",
+        "android_client_info": {
+          "package_name": "com.mycompany.hostelwayadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhcm7eZDzHWw3xP1KpsImiSKAwK2OJLhs"
+        },
+        {
+          "current_key": "AIzaSyDq4JJLT6sObVoAU5-Sx9ep47-2mWMtvhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493144528853-acqobsv39u83me2qdj5lo62ok6mdmqll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493144528853-mcnuqrslmn36jutvd05q2450i14a6qo6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.hostelway"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493144528853:android:cca5ed0af1fa055c008f5c",
+        "android_client_info": {
+          "package_name": "com.mycompany2.hostelway"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhcm7eZDzHWw3xP1KpsImiSKAwK2OJLhs"
+        },
+        {
+          "current_key": "AIzaSyDq4JJLT6sObVoAU5-Sx9ep47-2mWMtvhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493144528853-acqobsv39u83me2qdj5lo62ok6mdmqll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "493144528853-mcnuqrslmn36jutvd05q2450i14a6qo6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.hostelway"
+              }
             }
           ]
         }

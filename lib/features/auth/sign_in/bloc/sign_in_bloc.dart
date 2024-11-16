@@ -3,10 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/features/auth/sign_in/models/sign_in_error_state.dart';
 import 'package:hostelway/features/auth/sign_in/navigation/sign_in_navigator.dart';
-import 'package:hostelway/models/user_model.dart';
 import 'package:hostelway/services/validation_service.dart';
-import 'package:hostelway/utils/tost_util.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';
@@ -29,46 +26,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(state.copyWith(password: event.password));
     });
 
-    on<SignInSubmitted>((event, emit) async {
-      if (validForm(emit) == false) {
-        return;
-      }
-      emit(state.copyWith(isBusy: true));
-
-      try {
-        AuthResponse response =
-            await Supabase.instance.client.auth.signInWithPassword(
-          email: state.email,
-          password: state.password,
-        );
-
-        Map<String, dynamic> user = await Supabase.instance.client
-            .from('users')
-            .select()
-            .eq('user_id', response.user!.id)
-            .single();
-
-        if (user.isEmpty) {
-          emit(state.copyWith(isBusy: false));
-          ToastUtil.showError('User not found');
-          return;
-        }
-
-        emit(state.copyWith(isBusy: false));
-        UserModel userModel = UserModel.fromJson(user);
-        authenticationBloc.add(AuthenticationSaveUserInformationEvent(
-            userModel: userModel, voidCallback: navigator.goToHomePage));
-      } catch (e) {
-        emit(state.copyWith(isBusy: false));
-        if (e is AuthException) {
-          ToastUtil.showError(e.message);
-        } else if (e is PostgrestException) {
-          ToastUtil.showError(e.message);
-        } else {
-          ToastUtil.showError(e.toString());
-        }
-      }
-    });
+    // TODO: Implement with Firebase Auth
+    on<SignInSubmitted>((event, emit) async {});
 
     on<SignInWithGooglePressed>((event, emit) async {
       

@@ -3,9 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hostelway/features/auth/sign_up/models/sign_up_error_state.dart';
 import 'package:hostelway/features/auth/sign_up/navigation/sign_in_navigator.dart';
 import 'package:hostelway/services/validation_service.dart';
-import 'package:hostelway/utils/tost_util.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
@@ -38,59 +36,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       }
     });
 
-    on<SignUpButtonPressedEvent>((event, emit) async {
-      if (validForm(emit) == false) {
-        return;
-      } else if (state.password != state.confirmPassword) {
-        emit(state.copyWith(
-          errorState: state.errorState.copyWith(
-            isConfirmPasswordError: true,
-          ),
-          errorConfirmPasswordMessage: 'Password does not match',
-        ));
-        return;
-      }
-
-      emit(state.copyWith(isBusy: true));
-
-      try {
-        AuthResponse response = await Supabase.instance.client.auth
-            .signUp(email: state.email, password: state.password, data: {
-          'display_name': '${state.firstName} ${state.lastName}',
-          'role': state.roles[state.initialLabelIndex].toLowerCase(),
-        });
-
-        /* if (state.avatar != null) {
-            FirebaseStorage.instance
-                .ref('avatars/${FirebaseAuth.instance.currentUser!.uid}')
-                .putFile(File(state.avatar!.path))
-                .then((p0) {
-              debugPrint(p0.state.toString());
-            });
-          } */
-
-        await Supabase.instance.client.from('users').insert({
-          'user_id': response.user!.id,
-          'first_name': state.firstName,
-          'last_name': state.lastName,
-          'role': state.roles[state.initialLabelIndex].toLowerCase(),
-          'favorite_hotels': <String>[],
-          'favorite_rooms': <String>[],
-        });
-        emit(state.copyWith(isBusy: false));
-        ToastUtil.showError('User created successfully');
-        navigator.returnToSignIn();
-      } catch (e) {
-        emit(state.copyWith(isBusy: false));
-        if (e is AuthException) {
-          ToastUtil.showError(e.message);
-        } else if (e is PostgrestException) {
-          ToastUtil.showError(e.message);
-        } else {
-          ToastUtil.showError(e.toString());
-        }
-      }
-    });
+    // TODO: Implement with Firebase Auth
+    on<SignUpButtonPressedEvent>((event, emit) async {});
 
     on<PasswordVisibilityChangedEvent>((event, emit) {
       emit(state.copyWith(isPasswordInvisible: !state.isPasswordInvisible));

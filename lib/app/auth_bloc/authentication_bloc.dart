@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
 import 'package:hostelway/models/auth_model.dart';
 import 'package:hostelway/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -27,7 +26,8 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit) async {
     UserModel? user = await _authRepository.getUser();
 
-    if (user != null && (Supabase.instance.client.auth.currentUser != null)) {
+    // TODO: Replace with Firebase Auth user's object
+    if (user != null && ('Supabase.instance.client.auth.currentUser' != null)) {
       emit(AuthenticationIsAuthenticated(
           authModel: AuthModel(role: user.role), userModel: user));
     } else {
@@ -44,7 +44,8 @@ class AuthenticationBloc
 
   void _logout(AuthenticationLogoutEvent event,
       Emitter<AuthenticationState> emit) async {
-    await Supabase.instance.client.auth.signOut();
+    // TODO: Replace with Firebase Auth sign out method
+    // await Supabase.instance.client.auth.signOut();
     add(AuthenticationInitialEvent());
   }
 }

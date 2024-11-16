@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:hostelway/repositories/rooms_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'create_room_event.dart';
 part 'create_room_state.dart';
@@ -50,19 +47,9 @@ class CreateRoomBloc extends Bloc<CreateRoomEvent, CreateRoomState> {
       return;
     }
 
-    String roomId = await roomsRepository.createRoom({
-      'description': state.description,
-      'hotel_id': hotelId,
-      'name': state.name,
-      'price': state.price,
-      'booking_status': 'free'
-    });
-
     if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
-        await Supabase.instance.client.storage
-            .from('hotels')
-            .upload('$hotelId/$roomId/${element.name}', File(element.path));
+        //TODO: Save user's avatar in Firebase Storage
       }
     }
     emit(state.copyWith(isBusy: false));

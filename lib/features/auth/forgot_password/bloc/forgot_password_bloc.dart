@@ -3,8 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hostelway/features/auth/forgot_password/models/forgot_password_error_state.dart';
 import 'package:hostelway/features/auth/forgot_password/navigation/forgot_password_navigator.dart';
 import 'package:hostelway/services/validation_service.dart';
-import 'package:hostelway/utils/tost_util.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'forgot_password_event.dart';
 part 'forgot_password_state.dart';
@@ -25,37 +23,8 @@ class ForgotPasswordBloc
       emit(state.copyWith(email: event.email));
     });
 
-    on<PasswordResetButtonTapEvent>((event, emit) async {
-      if (validForm(emit) == false) {
-        return;
-      }
-      emit(state.copyWith(isBusy: true));
-
-      try {
-        emit(state.copyWith(isBusy: false));
-        Supabase.instance.client.auth.resetPasswordForEmail(state.email); // Sends OTP token to email
-        // AuthResponse response = await Supabase.instance.client.auth.verifyOTP(token: 'token', type: OtpType.recovery);
-
-        // if (response.user != null) {
-        //   Supabase.instance.client.auth.admin.updateUserById('uid',
-        //       attributes: AdminUserAttributes(
-        //         password: 'new_password',
-        //       ));
-        // }
-
-        ToastUtil.showError('Password reset link has been sent to your email address');
-        navigator.goCheckOtp();
-      } catch (e) {
-        emit(state.copyWith(isBusy: false));
-        if (e is AuthException) {
-          ToastUtil.showError(e.message);
-        } else if (e is PostgrestException) {
-          ToastUtil.showError(e.message);
-        } else {
-          ToastUtil.showError(e.toString());
-        }
-      }
-    });
+    // Implement with Firebase Auth
+    on<PasswordResetButtonTapEvent>((event, emit) async {});
 
     on<EmailFormSubmittedEvent>((event, emit) {
       if (ValidationService.validateEmail(event.email) != null) {

@@ -1,0 +1,22 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "hostelway-fad58",
+                    "appId": "1:493144528853:android:612f3a030173e26b008f5c",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "hostelway-fad58",
+                    "configurations": {
+                        "android": "1:493144528853:android:612f3a030173e26b008f5c",
+                        "ios": "1:493144528853:ios:83e8ffea5ab81f42008f5c"
+                    }
+                }
+            }
+        }
+    }
+}

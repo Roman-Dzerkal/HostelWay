@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +8,6 @@ import 'package:hostelway/repositories/hotels_repository.dart';
 import 'package:hostelway/services/tost_servive.dart';
 import 'package:hostelway/services/validation_service.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:place_picker/entities/location_result.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'create_hotel_event.dart';
 part 'create_hotel_state.dart';
@@ -34,7 +30,7 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
     on<NameChangedEvent>((event, emit) => _nameChanged(event, emit));
 
     // on<LocationChangedEvent>((event, emit) {
-      // emit(state.copyWith(hotelLocation: event.location));
+    // emit(state.copyWith(hotelLocation: event.location));
     // });
   }
 
@@ -51,21 +47,9 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
       return;
     }
 
-    String hotelId = await hotelsRepository.createHotel({
-      // 'city': state.hotelLocation!.city!.name ?? '',
-      'description': state.description,
-      'facilities': ['Wifi', 'Parking', 'Pool', 'Breakfast'],
-      // 'latitude': state.hotelLocation!.latLng!.latitude,
-      // 'longitude': state.hotelLocation!.latLng!.longitude,
-      'manager_id': Supabase.instance.client.auth.currentUser!.id,
-      'name': state.name,
-    });
-
     if (state.localPhotos.isNotEmpty) {
       for (XFile element in state.localPhotos) {
-        await Supabase.instance.client.storage
-            .from('hotels')
-            .upload('$hotelId/${element.name}', File(element.path));
+        // TODO: Replace with user's avatar
       }
     }
     emit(state.copyWith(isBusy: false));
@@ -112,7 +96,7 @@ class CreateHotelBloc extends Bloc<CreateHotelEvent, CreateHotelState> {
         ValidationService.validateDescription(state.description, null);
     var validateHotelName = ValidationService.validateFirstName(state.name);
     var validateLocation = ValidationService.validateLocation(
-        /* state.hotelLocation!.formattedAddress ?? '' */'');
+        /* state.hotelLocation!.formattedAddress ?? '' */ '');
 
     emit(state.copyWith(
       errorDescriptionMessage: validateDescription,

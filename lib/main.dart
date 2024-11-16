@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostelway/app/my_app.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DebugBlocObserver extends BlocObserver {
   @override
@@ -28,15 +27,6 @@ class DebugBlocObserver extends BlocObserver {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const supabaseUrl =
-      String.fromEnvironment('SUPABASE_URL', defaultValue: 'aboba2');
-  const supabaseAnonKey =
-      String.fromEnvironment('SUPABASE_ANON_TOKEN', defaultValue: 'aboba3');
-
-  await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: supabaseAnonKey,
-  );
 
   if (kDebugMode) {
     Bloc.observer = DebugBlocObserver();
