@@ -28,7 +28,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(state.copyWith(password: event.password));
     });
 
-    // TODO: Implement with Firebase Auth
     on<SignInSubmitted>((event, emit) async {
       final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: state.email,
