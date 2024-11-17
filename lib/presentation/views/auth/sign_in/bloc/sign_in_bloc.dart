@@ -59,9 +59,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             errorMessage = 'System error: ${e.code} - ${e.message}';
             break;
         }
+        emit(state.copyWith(isBusy: false));
         if (errorMessage.isNotEmpty) {
           ToastUtil.showError(errorMessage);
         }
+
         return;
       }
       try {
@@ -77,6 +79,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         //ToastUtil.showError( '${doc.data()?['first_name']}');
       } on Exception catch (e) {
         //print("Error getting document: $e");
+        emit(state.copyWith(isBusy: false));
         ToastUtil.showError("$e");
       }
     });
