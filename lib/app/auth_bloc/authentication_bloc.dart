@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
-import 'package:hostelway/models/auth_model.dart';
-import 'package:hostelway/models/user_model.dart';
+import 'package:hostelway/domain/models/auth_model.dart';
+import 'package:hostelway/domain/models/user_model.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
