@@ -1,5 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hostelway/resources/custom_colors.dart';
+import 'package:hostelway/utils/custom_colors.dart';
 
 class ToastUtil {
   ToastUtil();

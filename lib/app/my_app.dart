@@ -4,16 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hostelway/app/auth_bloc/authentication_bloc.dart';
 import 'package:hostelway/app/repository/auth_repository.dart';
-import 'package:hostelway/repositories/hotels_repository.dart';
-import 'package:hostelway/repositories/rooms_repository.dart';
-import 'package:hostelway/repositories/users_repository.dart';
-import 'package:hostelway/services/hotel_service.dart';
-import 'package:hostelway/services/room_service.dart';
-import 'package:hostelway/views/home/home_guest_view.dart';
-import 'package:hostelway/views/home/home_manager_view.dart';
-import 'package:hostelway/views/home/navigation/home_guest_navigator.dart';
-import 'package:hostelway/views/home/navigation/home_manager_navigator.dart';
-import 'package:hostelway/views/welcome/welcome_view.dart';
+import 'package:hostelway/domain/repositories/hotels_repository.dart';
+import 'package:hostelway/domain/repositories/rooms_repository.dart';
+import 'package:hostelway/domain/repositories/users_repository.dart';
+import 'package:hostelway/data/data_sources/hotel_service.dart';
+import 'package:hostelway/data/data_sources/room_service.dart';
+import 'package:hostelway/presentation/views/home/home_guest_view.dart';
+import 'package:hostelway/presentation/views/home/home_manager_view.dart';
+import 'package:hostelway/presentation/views/home/navigation/home_guest_navigator.dart';
+import 'package:hostelway/presentation/views/home/navigation/home_manager_navigator.dart';
+import 'package:hostelway/presentation/views/welcome/welcome_view.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key, this.navigatorKey});
